@@ -1,0 +1,99 @@
+{
+  "version": "experimental",
+  "modules": [
+    {
+      "path": "./src/a-a.js",
+      "exports": [
+        {
+          "kind": "definition",
+          "name": "a-a",
+          "declaration": {
+            "name": "A",
+            "module": "./src/a-a.js"
+          }
+        },
+        {
+          "kind": "class",
+          "superclass": {
+            "name": "HTMLElement"
+          },
+          "mixins": [
+            {
+              "name": "MyMixinB",
+              "module": "./src/MyMixinB.js"
+            },
+            {
+              "name": "MyMixinA",
+              "module": "./src/MyMixinA.js"
+            }
+          ],
+          "name": "A",
+          "members": [
+            {
+              "kind": "field",
+              "name": "aaa",
+              "type": "string",
+              "default": "\"a\""
+            }
+          ],
+          "tagName": "a-a"
+        }
+      ]
+    },
+    {
+      "path": "./src/MyMixinA.js",
+      "exports": [
+        {
+          "kind": "variable",
+          "name": "MyMixinA",
+          "type": "(klass: any) => typeof MyMixinA"
+        }
+      ]
+    },
+    {
+      "path": "./src/MyMixinB.js",
+      "exports": [
+        {
+          "kind": "variable",
+          "name": "MyMixinB",
+          "type": "(klass: any) => typeof MyMixinB"
+        }
+      ]
+    },
+    {
+      "path": "./src/c-c.js",
+      "exports": [
+        {
+          "kind": "definition",
+          "name": "b-b",
+          "declaration": {
+            "name": "B",
+            "module": "./src/c-c.js"
+          }
+        },
+        {
+          "kind": "class",
+          "superclass": {
+            "name": "HTMLElement"
+          },
+          "mixins": [
+            {
+              "name": "MyMixinA",
+              "module": "./src/MyMixinA.js"
+            }
+          ],
+          "name": "B",
+          "members": [
+            {
+              "kind": "field",
+              "name": "bbb",
+              "type": "string",
+              "default": "\"b\""
+            }
+          ],
+          "tagName": "b-b"
+        }
+      ]
+    }
+  ]
+}

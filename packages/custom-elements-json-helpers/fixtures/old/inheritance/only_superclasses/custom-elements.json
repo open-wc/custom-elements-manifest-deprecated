@@ -1,0 +1,51 @@
+{
+  "version": "experimental",
+  "modules": [
+    {
+      "path": "./dev/src/custom-element/LitElement.js",
+      "exports": [
+        {
+          "kind": "class",
+          "superclass": {
+            "name": "UpdatingElement",
+            "module": "./dev/src/custom-element/UpdatingElement.js"
+          },
+          "name": "LitElement"
+        }
+      ]
+    },
+    {
+      "path": "./dev/src/custom-element/MyComponent.js",
+      "exports": [
+        {
+          "kind": "definition",
+          "name": "my-component",
+          "declaration": {
+            "name": "LitElement",
+            "module": "./dev/src/custom-element/LitElement.js"
+          }
+        },
+        {
+          "kind": "class",
+          "superclass": {
+            "name": "LitElement",
+            "module": "./dev/src/custom-element/LitElement.js"
+          },
+          "name": "MyComponent"
+        }
+      ]
+    },
+    {
+      "path": "./dev/src/custom-element/UpdatingElement.js",
+      "exports": [
+        {
+          "kind": "class",
+          "superclass": {
+            "name": "HTMLElement"
+          },
+          "name": "UpdatingElement"
+        }
+      ]
+    }
+  ]
+}

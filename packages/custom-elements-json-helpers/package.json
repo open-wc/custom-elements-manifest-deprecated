@@ -1,0 +1,93 @@
+{
+  "name": "@custom-elements-json/helpers",
+  "version": "0.0.1",
+  "description": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/open-wc/custom-elements-json-helpers.git"
+  },
+  "author": "open-wc",
+  "homepage": "https://github.com/open-wc/custom-elements-json-helpers",
+  "bugs": {
+    "url": "https://github.com/open-wc/custom-elements-json-helpers"
+  },
+  "main": "dist/index.js",
+  "module": "index.mjs",
+  "scripts": {
+    "build:node": "tsc",
+    "build:browser": "tsc -p tsconfig.browser.json",
+    "format:prettier": "node node_modules/prettier/bin-prettier.js \"**/*.{ts,js,mjs,cjs,md}\" \"**/package.json\" --write --ignore-path .eslintignore",
+    "lint:eslint": "eslint --ext .ts,.js,.mjs,.cjs .",
+    "start": "nodemon dist/index.js",
+    "tsc:watch": "tsc --watch",
+    "test": "mocha \"test/**/*.test.{ts,js,mjs,cjs}\" --require ts-node/register",
+    "test:watch": "mocha \"test/**/*.test.{ts,js,mjs,cjs}\" --watch --require ts-node/register"
+  },
+  "keywords": [
+    "custom-elements",
+    "custom-elements-json",
+    "customelements",
+    "webcomponents",
+    "customelementsjson"
+  ],
+  "dependencies": {
+    "custom-elements-json": "^0.0.0"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.2.12",
+    "@types/mocha": "^8.0.3",
+    "@types/node": "^14.11.2",
+    "@typescript-eslint/eslint-plugin": "^4.2.0",
+    "@typescript-eslint/parser": "^4.2.0",
+    "chai": "^4.2.0",
+    "eslint": "^7.9.0",
+    "mocha": "^8.1.3",
+    "nodemon": "^2.0.4",
+    "prettier": "^2.1.2",
+    "prettier-plugin-package": "^1.0.0",
+    "ts-node": "^9.0.0",
+    "typescript": "^4.0.3"
+  },
+  "contributors": [
+    "Pascal Schilp <pascalschilp@gmail.com>"
+  ],
+  "eslintConfig": {
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "extends": [
+      "eslint:recommended",
+      "eslint-config-prettier",
+      "plugin:@typescript-eslint/recommended"
+    ],
+    "env": {
+      "browser": true,
+      "node": true,
+      "mocha": true,
+      "es2020": true
+    },
+    "rules": {
+      "@typescript-eslint/no-non-null-assertion": "off",
+      "@typescript-eslint/explicit-module-boundary-types": "off",
+      "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/no-empty-interface": "off",
+      "@typescript-eslint/no-unused-vars": "error",
+      "@typescript-eslint/no-var-requires": "off"
+    }
+  },
+  "exports": {
+    ".": {
+      "import": "./index.mjs",
+      "require": "./dist/index.js",
+      "browser": "./dist/esm/index.js"
+    }
+  },
+  "prettier": {
+    "singleQuote": true,
+    "arrowParens": "avoid",
+    "printWidth": 100,
+    "trailingComma": "all"
+  }
+}

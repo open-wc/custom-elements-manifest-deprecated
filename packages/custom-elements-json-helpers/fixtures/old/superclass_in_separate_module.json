@@ -1,0 +1,108 @@
+{
+  "version": "experimental",
+  "modules": [
+    {
+      "path": "./src/MySuperClass.js",
+      "exports": [
+        {
+          "kind": "class",
+          "superclass": {
+            "name": "HTMLElement"
+          },
+          "name": "MySuperClass",
+          "members": [
+            {
+              "kind": "field",
+              "name": "myProp",
+              "privacy": "public",
+              "description": "My description",
+              "type": "string",
+              "default": "\"hoho\""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "./src/custom-element.js",
+      "exports": [
+        {
+          "kind": "definition",
+          "name": "my-element",
+          "declaration": {
+            "name": "CustomElement",
+            "module": "./src/custom-element.js"
+          }
+        },
+        {
+          "kind": "class",
+          "superclass": {
+            "name": "MySuperClass",
+            "module": "./src/MySuperClass.js"
+          },
+          "description": "This is a custom element",
+          "name": "CustomElement",
+          "members": [
+            {
+              "kind": "field",
+              "name": "attr1",
+              "privacy": "public",
+              "type": "string"
+            },
+            {
+              "kind": "field",
+              "name": "myProp",
+              "privacy": "public",
+              "description": "My description",
+              "type": "string",
+              "default": "\"hello\"",
+              "inheritedFrom": {
+                "name": "MySuperClass",
+                "module": "./src/MySuperClass.js"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "onClick",
+              "privacy": "public",
+              "type": "(): void",
+              "parameters": [],
+              "return": {
+                "type": "void"
+              }
+            }
+          ],
+          "tagName": "my-element",
+          "events": [
+            {
+              "description": "I'm an event!",
+              "name": "my-custom-event",
+              "type": "CustomEvent",
+              "detailType": "string"
+            },
+            {
+              "name": "mouse-move",
+              "type": "MouseEvent"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "attr1",
+              "fieldName": "attr1",
+              "type": "string"
+            },
+            {
+              "name": "attr2"
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "mypart",
+              "description": "Hello"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

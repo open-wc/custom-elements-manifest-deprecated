@@ -1,0 +1,63 @@
+{
+  "version": "experimental",
+  "modules": [
+    {
+      "path": "./src/custom-element.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "MyElement",
+          "fields": [
+            {
+              "name": "foo",
+              "kind": "field"
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "named",
+          "declaration": {
+            "name": "MyElement",
+            "module": "./src/custom-element.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "my-element",
+          "declaration": {
+            "name": "MyElement",
+            "module": "./src/custom-element.js"
+          }
+        }
+      ]
+    },
+    {
+      "path": "./src/custom-element-2.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "MyBar",
+          "fields": [
+            {
+              "name": "bar",
+              "kind": "field"
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "my-bar",
+          "declaration": {
+            "name": "MyBar",
+            "module": "./src/custom-element-2.js"
+          }
+        }
+      ]
+    }
+  ]
+}

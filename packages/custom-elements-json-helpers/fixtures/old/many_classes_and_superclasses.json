@@ -1,0 +1,135 @@
+{
+  "version": "experimental",
+  "modules": [
+    {
+      "path": "./src/SuperB.js",
+      "exports": [
+        {
+          "kind": "class",
+          "superclass": {
+            "name": "HTMLElement"
+          },
+          "name": "SuperB",
+          "members": [
+            {
+              "kind": "field",
+              "name": "superb",
+              "type": "string",
+              "default": "\"b\""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "./src/SuperD.js",
+      "exports": [
+        {
+          "kind": "class",
+          "superclass": {
+            "name": "SuperB",
+            "module": "./src/SuperB.js"
+          },
+          "name": "SuperD",
+          "members": [
+            {
+              "kind": "field",
+              "name": "superd",
+              "type": "string",
+              "default": "\"d\""
+            },
+            {
+              "kind": "field",
+              "name": "superb",
+              "type": "string",
+              "default": "\"b\"",
+              "inheritedFrom": {
+                "name": "SuperB",
+                "module": "./src/SuperB.js"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "./src/a-a.js",
+      "exports": [
+        {
+          "kind": "definition",
+          "name": "a-a",
+          "declaration": {
+            "name": "A",
+            "module": "./src/a-a.js"
+          }
+        },
+        {
+          "kind": "class",
+          "superclass": {
+            "name": "HTMLElement"
+          },
+          "name": "A",
+          "members": [
+            {
+              "kind": "field",
+              "name": "aaa",
+              "type": "string",
+              "default": "\"a\""
+            }
+          ],
+          "tagName": "a-a"
+        }
+      ]
+    },
+    {
+      "path": "./src/c-c.js",
+      "exports": [
+        {
+          "kind": "definition",
+          "name": "c-c",
+          "declaration": {
+            "name": "C",
+            "module": "./src/c-c.js"
+          }
+        },
+        {
+          "kind": "class",
+          "superclass": {
+            "name": "SuperD",
+            "module": "./src/SuperD.js"
+          },
+          "name": "C",
+          "members": [
+            {
+              "kind": "field",
+              "name": "ccc",
+              "type": "string",
+              "default": "\"c\""
+            },
+            {
+              "kind": "field",
+              "name": "superd",
+              "type": "string",
+              "default": "\"d\"",
+              "inheritedFrom": {
+                "name": "SuperD",
+                "module": "./src/SuperD.js"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "superb",
+              "type": "string",
+              "default": "\"b\"",
+              "inheritedFrom": {
+                "name": "SuperB",
+                "module": "./src/SuperB.js"
+              }
+            }
+          ],
+          "tagName": "c-c"
+        }
+      ]
+    }
+  ]
+}

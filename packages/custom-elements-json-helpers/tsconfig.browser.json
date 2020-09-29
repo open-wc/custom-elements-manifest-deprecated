@@ -1,0 +1,37 @@
+{
+  "compilerOptions": {
+    "module": "es2020",
+    "outDir": "./dist/esm",
+    "rootDir": "./src",
+    "composite": true,
+    "allowJs": true,
+    "target": "ES2017",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "downlevelIteration": true,
+    "strict": true,
+    "moduleResolution": "node",
+    "typeRoots": ["@types", "./types"],
+    "types": ["node", "mocha", "chai"],
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ES6",
+      "ES2017",
+      "ES2019.array",
+      "ScriptHost"
+    ]
+  },
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "dist",
+    "demo"
+  ]
+}
