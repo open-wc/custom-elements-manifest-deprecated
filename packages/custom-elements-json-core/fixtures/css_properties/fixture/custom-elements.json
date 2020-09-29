@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "experimental",
+  "readme": "",
+  "modules": [
+    {
+      "path": "./my-element.js",
+      "kind": "javascript-module",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "MyElement",
+          "superclass": { "name": "HTMLElement" },
+          "cssProperties": [
+            {
+              "name": "--foo-color",
+              "description": "Controls the color of foo"
+            },
+            {
+              "name": "--bar-color",
+              "description": "Controls the color of bar"
+            }
+          ],
+          "tagName": "my-element"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "my-element",
+          "declaration": {
+            "name": "MyElement",
+            "module": "./my-element.js"
+          }
+        }
+      ]
+    }
+  ]
+}

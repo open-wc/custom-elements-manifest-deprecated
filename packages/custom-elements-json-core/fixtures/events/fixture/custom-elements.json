@@ -1,0 +1,78 @@
+{
+  "schemaVersion": "experimental",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "./my-element.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "MyElement",
+          "events": [
+            {
+              "name": "normal-event",
+              "type": {
+                "type": "Event"
+              }
+            },
+            {
+              "name": "custom-event",
+              "type": {
+                "type": "CustomEvent"
+              },
+              "description": "some description for custom-event"
+            },
+            {
+              "name": "custom-event2",
+              "type": {
+                "type": "CustomEvent"
+              }
+            },
+            {
+              "name": "custom-event3",
+              "type": {
+                "type": "CustomEvent"
+              }
+            },
+            {
+              "name": "extended-event",
+              "type": {
+                "type": "ExtendedEvent"
+              }
+            },
+            {
+              "name": "jsdoc-event",
+              "type": {
+                "type": "Event"
+              },
+              "description": "some description for jsdoc-event"
+            },
+            {
+              "name": "event-event",
+              "type": {
+                "type": "CustomEvent"
+              },
+              "description": "some description for event-event"
+            }
+          ],
+          "superclass": {
+            "name": "HTMLElement"
+          },
+          "tagName": "my-element"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "my-element",
+          "declaration": {
+            "name": "MyElement",
+            "module": "./my-element.js"
+          }
+        }
+      ]
+    }
+  ]
+}

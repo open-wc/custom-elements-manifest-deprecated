@@ -1,0 +1,119 @@
+{
+  "schemaVersion": "experimental",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "./my-element.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "MyElement",
+          "superclass": {
+            "name": "HTMLElement"
+          },
+          "members": [
+            {
+              "kind": "field",
+              "name": "prop1",
+              "privacy": "public"
+            },
+            {
+              "kind": "field",
+              "name": "prop2",
+              "type": {
+                "type": "string"
+              },
+              "privacy": "public",
+              "default": "'bar'"
+            },
+            {
+              "kind": "field",
+              "name": "prop3",
+              "type": {
+                "type": "number"
+              },
+              "privacy": "public",
+              "default": "1"
+            },
+            {
+              "kind": "field",
+              "name": "prop4",
+              "type": {
+                "type": "array"
+              },
+              "privacy": "public",
+              "default": "[]"
+            },
+            {
+              "kind": "field",
+              "name": "prop5",
+              "type": {
+                "type": "object"
+              },
+              "privacy": "public",
+              "default": "{}"
+            },
+            {
+              "kind": "field",
+              "name": "#prop6",
+              "type": {
+                "type": "string"
+              },
+              "privacy": "private",
+              "default": "'bar'"
+            },
+            {
+              "kind": "field",
+              "name": "prop7",
+              "privacy": "public"
+            },
+            {
+              "kind": "field",
+              "name": "prop8",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "prop9",
+              "privacy": "protected"
+            },
+            {
+              "kind": "field",
+              "name": "prop10",
+              "privacy": "public"
+            },
+            {
+              "kind": "field",
+              "name": "prop11",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "prop12",
+              "privacy": "protected"
+            },
+            {
+              "kind": "field",
+              "name": "prop13",
+              "static": true,
+              "privacy": "public"
+            }
+          ],
+          "tagName": "my-element"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "my-element",
+          "declaration": {
+            "name": "MyElement",
+            "module": "./my-element.js"
+          }
+        }
+      ]
+    }
+  ]
+}

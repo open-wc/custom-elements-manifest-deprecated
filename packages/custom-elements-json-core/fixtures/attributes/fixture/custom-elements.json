@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "experimental",
+  "readme": "",
+  "modules": [
+    {
+      "path": "./my-element.js",
+      "kind": "javascript-module",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "MyElement",
+          "superclass": { "name": "HTMLElement" },
+          "attributes": [
+            {
+              "name": "disabled",
+              "type": {
+                "type": "boolean"
+              },
+              "description": "disables the element"
+            },
+            {
+              "name": "foo",
+              "type": {
+                "type": "string"
+              },
+              "description": "description for foo"
+            },
+            {
+              "name": "baz"
+            },
+            {
+              "name": "bar"
+            }
+          ],
+          "tagName": "my-element"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "my-element",
+          "declaration": {
+            "name": "MyElement",
+            "module": "./my-element.js"
+          }
+        }
+      ]
+    }
+  ]
+}
