@@ -1,7 +1,7 @@
 import ts from 'typescript';
 import { handleEvents } from './handleEvents';
 import { handleAttributes } from './handleAttributes';
-import { ClassDeclaration, ClassMember, CustomElement, JavaScriptModule } from 'custom-elements-json/schema';
+import { ClassMember, CustomElement, JavaScriptModule } from 'custom-elements-json/schema';
 import { extractJsDoc } from '../utils/extractJsDoc';
 
 export function handleClass(node: any, moduleDoc: JavaScriptModule) {
@@ -37,7 +37,7 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule) {
     jsDocs.filter(jsDoc => jsDoc.tag === 'slot')
       .forEach(jsDoc => {
         classDoc.slots!.push({
-          name: jsDoc.name,
+          name: jsDoc.name === '-' ? '' : jsDoc.name,
           description: jsDoc.description.replace('- ', ''),
         });
       });

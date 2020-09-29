@@ -43,8 +43,8 @@ export async function create(packagePath: string): Promise<Package> {
 
 
   // Match modulePath for definition declarations
-  for(let definition of definitions) {
-    for(let _module of customElementsJson.modules) {
+  for(const definition of definitions) {
+    for(const _module of customElementsJson.modules) {
       const modulePath = _module.path;
       const match = [...<Declaration[]>_module.declarations, ...<Export[]>_module.exports]
         .some(classDoc => classDoc.name === definition.declaration.name);

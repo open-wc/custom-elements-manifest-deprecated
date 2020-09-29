@@ -12,6 +12,10 @@
           "name": "MyElement",
           "slots": [
             {
+              "name": "",
+              "description": "default slot"
+            },
+            {
               "name": "foo",
               "description": "put some divs here"
             },
