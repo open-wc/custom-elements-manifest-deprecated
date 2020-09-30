@@ -38,17 +38,16 @@ export async function create(packagePath: string): Promise<Package> {
 
     // remove any declarations that are not exported
     currModule.declarations = currModule.declarations.filter(declaration => {
-      return currModule.exports && currModule.exports.some(_export => declaration.name === _export.name || declaration.name === _export.declaration.name);
+      return currModule.exports && currModule.exports.some(_export => {
+        return declaration.name === _export.name || declaration.name === _export.declaration.name
+      });
     });
   });
-
-
 
   /** POST-PROCESSING, e.g.: linking class to definitions etc */
   // @TODO: Find the module path for a superclass
   const classes = customElementsJson.getClasses();
   const definitions = customElementsJson.getDefinitions(); // CustomElementExports
-
 
   // Match modulePath for definition declarations
   for(const definition of definitions) {

@@ -59,8 +59,7 @@ function hasNamedExports(node: ts.ExportDeclaration): boolean {
 }
 
 /**
- *
- * @example export { var1, var2 };
+ * @example export { var1, var2 } from 'foo';
  */
 function isReexport(node: ts.ExportDeclaration): boolean {
   if(
@@ -74,13 +73,6 @@ function isReexport(node: ts.ExportDeclaration): boolean {
 function isBareModuleSpecifier(path: string): boolean {
   return !path.startsWith("'./");
 }
-
-
-/**
- * functions, classes, variables should ALL be considered declarations.
- * The check to see if they're exported, comes after the analyze phase
- *   - if not exported, remove them from declarations
- */
 
 export function handleExport(node: ExportType, moduleDoc: JavaScriptModule) {
   if(node.kind === ts.SyntaxKind.VariableStatement) {
@@ -183,7 +175,6 @@ export function handleExport(node: ExportType, moduleDoc: JavaScriptModule) {
           }
         }
 
-        // @TODO: in output remove single quotes, e.g.: "'foo'" or "'./my-module.js'"
         if(isBareModuleSpecifier(node.moduleSpecifier!.getText())) {
           _export.declaration.package = node.moduleSpecifier!.getText().replace(/'/g, '');
         } else {
@@ -233,6 +224,4 @@ export function handleExport(node: ExportType, moduleDoc: JavaScriptModule) {
       safePush(_export, null, moduleDoc);
     }
   }
-
-  // console.log(moduleDoc)
 }
