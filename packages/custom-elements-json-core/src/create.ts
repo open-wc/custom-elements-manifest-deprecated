@@ -4,9 +4,11 @@ import globby from 'globby';
 import ts from 'typescript';
 import { customElementsJson } from './customElementsJson';
 import { Package, Declaration, JavaScriptModule, CustomElement, Export } from 'custom-elements-json/schema';
+import { ExportType } from './ast/handleExport';
 
 import { handleClass } from './ast/handleClass';
 import { handleCustomElementsDefine } from './ast/handleCustomElementsDefine';
+import { handleExport } from './ast/handleExport';
 
 export async function create(packagePath: string): Promise<Package> {
   const modulePaths = await globby([`${packagePath}/**/*.js`]);
@@ -31,7 +33,13 @@ export async function create(packagePath: string): Promise<Package> {
     customElementsJson.setCurrentModule(sourceFile);
 
     /** SYNTAX PROCESSING */
-    visit(sourceFile, (customElementsJson.modules.find(_module => _module.path === relativeModulePath) as JavaScriptModule));
+    const currModule = (customElementsJson.modules.find(_module => _module.path === relativeModulePath) as JavaScriptModule);
+    visit(sourceFile, currModule);
+
+    // remove any declarations that are not exported
+    currModule.declarations = currModule.declarations.filter(declaration => {
+      return currModule.exports && currModule.exports.some(_export => declaration.name === _export.name || declaration.name === _export.declaration.name);
+    });
   });
 
 
@@ -46,8 +54,11 @@ export async function create(packagePath: string): Promise<Package> {
   for(const definition of definitions) {
     for(const _module of customElementsJson.modules) {
       const modulePath = _module.path;
+      // @TODO: I dont think you need to go through the exports here
       const match = [...<Declaration[]>_module.declarations, ...<Export[]>_module.exports]
-        .some(classDoc => classDoc.name === definition.declaration.name);
+        .some(classDoc => {
+          return classDoc.name === definition.declaration.name
+        });
 
       if(match) {
         definition.declaration.module = modulePath;
@@ -58,7 +69,7 @@ export async function create(packagePath: string): Promise<Package> {
 
   // Match tagNames for classDocs
   classes.forEach((customElement: CustomElement) => {
-    customElement.tagName = definitions.find(def => def.declaration.name === customElement.name).name;
+    customElement.tagName = definitions.find(def => def && def.declaration && def.declaration.name === customElement.name)?.name;
   });
 
   delete customElementsJson.currentModule;
@@ -74,9 +85,16 @@ function visit(source: ts.SourceFile, moduleDoc: JavaScriptModule) {
     switch (node.kind) {
       case ts.SyntaxKind.ClassDeclaration:
         handleClass(node, moduleDoc);
+        handleExport((node as ExportType), moduleDoc);
         break;
       case ts.SyntaxKind.PropertyAccessExpression:
         handleCustomElementsDefine(node, moduleDoc);
+        break;
+      case ts.SyntaxKind.VariableStatement:
+      case ts.SyntaxKind.ExportDeclaration:
+      case ts.SyntaxKind.FunctionDeclaration:
+      case ts.SyntaxKind.ExportAssignment:
+        handleExport((node as ExportType), moduleDoc);
         break;
     }
 

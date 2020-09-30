@@ -58,7 +58,7 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule) {
   handleAttributes(node, classDoc);
   handleEvents(node, classDoc);
 
-  if(node.heritageClauses.length > 0) {
+  if(node.heritageClauses?.length > 0) {
     node.heritageClauses.forEach((clause: any) => {
       clause.types.forEach((type: any) => {
         classDoc.superclass = {
@@ -180,6 +180,7 @@ function visit(source: ts.SourceFile, member: any) {
           .filter((statement: any) => statement.kind === ts.SyntaxKind.ExpressionStatement)
           .filter((statement: any) => statement.expression.kind === ts.SyntaxKind.BinaryExpression)
           .forEach((statement: any) => {
+            // @TODO get jsdoc types
             if(statement.expression.left.name.getText() === member.name) {
               member.default = statement.expression.right.getText();
             }

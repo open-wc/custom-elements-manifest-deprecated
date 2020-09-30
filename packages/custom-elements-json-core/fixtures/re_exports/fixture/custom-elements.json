@@ -1,0 +1,101 @@
+{
+  "schemaVersion": "experimental",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "./my-element.js",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "package": "foo"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "var10",
+          "declaration": {
+            "name": "var10",
+            "package": "foo"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "var11",
+          "declaration": {
+            "name": "var11",
+            "package": "foo"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "var12",
+          "declaration": {
+            "name": "var12",
+            "package": "foo"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "var13",
+          "declaration": {
+            "name": "var13",
+            "module": "./my-module.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "var14",
+          "declaration": {
+            "name": "var14",
+            "module": "./my-module.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "var15",
+          "declaration": {
+            "name": "var15",
+            "module": "./my-module.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "name1",
+          "declaration": {
+            "name": "import1",
+            "package": "foo"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "name2",
+          "declaration": {
+            "name": "import2",
+            "package": "foo"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "nameN",
+          "declaration": {
+            "name": "nameN",
+            "package": "foo"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "name": "default",
+            "package": "foo"
+          }
+        }
+      ]
+    }
+  ]
+}
