@@ -76,7 +76,6 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule) {
         } else {
           superClass = node.text;
         }
-        console.log(mixins);
 
         if(mixins.length > 0 ) {
           classDoc.mixins = mixins;

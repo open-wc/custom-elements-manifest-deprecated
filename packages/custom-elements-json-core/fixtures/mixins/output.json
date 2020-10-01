@@ -12,10 +12,16 @@
           "name": "Foo",
           "mixins": [
             {
-              "name": "MixinA"
+              "name": "MixinA",
+              "package": "foo"
             },
             {
-              "name": "MixinB"
+              "name": "MixinB",
+              "module": "./my-module.js"
+            },
+            {
+              "name": "LocalMixin",
+              "module": "./class-with-mixins.js"
             }
           ],
           "superclass": {

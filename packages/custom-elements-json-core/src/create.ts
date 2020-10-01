@@ -4,12 +4,14 @@ import globby from 'globby';
 import ts from 'typescript';
 import { Package, Declaration, JavaScriptModule, CustomElement, Export } from 'custom-elements-json/schema';
 import { ExportType } from './ast/handleExport';
+import { Import } from './ast/handleImport';
 
 import { customElementsJson } from './customElementsJson';
 
 import { handleClass } from './ast/handleClass';
 import { handleCustomElementsDefine } from './ast/handleCustomElementsDefine';
 import { handleExport } from './ast/handleExport';
+import { handleImport } from './ast/handleImport';
 
 export async function create(packagePath: string): Promise<Package> {
   const modulePaths = await globby([`${packagePath}/**/*.js`]);
@@ -36,6 +38,31 @@ export async function create(packagePath: string): Promise<Package> {
     /** SYNTAX PROCESSING */
     const currModule = (customElementsJson.modules.find(_module => _module.path === relativeModulePath) as JavaScriptModule);
     visit(sourceFile, currModule);
+
+    // Match mixins with their imports
+    const classes = currModule.declarations.filter(declaration => declaration.kind === 'class');
+
+    classes.forEach((customElement) => {
+      customElement.mixins && customElement.mixins.forEach((mixin) => {
+        const foundMixin = [...currModule.declarations, ...customElementsJson.imports].find((_import: Import) => _import.name === mixin.name);
+        if(foundMixin) {
+          // Mixin is imported from bare module specifier
+          if(foundMixin.importPath && foundMixin.isBaremoduleSpecifier) {
+            mixin.package = foundMixin.importPath;
+          }
+
+          // Mixin is imported from a different local module
+          if(foundMixin.importPath && !foundMixin.isBaremoduleSpecifier) {
+            mixin.module = foundMixin.importPath;
+          }
+
+          // Mixin was found in the current modules declarations, so defined locally
+          if(!foundMixin.importPath) {
+            mixin.module = currModule.path;
+          }
+        }
+      });
+    });
 
     // remove any declarations that are not exported
     currModule.declarations = currModule.declarations.filter(declaration => {
@@ -75,6 +102,7 @@ export async function create(packagePath: string): Promise<Package> {
     }
   });
 
+  delete customElementsJson.imports;
   delete customElementsJson.currentModule;
 
   console.log(JSON.stringify(customElementsJson, null, 2));
@@ -99,6 +127,9 @@ function visit(source: ts.SourceFile, moduleDoc: JavaScriptModule) {
       case ts.SyntaxKind.ExportAssignment:
         handleExport((node as ExportType), moduleDoc);
         // handleMixins(node, moduleDoc);
+        break;
+      case ts.SyntaxKind.ImportDeclaration:
+        handleImport(node);
         break;
     }
 
