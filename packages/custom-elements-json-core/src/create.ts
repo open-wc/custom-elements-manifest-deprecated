@@ -42,8 +42,31 @@ export async function create(packagePath: string): Promise<Package> {
     // Match mixins with their imports
     const classes = currModule.declarations.filter(declaration => declaration.kind === 'class');
 
-    classes.forEach((customElement) => {
-      customElement.mixins && customElement.mixins.forEach((mixin) => {
+    classes.forEach((customElement: any) => {
+      if(customElement.superclass && customElement.superclass.name !== 'HTMLElement') {
+        const foundSuperclass = [...(classes || []), ...(customElementsJson.imports || [])].find((_import: Import) => {
+          return _import.name === customElement.superclass.name;
+        });
+
+        if(foundSuperclass) {
+          // Superclass is imported, but from a bare module specifier
+          if(foundSuperclass.kind && foundSuperclass.isBaremoduleSpecifier) {
+            customElement.superclass.package = foundSuperclass.importPath;
+          }
+
+          // Superclass is imported, but from a different local module
+          if(foundSuperclass.kind && !foundSuperclass.isBaremoduleSpecifier) {
+            customElement.superclass.module = foundSuperclass.importPath;
+          }
+
+          // Superclass declared in local module
+          if(foundSuperclass.isBaremoduleSpecifier === undefined) {
+            customElement.superclass.module = currModule.path;
+          }
+        }
+      }
+
+      customElement.mixins && customElement.mixins.forEach((mixin: any) => {
         const foundMixin = [...currModule.declarations, ...customElementsJson.imports].find((_import: Import) => _import.name === mixin.name);
         if(foundMixin) {
           // Mixin is imported from bare module specifier

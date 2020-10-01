@@ -1,0 +1,82 @@
+{
+  "schemaVersion": "experimental",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "./my-element.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "MyElement",
+          "superclass": {
+            "name": "HTMLElement"
+          },
+          "tagName": "my-element"
+        },
+        {
+          "kind": "class",
+          "description": "",
+          "name": "ExtendsLocal",
+          "superclass": {
+            "name": "LocalSuperclass",
+            "module": "./my-element.js"
+          }
+        },
+        {
+          "kind": "class",
+          "description": "",
+          "name": "ExtendsBaremodule",
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit-element"
+          }
+        },
+        {
+          "kind": "class",
+          "description": "",
+          "name": "ExtendsLocalImported",
+          "superclass": {
+            "name": "LocalImportedSuperclass",
+            "module": "./my-module.js"
+          }
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "ExtendsLocal",
+          "declaration": {
+            "name": "ExtendsLocal",
+            "module": "./my-element.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "ExtendsBaremodule",
+          "declaration": {
+            "name": "ExtendsBaremodule",
+            "module": "./my-element.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "ExtendsLocalImported",
+          "declaration": {
+            "name": "ExtendsLocalImported",
+            "module": "./my-element.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "my-element",
+          "declaration": {
+            "name": "MyElement",
+            "module": "./my-element.js"
+          }
+        }
+      ]
+    }
+  ]
+}
