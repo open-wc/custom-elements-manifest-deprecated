@@ -1,8 +1,17 @@
 import ts from 'typescript';
 import { handleEvents } from './handleEvents';
 import { handleAttributes } from './handleAttributes';
-import { ClassMember, CustomElement, JavaScriptModule, Reference } from 'custom-elements-json/schema';
+import { ClassMember, CustomElement, JavaScriptModule, Reference, ClassMethod } from 'custom-elements-json/schema';
 import { extractJsDoc } from '../utils/extractJsDoc';
+
+
+function hasModifiers(node: any): boolean {
+  return Array.isArray(node.modifiers) && node.modifiers.length > 0;
+}
+
+function hasJsDoc(node: any): boolean {
+  return Array.isArray(node.jsDoc) && node.jsDoc.length > 0;
+}
 
 export function handleClass(node: any, moduleDoc: JavaScriptModule) {
 
@@ -91,8 +100,81 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule) {
   if(node.members && node.members.length > 0) {
     classDoc.members = [];
     const gettersAndSetters: string[] = [];
+    const methods: ClassMethod[] = [];
+    const methodDenyList = ['connectedCallback', 'disconnectedCallback', 'attributeChangedCallback', 'adoptedCallback', 'requestUpdate', 'performUpdate', 'shouldUpdate', 'update', 'updated', 'render', 'firstUpdated', 'updateComplete'];
 
+    /**
+     * CLASS METHODS
+     */
     node.members.forEach((member: any) => {
+      /**
+       * kind method
+       * static
+       * private
+       * inherited from
+       * name
+       * summary
+       * description
+       * parameters
+       * return
+       *    type
+       *    description
+      */
+      if(ts.isMethodDeclaration(member)) {
+        if(methodDenyList.includes((member.name as ts.Identifier).text)) {
+          return;
+        }
+
+        const method: ClassMethod = {
+          kind: 'method',
+          name:''
+        }
+
+        if(hasModifiers(member)) {
+          member.modifiers!.forEach(modifier => {
+            switch(modifier.kind) {
+              case ts.SyntaxKind.StaticKeyword:
+                method.static = true;
+                // eslint-disable-next-line
+              case ts.SyntaxKind.PublicKeyword:
+                method.privacy = 'public'
+                break;
+              case ts.SyntaxKind.PrivateKeyword:
+                method.privacy = 'private'
+                break;
+              case ts.SyntaxKind.ProtectedKeyword:
+                method.privacy = 'protected'
+                break;
+            }
+          });
+        }
+
+        if((member.name as ts.Identifier).text.startsWith('#')) {
+          method.privacy = 'private';
+        }
+
+        if(hasJsDoc(member)) {
+          const jsDoc = extractJsDoc(member);
+          jsDoc.forEach(jsDoc => {
+            switch(jsDoc.tag) {
+              case 'public':
+                method.privacy = 'public';
+                break;
+              case 'private':
+                method.privacy = 'private';
+                break;
+              case 'protected':
+                method.privacy = 'protected';
+                break;
+            }
+          });
+        }
+
+        method.name = (member.name as ts.Identifier).text;
+
+        classDoc.members!.push(method);
+      }
+
       if (ts.isPropertyDeclaration(member) || ts.isGetAccessor(member) || ts.isSetAccessor(member)) {
         if(member.name.getText() === 'observedAttributes') {
           return;
@@ -177,6 +259,8 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule) {
         classDoc.members!.push(classMember);
       }
     })
+
+    console.log(methods);
 
     classDoc.members.forEach((member) => {
       visit(node, member)

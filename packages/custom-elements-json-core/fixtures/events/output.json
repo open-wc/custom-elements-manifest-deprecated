@@ -60,6 +60,28 @@
           "superclass": {
             "name": "HTMLElement"
           },
+          "members": [
+            {
+              "kind": "method",
+              "name": "normalEvent"
+            },
+            {
+              "kind": "method",
+              "name": "customEvent"
+            },
+            {
+              "kind": "method",
+              "name": "customEvent2"
+            },
+            {
+              "kind": "method",
+              "name": "customEvent3"
+            },
+            {
+              "kind": "method",
+              "name": "extendedEvent"
+            }
+          ],
           "tagName": "my-element"
         }
       ],

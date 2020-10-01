@@ -57,6 +57,28 @@
               "description": "some description for event-event"
             }
           ],
+          "members": [
+            {
+              "kind": "method",
+              "name": "normalEvent"
+            },
+            {
+              "kind": "method",
+              "name": "customEvent"
+            },
+            {
+              "kind": "method",
+              "name": "customEvent2"
+            },
+            {
+              "kind": "method",
+              "name": "customEvent3"
+            },
+            {
+              "kind": "method",
+              "name": "extendedEvent"
+            }
+          ],
           "superclass": {
             "name": "HTMLElement"
           },

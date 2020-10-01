@@ -6,12 +6,18 @@ const { create } = require('../src/create');
 const { customElementsJson } = require('../src/customElementsJson');
 
 const fixturesDir = path.join(process.cwd(), 'fixtures');
-const testCases = fs.readdirSync(fixturesDir);
+let testCases = fs.readdirSync(fixturesDir);
+
+const runSingle = testCases.find(_case => _case.startsWith('+'));
+if (runSingle) {
+  testCases = [runSingle];
+}
 
 describe('integration tests', () => {
   testCases.forEach(testCase => {
     it(`Testcase ${testCase}`, async () => {
-      if (testCase.startsWith('_')) {
+      // skips tests
+      if (testCase.startsWith('-')) {
         expect(true);
         return;
       }
