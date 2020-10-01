@@ -2,9 +2,10 @@ import path from 'path';
 import fs from 'fs';
 import globby from 'globby';
 import ts from 'typescript';
-import { customElementsJson } from './customElementsJson';
 import { Package, Declaration, JavaScriptModule, CustomElement, Export } from 'custom-elements-json/schema';
 import { ExportType } from './ast/handleExport';
+
+import { customElementsJson } from './customElementsJson';
 
 import { handleClass } from './ast/handleClass';
 import { handleCustomElementsDefine } from './ast/handleCustomElementsDefine';
@@ -68,7 +69,10 @@ export async function create(packagePath: string): Promise<Package> {
 
   // Match tagNames for classDocs
   classes.forEach((customElement: CustomElement) => {
-    customElement.tagName = definitions.find(def => def && def.declaration && def.declaration.name === customElement.name)?.name;
+    const tagName = definitions.find(def => def && def.declaration && def.declaration.name === customElement.name)?.name;
+    if(tagName) {
+      customElement.tagName = tagName;
+    }
   });
 
   delete customElementsJson.currentModule;
@@ -94,6 +98,7 @@ function visit(source: ts.SourceFile, moduleDoc: JavaScriptModule) {
       case ts.SyntaxKind.FunctionDeclaration:
       case ts.SyntaxKind.ExportAssignment:
         handleExport((node as ExportType), moduleDoc);
+        // handleMixins(node, moduleDoc);
         break;
     }
 

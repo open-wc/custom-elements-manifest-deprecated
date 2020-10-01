@@ -7,4 +7,4 @@ export { var3A as var3B, var4 };
 export let var5, var6;
 export let var7 = var6 = var5;
 export function function1() {}
-export class Class1 {} // todo
+export class Class1 {}

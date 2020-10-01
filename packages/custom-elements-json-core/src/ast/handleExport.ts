@@ -1,6 +1,7 @@
 
 import { JavaScriptModule, Export, VariableDeclaration, FunctionDeclaration, ClassDeclaration } from "custom-elements-json/schema";
 import ts from "typescript";
+import { extractJsDoc, JSDoc } from '../utils/extractJsDoc';
 
 export type ExportType = ts.VariableStatement
   | ts.ExportDeclaration
@@ -74,11 +75,46 @@ function isBareModuleSpecifier(path: string): boolean {
   return !path.startsWith("'./");
 }
 
+interface Mixin {
+  name: string;
+}
+
+function extractMixins(jsDocs: JSDoc[]): Mixin[] {
+  if(Array.isArray(jsDocs) && jsDocs.length > 0) {
+    return jsDocs.filter(jsDoc => jsDoc.tag === 'mixin')
+      .map((jsDoc) => ({
+        name: jsDoc.type
+      }));
+  } else {
+    return [];
+  }
+}
+
+function hasMixins(mixins: Mixin[]) {
+  return Array.isArray(mixins) && mixins.length > 0;
+}
+
 export function handleExport(node: ExportType, moduleDoc: JavaScriptModule) {
   if(node.kind === ts.SyntaxKind.VariableStatement) {
+    let _export: Export = {
+      kind: 'js',
+      name: '',
+      declaration: {name:''}
+    };
+    let _declaration: VariableDeclaration = {
+      kind: 'variable',
+      name: '',
+    };
+
+    const mixins = extractMixins(extractJsDoc(node));
+    if(hasMixins(mixins)) {
+      _declaration.mixins = mixins;
+    }
+
     if(hasExportModifier(node)) {
       node.declarationList.declarations.forEach(declaration => {
-        const _export: Export = {
+        _export = {
+          ..._export,
           kind: "js",
           name: declaration.name.getText(),
           declaration: {
@@ -88,7 +124,8 @@ export function handleExport(node: ExportType, moduleDoc: JavaScriptModule) {
         };
 
         // @TODO: add description, type, default
-        const _declaration: VariableDeclaration = {
+        _declaration = {
+          ..._declaration,
           kind: 'variable',
           name: declaration.name.getText(),
         }
@@ -97,6 +134,7 @@ export function handleExport(node: ExportType, moduleDoc: JavaScriptModule) {
       });
     } else {
       node.declarationList.declarations.forEach(declaration => {
+
         // @TODO: add description, type, default
         const _declaration: VariableDeclaration = {
           kind: 'variable',
@@ -187,9 +225,25 @@ export function handleExport(node: ExportType, moduleDoc: JavaScriptModule) {
   }
 
   if(node.kind === ts.SyntaxKind.FunctionDeclaration) {
+    let _export: Export = {
+      kind: 'js',
+      name: '',
+      declaration: {name:''}
+    };
+    let _declaration: FunctionDeclaration = {
+      kind: 'function',
+      name: '',
+    };
+
+    const mixins = extractMixins(extractJsDoc(node));
+    if(hasMixins(mixins)) {
+      _declaration.mixins = mixins;
+    }
+
     if(hasExportModifier(node)) {
       const isDefault = hasDefaultModifier(node);
-      const _export: Export = {
+      _export = {
+        ..._export,
         kind: "js",
         name: isDefault ? "default" : node.name?.getText() || "",
         declaration: {
@@ -199,7 +253,8 @@ export function handleExport(node: ExportType, moduleDoc: JavaScriptModule) {
       }
 
       // @TODO: add description, type, parameters, returntype
-      const _declaration: FunctionDeclaration = {
+      _declaration = {
+        ..._declaration,
         kind: 'function',
         name: node.name?.getText() || "",
       }

@@ -7,10 +7,13 @@ import parse from 'comment-parser';
  */
 
 export interface JSDoc {
-  tag: string;
-  type: string;
-  name: string;
-  description: string;
+  tag: string,
+  type: string,
+  name: string,
+  optional: boolean,
+  description: string,
+  line: number,
+  source: string
 }
 
 export function extractJsDoc(node: any): JSDoc[] {

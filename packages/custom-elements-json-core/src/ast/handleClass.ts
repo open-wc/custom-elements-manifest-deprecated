@@ -1,7 +1,7 @@
 import ts from 'typescript';
 import { handleEvents } from './handleEvents';
 import { handleAttributes } from './handleAttributes';
-import { ClassMember, CustomElement, JavaScriptModule } from 'custom-elements-json/schema';
+import { ClassMember, CustomElement, JavaScriptModule, Reference } from 'custom-elements-json/schema';
 import { extractJsDoc } from '../utils/extractJsDoc';
 
 export function handleClass(node: any, moduleDoc: JavaScriptModule) {
@@ -61,8 +61,29 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule) {
   if(node.heritageClauses?.length > 0) {
     node.heritageClauses.forEach((clause: any) => {
       clause.types.forEach((type: any) => {
+        const mixins: Reference[] = [];
+        let node = type.expression;
+        let superClass;
+
+        // gather mixin calls
+        if(ts.isCallExpression(node)) {
+          mixins.push({ name: node.expression.getText() });
+          while(ts.isCallExpression(node.arguments[0])) {
+            mixins.push({ name: node.arguments[0].expression.getText() });
+            node = node.arguments[0];
+          }
+          superClass = node.arguments[0].text;
+        } else {
+          superClass = node.text;
+        }
+        console.log(mixins);
+
+        if(mixins.length > 0 ) {
+          classDoc.mixins = mixins;
+        }
+
         classDoc.superclass = {
-          "name": type.expression.getText()
+          "name": superClass,
         }
       })
     })
