@@ -58,6 +58,19 @@
               },
               "privacy": "public",
               "default": "'foo'"
+            },
+            {
+              "default": "'bar'",
+              "inheritedFrom": {
+                "module": "./SuperClass.js",
+                "name": "SuperClass"
+              },
+              "kind": "field",
+              "name": "bar",
+              "privacy": "public",
+              "type": {
+                "type": "string"
+              }
             }
           ],
           "tagName": "my-element"
