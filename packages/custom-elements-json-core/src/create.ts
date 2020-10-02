@@ -36,9 +36,22 @@ export async function create(packagePath: string): Promise<Package> {
 
     customElementsJson.setCurrentModule(sourceFile);
 
-    /** SYNTAX PROCESSING */
+    /**
+     * ANALYZE PHASE
+     * Go through the AST of every separate module, and gather as much as information as we can
+     * This includes a modules imports, which are not specified in custom-elements.json, but are
+     * required for the LINK PHASE, and deleted when processed
+     */
     const currModule = (customElementsJson.modules.find(_module => _module.path === relativeModulePath) as JavaScriptModule);
     visit(sourceFile, currModule);
+
+    /**
+     * LINK PHASE
+     * All information for a module has been gathered, now we can link information together. Like:
+     * - Finding a CustomElement's tagname by finding its customElements.define() call (or 'export')
+     * - Applying inheritance to classes (adding `inheritedFrom` properties/attrs/events/methods)
+     * -
+     */
 
     // Match mixins with their imports
     const classes = currModule.declarations.filter(declaration => declaration.kind === 'class');
@@ -67,9 +80,38 @@ export async function create(packagePath: string): Promise<Package> {
         }
       }
 
+
       customElement.mixins && customElement.mixins.forEach((mixin: any) => {
-        const foundMixin = [...currModule.declarations, ...customElementsJson.imports].find((_import: Import) => _import.name === mixin.name);
+        const foundMixin = [...(currModule.declarations || []), ...(customElementsJson.imports || [])].find((_import: Import) => _import.name === mixin.name);
+
         if(foundMixin) {
+
+          /**
+           * Find a mixin's nested/inner mixins and add them to the class's list of mixins
+           * @example const MyMixin1 = klass => class MyMixin1 extends MyMixin2(klass) {}
+           */
+          if(Array.isArray(foundMixin.mixins) && foundMixin.mixins.length > 0) {
+            foundMixin.mixins.forEach((mixin: any) => {
+              const nestedFoundMixin = [...(currModule.declarations || []), ...(customElementsJson.imports || [])].find((_import: Import) => _import.name === mixin.name);
+
+              // Mixin is imported from a third party module (bare module specifier)
+              if(nestedFoundMixin.importPath && nestedFoundMixin.isBaremoduleSpecifier) {
+                mixin.package = nestedFoundMixin.importPath;
+              }
+
+              // Mixin is imported from a different local module
+              if(nestedFoundMixin.importPath && !nestedFoundMixin.isBaremoduleSpecifier) {
+                mixin.module = nestedFoundMixin.importPath;
+              }
+
+              // Mixin was found in the current modules declarations, so defined locally
+              if(!nestedFoundMixin.importPath) {
+                mixin.module = currModule.path;
+              }
+
+              customElement.mixins.push(mixin);
+            });
+          }
           // Mixin is imported from bare module specifier
           if(foundMixin.importPath && foundMixin.isBaremoduleSpecifier) {
             mixin.package = foundMixin.importPath;
@@ -88,12 +130,30 @@ export async function create(packagePath: string): Promise<Package> {
       });
     });
 
+    // Find any mixins that were used in a class, so we can add them to a modules declarations
+    const usedMixins: any = [];
+    currModule.declarations.forEach((declaration: any) => {
+      if(declaration.kind === 'mixin') {
+        // if its a mixin, find out if a class is making use of it
+        const isUsed = currModule.declarations.find(nestedDeclaration => {
+          if(nestedDeclaration.kind === 'class' && Array.isArray(nestedDeclaration.mixins) && nestedDeclaration.mixins.length > 0) {
+            return nestedDeclaration.mixins.find(mixin => mixin.name === declaration.name) !== undefined;
+          }
+        })
+        if(isUsed) {
+          usedMixins.push(declaration);
+        }
+      }
+    });
+
     // remove any declarations that are not exported
     currModule.declarations = currModule.declarations.filter(declaration => {
       return currModule.exports && currModule.exports.some(_export => {
         return declaration.name === _export.name || declaration.name === _export.declaration.name
       });
     });
+
+    currModule.declarations = [...(currModule.declarations || []), ...(usedMixins || [])];
   });
 
   /** POST-PROCESSING, e.g.: linking class to definitions etc */
@@ -118,7 +178,7 @@ export async function create(packagePath: string): Promise<Package> {
     }
   }
 
-  // Match tagNames for classDocs
+  // Match tagNames for classDocs, and inheritance chain
   classes.forEach((customElement: CustomElement) => {
     const tagName = definitions.find(def => def && def.declaration && def.declaration.name === customElement.name)?.name;
     if(tagName) {
@@ -127,9 +187,41 @@ export async function create(packagePath: string): Promise<Package> {
 
     // getInheritance chain
     const inheritanceChain = customElementsJson.getInheritanceTree(customElement.name);
-    console.log(inheritanceChain);
 
     inheritanceChain.forEach((klass: any) => {
+
+      // Handle mixins
+      if(klass.kind !== 'class') {
+        if(klass.package) {
+          // the mixin comes from a bare module specifier, skip it
+          return;
+        }
+
+        if(klass.module) {
+          // @TODO add attrs/members/events
+          const klassModule = customElementsJson.modules.find((_module: any) => _module.path === klass.module);
+          if(klassModule) {
+            const foundMixin: any = klassModule.declarations.find((declaration: any) => declaration.kind === 'mixin' && declaration.name === klass.name);
+            foundMixin.members && foundMixin.members.forEach((member: any) => {
+              const newMember = {
+                ...member,
+                inheritedFrom: {
+                  name: klass.name,
+                  module: klass.module
+                }
+              }
+
+              if(Array.isArray(customElement.members) && customElement.members.length > 0) {
+                customElement.members.push(newMember);
+              } else {
+                customElement.members = [newMember];
+              }
+            });
+          }
+        }
+      }
+
+      // ignore the current class itself
       if(klass.name === customElement.name) {
         return;
       }
@@ -165,10 +257,11 @@ export async function create(packagePath: string): Promise<Package> {
 
         if(Array.isArray(customElement.members) && customElement.members.length > 0) {
           customElement.members.push(newMember);
+        } else {
+          customElement.members = [newMember];
         }
       });
     });
-    console.log(customElementsJson.getInheritanceTree(customElement.name));
   });
 
   delete customElementsJson.imports;
@@ -182,6 +275,9 @@ function visit(source: ts.SourceFile, moduleDoc: JavaScriptModule) {
   visitNode(source);
 
   function visitNode(node: ts.Node) {
+    const mixin: any = getMixin((node as ts.VariableStatement | ts.FunctionDeclaration));
+    const isMixin = mixin !== false;
+
     switch (node.kind) {
       case ts.SyntaxKind.ClassDeclaration:
         handleClass(node, moduleDoc, 'class');
@@ -194,11 +290,8 @@ function visit(source: ts.SourceFile, moduleDoc: JavaScriptModule) {
       case ts.SyntaxKind.ExportDeclaration:
       case ts.SyntaxKind.FunctionDeclaration:
       case ts.SyntaxKind.ExportAssignment:
-        const mixin: any = getMixin((node as ts.VariableStatement | ts.FunctionDeclaration));
-        const isMixin = mixin !== false;
         if(isMixin) {
           handleClass(mixin, moduleDoc, 'mixin');
-          // make sure it handles nested mixins correctly
           handleExport((node as ExportType), moduleDoc, mixin.name.text);
           break;
         }
