@@ -3,67 +3,23 @@
 ## General
 
 - Workerize. We can do the TS ast stuff (getting a class and its information) in workers, and await until all workers are done. When all workers are done, we need to link a bunch of stuff together (find superclasses etc)
-- Readme. Take table from rune playground as example
+- Readme/docs
 
 ## LitElement
 
-- ignore `static properties` and `static get properties`
-- get properties/attrs from static get properties
-
 ## Polymer 3?
 
-- `static properties` is a little bit different I think, I think it only adds a default value
+- `static properties` is a little bit different I think, but I think it only adds a default value
 
 ## Classes
 
 ### Mixins
 
-- get mixins for a class, e.g.: class Foo extends MyMixin(Bar) {}
-- how to detect exported mixins? e.g.: export const MyMixin = klass => class MyMixin extends klass {}
-  - do I even need to? if its referenced as mixin in the classdoc and has a declaration to the mixin
-- what about nested mixins?
-
 ### Methods
-
-- Collect methods for a class
 
 ## Exports
 
 ## Imports
-
-- During analyze phase collect imports, store in `new Map()` (the names of an import are unique, so you can easily get it from the map)
-- After analyze phase, you can use this to link types, but also `References`
-- Maybe also during this phase collect any types you can find?
-
-fixture:
-
-```js
-import defaultExport from 'foo';
-import * as name from './my-module.js';
-import { export1, export2 } from 'foo';
-import { export1 as alias1 } from 'foo';
-import { export1, export2 as alias2 } from 'foo';
-import defaultExport, { export1 } from 'foo';
-import defaultExport, * as name from 'foo';
-```
-
-```typescript
-export interface Import {
-  name: string;
-  kind: "default" | "named" | "aggregate",
-  importPath: string;
-  isBaremoduleSpecifier: boolean
-}
-
-const imports = new Map()<string, Import>;
-const obj = {
-  "name": "defaultExport",
-  "kind": "default|named|aggregate",
-  "importPath": "foo",
-  "isBareModuleSpecifier": true,
-}
-imports.set('defaultExport', obj);
-```
 
 ## TypeReference[]
 
@@ -100,6 +56,7 @@ customElements.define('my-element', MyElement);
 ```
 
 ```js
+Array<Foo | Bar>
 [
   {
     name: "Array";
@@ -130,12 +87,19 @@ customElements.define('my-element', MyElement);
 ## Events
 
 - types for events?
+- support the following (jsdoc)
+
+```js
+/**
+ * Dispatched when the enter key is pressed
+ */
+this.dispatchEvent(new CustomEvent('enter'));
+```
 
 ## Attributes
 
 ## Properties
 
-- for fields/getters/setters: dont try to infer types from JS. Only add types if specifically added with jsdoc or ts
 - Related attrs, with jsdoc (see playground)
 
 ## inheritance
@@ -144,32 +108,38 @@ customElements.define('my-element', MyElement);
   - happens after analyze phase
   - should be easy to implement with the logic for getInheritanceTree
 
-## Lite
+## JSDoc
 
-- Create a 'lite' parser that exclusively checks jsdocs
+- [ ] Support jsdoc description/summary for everything
+- [ ] Support jsdoc for class field, or default setting stuff in the constructor
+- [ ] Deal with jsdoc type imports, e.g. `{import('foo').SomeType}`
 
 ```js
 /**
- * @export
- *
- */
-export function foo() {}
-
-/**
- * @export
- * @tagName my-element
- * @superclass LitElement - // this could be taken from imports
+ * Size of the text field
  * @attr
- * @prop {boolean} disabled - disables the component
- * @fires {Event} disabled-changed - fired when the component is disabled
+ * @type {"small"|"large"}
  */
-class MyElement extends LitElement {
-  static properties = {
-    disabled: { type: Boolean, reflect: true },
-  };
-  fire() {
-    this.dispatchEvent(new Event('disabled-changed'));
-  }
+size = "large";
+
+constructor() {
+  super();
+  /**
+   * Size of the text field
+   * @attr
+   * @type {"small"|"large"}
+   */
+  this.size = "large";
 }
-customElements.define('my-element', MyElement);
+```
+
+```js
+  static get observedAttributes() {
+    return [
+    /** some jsdoc */
+    "placeholder",
+    /** more jsdoc */
+    "disabled",
+    ];
+  }
 ```

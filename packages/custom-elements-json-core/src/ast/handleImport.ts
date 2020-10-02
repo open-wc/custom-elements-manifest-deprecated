@@ -17,7 +17,7 @@ function hasAggregatingImport(node: any): boolean {
   return !!node?.importClause?.namedBindings?.name && !hasNamedImport(node);
 }
 
-function isBaremoduleSpecifier(specifier: string): boolean {
+export function isBaremoduleSpecifier(specifier: string): boolean {
   return !!specifier[0].match(/[a-zA-Z]/g);
 }
 

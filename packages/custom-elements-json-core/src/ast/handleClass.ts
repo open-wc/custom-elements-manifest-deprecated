@@ -1,7 +1,7 @@
 import ts from 'typescript';
 import { handleEvents } from './handleEvents';
 import { handleAttributes } from './handleAttributes';
-import { ClassMember, CustomElement, JavaScriptModule, Reference, ClassMethod } from 'custom-elements-json/schema';
+import { ClassMember, CustomElement, JavaScriptModule, Reference, ClassMethod, Attribute, MixinDeclaration } from 'custom-elements-json/schema';
 import { extractJsDoc } from '../utils/extractJsDoc';
 
 
@@ -13,10 +13,53 @@ function hasJsDoc(node: any): boolean {
   return Array.isArray(node.jsDoc) && node.jsDoc.length > 0;
 }
 
-export function handleClass(node: any, moduleDoc: JavaScriptModule) {
+function hasStaticKeyword(node: any): boolean {
+  return !!node?.modifiers?.find((mod: any) => mod.kind === ts.SyntaxKind.StaticKeyword);
+}
 
-  const classDoc: CustomElement = {
-    "kind": "class",
+function isAlsoProperty(node: any) {
+  let result = true;
+  ((node.initializer as ts.ObjectLiteralExpression) || node).properties.forEach((property: any) => {
+    if((property.name as ts.Identifier).text === 'attribute' && property.initializer.kind === ts.SyntaxKind.FalseKeyword) {
+      result = false;
+    }
+  })
+  return result;
+}
+
+function getAttrName(node: any): string | undefined {
+  let result = undefined;
+  ((node.initializer as ts.ObjectLiteralExpression) || node).properties.forEach((property: any) => {
+    if((property.name as ts.Identifier).text === 'attribute' && property.initializer.kind !== ts.SyntaxKind.FalseKeyword) {
+      result = property.initializer.text;
+    }
+  })
+  return result;
+}
+
+function getReturnVal(node: any) {
+  if(ts.isGetAccessor(node)) {
+    return (node.body!.statements.find((statement: any) => statement.kind === ts.SyntaxKind.ReturnStatement) as ts.ReturnStatement).expression;
+  } else {
+    return node.initializer;
+  }
+}
+
+function alreadyHasAttributes(doc: CustomElement): boolean {
+  return Array.isArray(doc.attributes);
+}
+
+function hasPropertyDecorator(node: ts.PropertyDeclaration | ts.GetAccessorDeclaration | ts.SetAccessorDeclaration): boolean {
+  return Array.isArray(node.decorators) &&
+    node.decorators.length > 0 &&
+    node.decorators.some((decorator: ts.Decorator) => ts.isDecorator(decorator));
+}
+
+export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class'|'mixin') {
+
+  // console.log(node.name);
+  const classDoc: any = {
+    "kind": kind,
     "description": "",
     "name": node.name.getText(),
     "cssProperties": [],
@@ -100,7 +143,6 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule) {
   if(node.members && node.members.length > 0) {
     classDoc.members = [];
     const gettersAndSetters: string[] = [];
-    const methods: ClassMethod[] = [];
     const methodDenyList = ['connectedCallback', 'disconnectedCallback', 'attributeChangedCallback', 'adoptedCallback', 'requestUpdate', 'performUpdate', 'shouldUpdate', 'update', 'updated', 'render', 'firstUpdated', 'updateComplete'];
 
     /**
@@ -149,7 +191,7 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule) {
           });
         }
 
-        if((member.name as ts.Identifier).text.startsWith('#')) {
+        if(ts.isPrivateIdentifier(member.name)) {
           method.privacy = 'private';
         }
 
@@ -176,13 +218,65 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule) {
       }
 
       if (ts.isPropertyDeclaration(member) || ts.isGetAccessor(member) || ts.isSetAccessor(member)) {
-        if(member.name.getText() === 'observedAttributes') {
-          return;
+
+        const memberDenyList = ['styles', 'observedAttributes'];
+
+        // LitElement properties
+        if(hasStaticKeyword(member)) {
+          if(memberDenyList.includes((member.name as ts.Identifier).text)) {
+            return;
+          }
+
+          if((member.name as ts.Identifier).text === 'properties') {
+            const returnVal = getReturnVal(member);
+            returnVal.properties.forEach((property: ts.PropertyAssignment) => {
+              const classMember: ClassMember = {
+                kind: 'field',
+                name: property.name.getText(),
+                privacy: 'public',
+              }
+
+              if(isAlsoProperty(property)) {
+                const attribute: Attribute = {
+                  name: getAttrName(property) || property.name.getText(),
+                  fieldName: property.name.getText()
+                }
+
+                if(alreadyHasAttributes(classDoc)) {
+                  classDoc.attributes!.push(attribute);
+                } else {
+                  classDoc.attributes = [attribute]
+                }
+              }
+
+              classDoc.members!.push(classMember);
+            });
+            return;
+          }
         }
 
         const classMember: ClassMember = {
           kind: 'field',
           name: member.name.getText()
+        }
+
+        // LitElement `@property` decorator
+        if(hasPropertyDecorator(member)) {
+          const propertyDecorator = member.decorators!.find((decorator: any) => decorator.expression.expression.text === 'property');
+          const propertyOptions = (propertyDecorator as any).expression.arguments.find((arg: ts.ObjectLiteralExpression) => ts.isObjectLiteralExpression(arg));
+
+          if(isAlsoProperty(propertyOptions)) {
+            const attribute: Attribute = {
+              name: getAttrName(propertyOptions) || member.name.getText(),
+              fieldName: member.name.getText()
+            }
+
+            if(alreadyHasAttributes(classDoc)) {
+              classDoc.attributes!.push(attribute);
+            } else {
+              classDoc.attributes = [attribute]
+            }
+          }
         }
 
         if(gettersAndSetters.includes(member.name.getText())) {
@@ -258,11 +352,9 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule) {
 
         classDoc.members!.push(classMember);
       }
-    })
+    });
 
-    console.log(methods);
-
-    classDoc.members.forEach((member) => {
+    classDoc.members.forEach((member: any) => {
       visit(node, member)
     });
   }

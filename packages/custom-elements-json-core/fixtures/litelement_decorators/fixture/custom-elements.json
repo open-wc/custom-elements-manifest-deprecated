@@ -1,0 +1,71 @@
+{
+  "schemaVersion": "experimental",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "./my-element.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "MyElement",
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit-element"
+          },
+          "members": [
+            {
+              "kind": "field",
+              "name": "decoratedProperty",
+              "type": {
+                "type": "array"
+              },
+              "privacy": "public",
+              "default": "[]"
+            },
+            {
+              "kind": "field",
+              "name": "decoratedPropertyAlsoAttr",
+              "type": {
+                "type": "array"
+              },
+              "privacy": "public",
+              "default": "[]"
+            },
+            {
+              "kind": "field",
+              "name": "decoratedPropertyNoAttr",
+              "type": {
+                "type": "array"
+              },
+              "privacy": "public",
+              "default": "[]"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "decoratedProperty",
+              "fieldName": "decoratedProperty"
+            },
+            {
+              "name": "my-attr",
+              "fieldName": "decoratedPropertyAlsoAttr"
+            }
+          ],
+          "tagName": "my-element"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "my-element",
+          "declaration": {
+            "name": "MyElement",
+            "module": "./my-element.js"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "experimental",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "./MyMixin.js",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "MyMixin"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "MyMixin",
+          "declaration": {
+            "name": "MyMixin",
+            "module": "./MyMixin.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "./my-element.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "MyElement",
+          "mixins": [
+            {
+              "name": "MyMixin",
+              "module": "./MyMixin.js"
+            }
+          ],
+          "superclass": {
+            "name": "HTMLElement"
+          },
+          "members": [
+            {
+              "kind": "field",
+              "name": "foo",
+              "type": {
+                "type": "string"
+              },
+              "privacy": "public",
+              "default": "'foo'"
+            }
+          ],
+          "tagName": "my-element"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "my-element",
+          "declaration": {
+            "name": "MyElement",
+            "module": "./my-element.js"
+          }
+        }
+      ]
+    }
+  ]
+}

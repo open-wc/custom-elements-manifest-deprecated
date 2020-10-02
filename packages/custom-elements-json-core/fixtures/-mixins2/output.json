@@ -89,7 +89,8 @@
       "path": "./variable-mixin.js",
       "declarations": [
         {
-          "kind": "variable",
+          "kind": "mixin",
+          "description": "",
           "name": "NestedMixins",
           "mixins": [
             {
@@ -98,7 +99,10 @@
             {
               "name": "NestedB"
             }
-          ]
+          ],
+          "superclass": {
+            "name": "superclass"
+          }
         }
       ],
       "exports": [

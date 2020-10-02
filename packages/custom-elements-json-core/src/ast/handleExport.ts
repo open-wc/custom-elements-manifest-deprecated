@@ -27,7 +27,12 @@ function hasDefaultModifier(node: ExportType): boolean {
   return false;
 }
 
-function safePush(_export: Export | null, _declaration: VariableDeclaration | FunctionDeclaration | ClassDeclaration | null, moduleDoc: JavaScriptModule) {
+function safePush(
+    _export: Export | null,
+    _declaration: VariableDeclaration | FunctionDeclaration | ClassDeclaration | null,
+    moduleDoc: JavaScriptModule,
+    ignore: string | undefined
+  ) {
   if(_export) {
     if(Array.isArray(moduleDoc.exports) && moduleDoc.exports.length > 0) {
       moduleDoc.exports.push(_export);
@@ -37,6 +42,7 @@ function safePush(_export: Export | null, _declaration: VariableDeclaration | Fu
   }
 
   if(_declaration) {
+    if(ignore !== undefined && _declaration.name === ignore) return;
     if(Array.isArray(moduleDoc.declarations) && moduleDoc.declarations.length > 0) {
       moduleDoc.declarations.push(_declaration);
     } else {
@@ -94,7 +100,7 @@ function hasMixins(mixins: Mixin[]) {
   return Array.isArray(mixins) && mixins.length > 0;
 }
 
-export function handleExport(node: ExportType, moduleDoc: JavaScriptModule) {
+export function handleExport(node: ExportType, moduleDoc: JavaScriptModule, ignore: string | undefined = undefined) {
   if(node.kind === ts.SyntaxKind.VariableStatement) {
     let _export: Export = {
       kind: 'js',
@@ -130,7 +136,7 @@ export function handleExport(node: ExportType, moduleDoc: JavaScriptModule) {
           name: declaration.name.getText(),
         }
 
-        safePush(_export, _declaration, moduleDoc);
+        safePush(_export, _declaration, moduleDoc, ignore);
       });
     } else {
       node.declarationList.declarations.forEach(declaration => {
@@ -141,7 +147,7 @@ export function handleExport(node: ExportType, moduleDoc: JavaScriptModule) {
           name: declaration.name.getText(),
         }
 
-        safePush(null, _declaration, moduleDoc);
+        safePush(null, _declaration, moduleDoc, ignore);
       });
     }
   }
@@ -159,7 +165,7 @@ export function handleExport(node: ExportType, moduleDoc: JavaScriptModule) {
         module: moduleDoc.path
       }
     };
-    safePush(_export, null, moduleDoc);
+    safePush(_export, null, moduleDoc, ignore);
   }
 
   if(node.kind === ts.SyntaxKind.ExportDeclaration) {
@@ -179,7 +185,7 @@ export function handleExport(node: ExportType, moduleDoc: JavaScriptModule) {
           }
         };
 
-        safePush(_export, null, moduleDoc);
+        safePush(_export, null, moduleDoc, ignore);
       });
     }
 
@@ -196,7 +202,7 @@ export function handleExport(node: ExportType, moduleDoc: JavaScriptModule) {
           package: node.moduleSpecifier!.getText().replace(/'/g, '')
         }
       }
-      safePush(_export, null, moduleDoc);
+      safePush(_export, null, moduleDoc, ignore);
     }
 
     /**
@@ -219,7 +225,7 @@ export function handleExport(node: ExportType, moduleDoc: JavaScriptModule) {
           _export.declaration.module = node.moduleSpecifier!.getText().replace(/'/g, '');
         }
 
-        safePush(_export, null, moduleDoc);
+        safePush(_export, null, moduleDoc, ignore);
       });
     }
   }
@@ -259,7 +265,7 @@ export function handleExport(node: ExportType, moduleDoc: JavaScriptModule) {
         name: node.name?.getText() || "",
       }
 
-      safePush(_export, _declaration, moduleDoc);
+      safePush(_export, _declaration, moduleDoc, ignore);
     }
   }
 
@@ -276,7 +282,7 @@ export function handleExport(node: ExportType, moduleDoc: JavaScriptModule) {
           module: moduleDoc.path
         }
       }
-      safePush(_export, null, moduleDoc);
+      safePush(_export, null, moduleDoc, ignore);
     }
   }
 }

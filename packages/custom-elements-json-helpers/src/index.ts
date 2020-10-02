@@ -1,4 +1,4 @@
-import { Package, JavaScriptModule, Export, Declaration, CustomElementExport, ClassDeclaration, CustomElement, VariableDeclaration, Reference } from 'custom-elements-json/schema';
+import { Package, JavaScriptModule, Export, Declaration, CustomElementExport, FunctionDeclaration, CustomElement, VariableDeclaration, ClassDeclaration } from 'custom-elements-json/schema';
 import * as h from './helpers';
 
 export class CustomElementsJson {
@@ -55,7 +55,7 @@ export class CustomElementsJson {
     this.#initialized = true;
 
     this.loopAll((item: Export|Declaration) => {
-      if(h.isClass(item)) {
+      if(h.isClass(item) && (item as any).superclass) {
         this.#classes.set(item.name, item);
       }
     });
@@ -158,43 +158,73 @@ export class CustomElementsJson {
   //   return mixins;
   // }
 
+  getInheritanceTree(className: string) {
+    if(!this.#initialized) {
+      this.init();
+      this.#initialized = true;
+    }
 
-  // getInheritanceTree(className: string) {
-  //   const tree: Class[] = [];
+    const tree: Array<ClassDeclaration|VariableDeclaration|FunctionDeclaration> = [];
 
-  //   let klass = this.classes.get(className);
+    let klass = this.#classes.get(className);
 
-  //   if(klass) {
-  //     tree.push(klass);
+    if(klass) {
+      tree.push(klass);
 
-  //     if(h.hasMixins(klass)) {
-  //       klass.mixins.forEach((mixin: Variable) => {
-  //         tree.push(this.mixins.get(mixin.name));
-  //       });
-  //     }
+      if(h.hasMixins(klass)) {
+        klass.mixins.forEach((mixin: VariableDeclaration|FunctionDeclaration) => {
+          // if a mixin has mixins, add it
+          tree.push(mixin);
+        });
+      }
 
-  //     while(this.classes.has(klass.superclass.name)) {
-  //       const newKlass = this.classes.get(klass.superclass.name)
+      while(this.#classes.has(klass.superclass.name)) {
+        const newKlass = this.#classes.get(klass.superclass.name)
 
-  //       if(h.hasMixins(newKlass)) {
-  //         newKlass.mixins.forEach((mixin: Variable) => {
-  //           tree.push(this.mixins.get(mixin.name));
-  //         });
-  //       }
+        if(h.hasMixins(newKlass)) {
+          newKlass.mixins.forEach((mixin: VariableDeclaration|FunctionDeclaration) => {
 
-  //       tree.push(newKlass);
-  //       klass = newKlass;
-  //     }
+            tree.push(this.#mixins.get(mixin.name));
+          });
+        }
 
-  //     return tree;
-  //   } else {
-  //     return [];
-  //   }
+        tree.push(newKlass);
+        klass = newKlass;
+      }
 
-  // }
+      return tree;
+    } else {
+      return [];
+    }
+  }
+
+  getModuleForClass(className: string): string | undefined {
+    if(!this.#initialized) {
+      this.init();
+      this.#initialized = true;
+    }
+
+    let result = undefined;
+
+    this.modules.forEach((_module: JavaScriptModule) => {
+      if(h.hasDeclarations(_module)) {
+        _module.declarations!.forEach((declaration: Declaration) => {
+          if(h.isClass(declaration)) {
+            if(declaration.name === className) {
+              result = _module.path;
+            }
+          }
+        });
+      }
+    });
+
+    return result;
+  }
 }
 
-// const default_fixture = require('../fixtures/default.json');
-// const customElementsJson = new CustomElementsJson(default_fixture);
+const default_fixture = require('../../custom-elements-json-core/fixtures/exports/fixture/custom-elements.json');
+const customElementsJson = new CustomElementsJson(default_fixture);
+// customElementsJson.getInheritanceTree('MyElement');
+console.log(customElementsJson.getInheritanceTree('MyElement'));
 
 export * from './helpers';

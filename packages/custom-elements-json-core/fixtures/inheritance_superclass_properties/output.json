@@ -1,0 +1,91 @@
+{
+  "schemaVersion": "experimental",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "./SuperClass.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "SuperClass",
+          "superclass": {
+            "name": "HTMLElement"
+          },
+          "members": [
+            {
+              "kind": "field",
+              "name": "bar",
+              "type": {
+                "type": "string"
+              },
+              "privacy": "public",
+              "default": "'bar'"
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "SuperClass",
+          "declaration": {
+            "name": "SuperClass",
+            "module": "./SuperClass.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "./my-element.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "MyElement",
+          "superclass": {
+            "name": "SuperClass",
+            "module": "./SuperClass.js"
+          },
+          "members": [
+            {
+              "kind": "field",
+              "name": "foo",
+              "type": {
+                "type": "string"
+              },
+              "privacy": "public",
+              "default": "'foo'"
+            },
+            {
+              "kind": "field",
+              "name": "bar",
+              "type": {
+                "type": "string"
+              },
+              "privacy": "public",
+              "default": "'bar'",
+              "inheritedFrom": {
+                "name": "SuperClass",
+                "module": "./SuperClass.js"
+              }
+            }
+          ],
+          "tagName": "my-element"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "my-element",
+          "declaration": {
+            "name": "MyElement",
+            "module": "./my-element.js"
+          }
+        }
+      ]
+    }
+  ]
+}

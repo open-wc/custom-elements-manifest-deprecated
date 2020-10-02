@@ -2,9 +2,9 @@ import path from 'path';
 import fs from 'fs';
 import globby from 'globby';
 import ts from 'typescript';
-import { Package, Declaration, JavaScriptModule, CustomElement, Export } from 'custom-elements-json/schema';
+import { Package, Declaration, JavaScriptModule, CustomElement, Export, Attribute, ClassMember, Event, MixinDeclaration } from 'custom-elements-json/schema';
 import { ExportType } from './ast/handleExport';
-import { Import } from './ast/handleImport';
+import { Import, isBaremoduleSpecifier } from './ast/handleImport';
 
 import { customElementsJson } from './customElementsJson';
 
@@ -12,6 +12,7 @@ import { handleClass } from './ast/handleClass';
 import { handleCustomElementsDefine } from './ast/handleCustomElementsDefine';
 import { handleExport } from './ast/handleExport';
 import { handleImport } from './ast/handleImport';
+import { getMixin } from './ast/isMixin';
 
 export async function create(packagePath: string): Promise<Package> {
   const modulePaths = await globby([`${packagePath}/**/*.js`]);
@@ -123,6 +124,51 @@ export async function create(packagePath: string): Promise<Package> {
     if(tagName) {
       customElement.tagName = tagName;
     }
+
+    // getInheritance chain
+    const inheritanceChain = customElementsJson.getInheritanceTree(customElement.name);
+    console.log(inheritanceChain);
+
+    inheritanceChain.forEach((klass: any) => {
+      if(klass.name === customElement.name) {
+        return;
+      }
+      // loop through attrs, events, members, add inherited from field, push to og class
+      klass.attributes && klass.attributes.forEach((attr: Attribute) => {
+
+      });
+      klass.events && klass.events.forEach((event: Event) => {
+
+      });
+
+      klass.members && klass.members.forEach((member: ClassMember) => {
+        const moduleForKlass = customElementsJson.getModuleForClass(klass.name);
+        let newMember;
+
+        if(moduleForKlass && isBaremoduleSpecifier(moduleForKlass)) {
+          newMember = {
+            ...member,
+            inheritedFrom: {
+              name: klass.name,
+              package: moduleForKlass
+            }
+          }
+        } else {
+          newMember = {
+            ...member,
+            inheritedFrom: {
+              name: klass.name,
+              module: moduleForKlass
+            }
+          }
+        }
+
+        if(Array.isArray(customElement.members) && customElement.members.length > 0) {
+          customElement.members.push(newMember);
+        }
+      });
+    });
+    console.log(customElementsJson.getInheritanceTree(customElement.name));
   });
 
   delete customElementsJson.imports;
@@ -138,7 +184,7 @@ function visit(source: ts.SourceFile, moduleDoc: JavaScriptModule) {
   function visitNode(node: ts.Node) {
     switch (node.kind) {
       case ts.SyntaxKind.ClassDeclaration:
-        handleClass(node, moduleDoc);
+        handleClass(node, moduleDoc, 'class');
         handleExport((node as ExportType), moduleDoc);
         break;
       case ts.SyntaxKind.PropertyAccessExpression:
@@ -148,8 +194,15 @@ function visit(source: ts.SourceFile, moduleDoc: JavaScriptModule) {
       case ts.SyntaxKind.ExportDeclaration:
       case ts.SyntaxKind.FunctionDeclaration:
       case ts.SyntaxKind.ExportAssignment:
+        const mixin: any = getMixin((node as ts.VariableStatement | ts.FunctionDeclaration));
+        const isMixin = mixin !== false;
+        if(isMixin) {
+          handleClass(mixin, moduleDoc, 'mixin');
+          // make sure it handles nested mixins correctly
+          handleExport((node as ExportType), moduleDoc, mixin.name.text);
+          break;
+        }
         handleExport((node as ExportType), moduleDoc);
-        // handleMixins(node, moduleDoc);
         break;
       case ts.SyntaxKind.ImportDeclaration:
         handleImport(node);

@@ -407,10 +407,12 @@ export interface MixinDeclaration extends ClassLike, FunctionLike {
 
 export interface VariableDeclaration extends PropertyLike {
   kind: 'variable';
+  mixins?: Array<Reference>
 }
 
 export interface FunctionDeclaration extends FunctionLike {
   kind: 'function';
+  mixins?: Array<Reference>
 }
 
 export interface Parameter extends PropertyLike {
