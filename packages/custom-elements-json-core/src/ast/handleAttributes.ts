@@ -50,16 +50,3 @@ export function handleAttributes(node: any, classDoc: CustomElement) {
     classDoc.attributes = attributes;
   }
 }
-
-function visit(source: any, attributes: Attribute[]) {
-  visitNode(source);
-
-  function visitNode(node: any) {
-    switch (node.kind) {
-      case ts.SyntaxKind.CallExpression:
-        break;
-    }
-
-    ts.forEachChild(node, visitNode);
-  }
-}

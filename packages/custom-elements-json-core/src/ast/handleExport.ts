@@ -112,11 +112,6 @@ export function handleExport(node: ExportType, moduleDoc: JavaScriptModule, igno
       name: '',
     };
 
-    const mixins = extractMixins(extractJsDoc(node));
-    if(hasMixins(mixins)) {
-      _declaration.mixins = mixins;
-    }
-
     if(hasExportModifier(node)) {
       node.declarationList.declarations.forEach(declaration => {
         _export = {
@@ -240,11 +235,6 @@ export function handleExport(node: ExportType, moduleDoc: JavaScriptModule, igno
       kind: 'function',
       name: '',
     };
-
-    const mixins = extractMixins(extractJsDoc(node));
-    if(hasMixins(mixins)) {
-      _declaration.mixins = mixins;
-    }
 
     if(hasExportModifier(node)) {
       const isDefault = hasDefaultModifier(node);

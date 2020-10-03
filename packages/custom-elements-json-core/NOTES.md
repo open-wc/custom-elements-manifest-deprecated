@@ -2,9 +2,6 @@
 
 ## General
 
-- Workerize. We can do the TS ast stuff (getting a class and its information) in workers, and await until all workers are done. When all workers are done, we need to link a bunch of stuff together (find superclasses etc)
-- Readme/docs
-
 ## LitElement
 
 ## Polymer 3?
