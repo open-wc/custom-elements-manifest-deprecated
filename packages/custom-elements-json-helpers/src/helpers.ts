@@ -32,6 +32,10 @@ export function isClass(item: Declaration|Export): boolean {
   return item.kind === 'class';
 }
 
+export function isMixin(item: Declaration|Export): boolean {
+  return item.kind === 'mixin';
+}
+
 export function isFunction(item: Declaration|Export): boolean {
   return item.kind === 'function';
 }

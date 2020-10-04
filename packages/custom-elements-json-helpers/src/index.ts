@@ -61,6 +61,12 @@ export class CustomElementsJson {
     });
 
     this.loopAll((item: Export|Declaration) => {
+      if(h.isMixin(item)) {
+        this.#mixins.set(item.name, item);
+      }
+    });
+
+    this.loopAll((item: Export|Declaration) => {
       if(h.isCustomElementExport(item)) {
         this.#tagNames.set(item.name, this.#classes.get((item as CustomElementExport).declaration.name));
 
@@ -76,6 +82,10 @@ export class CustomElementsJson {
 
   getByClassName(className: string): CustomElement {
     return this.#classes.get(className);
+  }
+
+  getByMixinName(className: string): CustomElement {
+    return this.#mixins.get(className);
   }
 
   /** Gets all classes from declarations */
@@ -150,13 +160,17 @@ export class CustomElementsJson {
   // }
 
 
-  // getMixins(){
-  //   const mixins = [];
-  //   for(let[key, val] of this.mixins) {
-  //     mixins.push(val);
-  //   }
-  //   return mixins;
-  // }
+  getMixins(){
+    if(!this.#initialized) {
+      this.init();
+      this.#initialized = true;
+    }
+    const mixins = [];
+    for(const [, val] of this.#mixins) {
+      mixins.push(val);
+    }
+    return mixins;
+  }
 
   getInheritanceTree(className: string) {
     if(!this.#initialized) {
@@ -173,8 +187,7 @@ export class CustomElementsJson {
 
       if(h.hasMixins(klass)) {
         klass.mixins.forEach((mixin: VariableDeclaration|FunctionDeclaration) => {
-          // if a mixin has mixins, add it
-          tree.push(mixin);
+          tree.push(this.#mixins.get(mixin.name));
         });
       }
 
@@ -220,11 +233,35 @@ export class CustomElementsJson {
 
     return result;
   }
+
+  getModuleForMixin(className: string): string | undefined {
+    if(!this.#initialized) {
+      this.init();
+      this.#initialized = true;
+    }
+
+    let result = undefined;
+
+    this.modules.forEach((_module: JavaScriptModule) => {
+      if(h.hasDeclarations(_module)) {
+        _module.declarations!.forEach((declaration: Declaration) => {
+          if(h.isMixin(declaration)) {
+            if(declaration.name === className) {
+              result = _module.path;
+            }
+          }
+        });
+      }
+    });
+
+    return result;
+  }
 }
 
-// const default_fixture = require('../../custom-elements-json-core/fixtures/exports/fixture/custom-elements.json');
+// const default_fixture = require('../../custom-elements-json-core/fixtures/mixins/fixture/custom-elements.json');
 // const customElementsJson = new CustomElementsJson(default_fixture);
-// customElementsJson.getInheritanceTree('MyElement');
+
+// console.log(customElementsJson.getMixins());
 // console.log(customElementsJson.getInheritanceTree('MyElement'));
 
 export * from './helpers';
