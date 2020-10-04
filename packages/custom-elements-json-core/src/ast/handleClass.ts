@@ -12,6 +12,8 @@ import {
   getReturnVal,
   alreadyHasAttributes,
   hasPropertyDecorator,
+  mergeJsDocWithPropAndPush,
+  isValidArray, pushSafe
 } from '../utils';
 
 
@@ -24,6 +26,7 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
     "cssProperties": [],
     "parts": [],
     "slots": [],
+    "members": [],
   }
 
   /** Extract cssProperties, cssParts and slots from JSdoc, if any */
@@ -33,6 +36,15 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
       .forEach(jsDoc => {
         classDoc.cssProperties!.push({
           name: jsDoc.name,
+          description: jsDoc.description.replace('- ', ''),
+        });
+      });
+
+    jsDocs.filter(jsDoc => jsDoc.tag === 'prop' || jsDoc.tag === 'property')
+      .forEach(jsDoc => {
+        classDoc.members!.push({
+          name: jsDoc.name,
+          type: { type: jsDoc.type },
           description: jsDoc.description.replace('- ', ''),
         });
       });
@@ -64,6 +76,10 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
 
   if(classDoc.slots && classDoc.slots.length === 0) {
     delete classDoc.slots;
+  }
+
+  if(classDoc.members && classDoc.members.length === 0) {
+    delete classDoc.members;
   }
 
   handleAttributes(node, classDoc);
@@ -100,7 +116,6 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
   }
 
   if(node.members && node.members.length > 0) {
-    classDoc.members = [];
     const gettersAndSetters: string[] = [];
     const methodDenyList = ['connectedCallback', 'disconnectedCallback', 'attributeChangedCallback', 'adoptedCallback', 'requestUpdate', 'performUpdate', 'shouldUpdate', 'update', 'updated', 'render', 'firstUpdated', 'updateComplete'];
 
@@ -173,7 +188,7 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
 
         method.name = (member.name as ts.Identifier).text;
 
-        classDoc.members!.push(method);
+        classDoc.members = pushSafe(classDoc.members, method);
       }
 
       if (ts.isPropertyDeclaration(member) || ts.isGetAccessor(member) || ts.isSetAccessor(member)) {
@@ -208,7 +223,7 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
                 }
               }
 
-              classDoc.members!.push(classMember);
+              mergeJsDocWithPropAndPush(classDoc, classMember);
             });
             return;
           }
@@ -309,11 +324,12 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
           classMember.default = (member as any).initializer.getText();
         }
 
-        classDoc.members!.push(classMember);
+        /** If prop already exists as a JSDoc comment, merge */
+        mergeJsDocWithPropAndPush(classDoc, classMember);
       }
     });
 
-    classDoc.members.forEach((member: any) => {
+    classDoc.members && classDoc.members.forEach((member: any) => {
       visit(node, member)
     });
   }
