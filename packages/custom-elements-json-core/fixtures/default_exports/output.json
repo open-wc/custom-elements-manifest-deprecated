@@ -16,11 +16,11 @@
         },
         {
           "kind": "function",
-          "name": ""
+          "name": "default"
         },
         {
           "kind": "function",
-          "name": "function2"
+          "name": "default"
         }
       ],
       "exports": [
@@ -36,7 +36,7 @@
           "kind": "js",
           "name": "default",
           "declaration": {
-            "name": "",
+            "name": "default",
             "module": "./my-element.js"
           }
         },
@@ -44,7 +44,7 @@
           "kind": "js",
           "name": "default",
           "declaration": {
-            "name": "function2",
+            "name": "default",
             "module": "./my-element.js"
           }
         },
