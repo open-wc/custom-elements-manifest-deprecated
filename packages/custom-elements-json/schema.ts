@@ -129,6 +129,7 @@ export interface CustomElementExport {
 export type Declaration =
   | ClassDeclaration
   | FunctionDeclaration
+  | MixinDeclaration
   | VariableDeclaration
   | CustomElement;
 
@@ -217,6 +218,8 @@ export interface Attribute {
    */
   type?: Type;
 
+  inheritedFrom?: Reference;
+
   /**
    * The default value of the attribute, if any.
    *
@@ -243,6 +246,8 @@ export interface Event {
    * A markdown description.
    */
   description?: string;
+
+  inheritedFrom?: Reference;
 
   /**
    * The type of the event object that's fired.

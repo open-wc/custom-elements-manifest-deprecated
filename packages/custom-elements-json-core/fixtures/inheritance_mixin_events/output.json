@@ -1,0 +1,107 @@
+{
+  "schemaVersion": "experimental",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "./MyMixin.js",
+      "declarations": [
+        {
+          "kind": "mixin",
+          "description": "",
+          "name": "MyMixin",
+          "events": [
+            {
+              "name": "super",
+              "type": {
+                "type": "Event"
+              }
+            }
+          ],
+          "superclass": {
+            "name": "superclass"
+          },
+          "members": [
+            {
+              "kind": "method",
+              "name": "superfire"
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "MyMixin",
+          "declaration": {
+            "name": "MyMixin",
+            "module": "./MyMixin.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "./my-element.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "MyElement",
+          "events": [
+            {
+              "name": "base",
+              "type": {
+                "type": "Event"
+              }
+            },
+            {
+              "name": "super",
+              "type": {
+                "type": "Event"
+              },
+              "inheritedFrom": {
+                "name": "MyMixin",
+                "module": "./MyMixin.js"
+              }
+            }
+          ],
+          "mixins": [
+            {
+              "name": "MyMixin",
+              "module": "./MyMixin.js"
+            }
+          ],
+          "superclass": {
+            "name": "HTMLElement"
+          },
+          "members": [
+            {
+              "kind": "method",
+              "name": "fire"
+            },
+            {
+              "kind": "method",
+              "name": "superfire",
+              "inheritedFrom": {
+                "name": "MyMixin",
+                "module": "./MyMixin.js"
+              }
+            }
+          ],
+          "tagName": "my-element"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "my-element",
+          "declaration": {
+            "name": "MyElement",
+            "module": "./my-element.js"
+          }
+        }
+      ]
+    }
+  ]
+}

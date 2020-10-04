@@ -11,19 +11,17 @@ export class ExtendedCustomElementsJson extends CustomElementsJson {
   }
 
   setImportsForCurrentModule(imports: Import[]) {
-    this.imports = [...this.imports || [], ...imports];
+    this.imports = [...(this.imports || []), ...imports];
   }
 
   visitCurrentModule(cb: (node: any) => void) {
     visitNode(this.currentModule);
 
     function visitNode(node: ts.Node) {
-      cb(node)
+      cb(node);
       ts.forEachChild(node, visitNode);
     }
   }
 }
-
-
 
 export const customElementsJson = new ExtendedCustomElementsJson();

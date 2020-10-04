@@ -7,9 +7,9 @@
     "url": "https://github.com/open-wc/custom-elements-json.git"
   },
   "scripts": {
+    "format:prettier": "node node_modules/prettier/bin-prettier.js \"**/*.{ts,js,mjs,cjs,md}\" \"**/package.json\" --write --ignore-path .eslintignore"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "@types/chai": "^4.2.11",
     "@types/mocha": "^8.0.01",
