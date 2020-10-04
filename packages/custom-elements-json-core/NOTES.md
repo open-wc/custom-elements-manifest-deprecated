@@ -47,6 +47,7 @@ class MyElement extends HTMLElement {
   prop5: Map<string, PropertyKey>;
   prop6: Map<keyof T, unknown>;
   prop7: string;
+  mutated(mutationRecords: (MutationRecord & { target: HTMLElement })[]): void;
 }
 
 customElements.define('my-element', MyElement);
