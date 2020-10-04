@@ -10,24 +10,14 @@
           "kind": "class",
           "description": "",
           "name": "SuperClass",
+          "attributes": [
+            {
+              "name": "vertical"
+            }
+          ],
           "superclass": {
             "name": "HTMLElement"
-          },
-          "members": [
-            {
-              "kind": "field",
-              "name": "bar",
-              "type": {
-                "type": "string"
-              },
-              "privacy": "public",
-              "default": "'bar'"
-            },
-            {
-              "kind": "method",
-              "name": "overRideableMethod"
-            }
-          ]
+          }
         }
       ],
       "exports": [
@@ -49,38 +39,22 @@
           "kind": "class",
           "description": "",
           "name": "MyElement",
-          "superclass": {
-            "name": "SuperClass",
-            "module": "./SuperClass.js"
-          },
-          "members": [
+          "attributes": [
             {
-              "kind": "field",
-              "name": "foo",
-              "type": {
-                "type": "string"
-              },
-              "privacy": "public",
-              "default": "'foo'"
+              "name": "disabled"
             },
             {
-              "kind": "method",
-              "name": "overRideableMethod"
-            },
-            {
-              "kind": "field",
-              "name": "bar",
-              "type": {
-                "type": "string"
-              },
-              "privacy": "public",
-              "default": "'bar'",
+              "name": "vertical",
               "inheritedFrom": {
                 "name": "SuperClass",
                 "module": "./SuperClass.js"
               }
             }
           ],
+          "superclass": {
+            "name": "SuperClass",
+            "module": "./SuperClass.js"
+          },
           "tagName": "my-element"
         }
       ],

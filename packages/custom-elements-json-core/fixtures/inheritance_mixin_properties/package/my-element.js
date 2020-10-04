@@ -1,6 +1,6 @@
-import { SuperClass } from './SuperClass.js';
+import { MyMixin } from './MyMixin.js';
 
-class MyElement extends SuperClass {
+class MyElement extends MyMixin(HTMLElement) {
   foo = 'foo';
   overRideableMethod(){}
 }

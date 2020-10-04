@@ -13,8 +13,8 @@ export function isValidArray(array: any) {
   return Array.isArray(array) && array.length > 0;
 }
 
-export function pushSafe(array: any[], item: any): any[] {
-  if(isValidArray(array)) {
+export function pushSafe(array: any, item: any): any[] {
+  if (isValidArray(array)) {
     array.push(item);
   } else {
     array = [item];
@@ -26,8 +26,8 @@ export function pushSafe(array: any[], item: any): any[] {
 export function mergeJsDocWithPropAndPush(classDoc: any, classMember: any) {
   const prop = classDoc.members?.find((member: any) => member.name === classMember.name);
   const propAlreadyExists = prop !== undefined;
-  if(propAlreadyExists) {
-    Object.assign(prop, classMember)
+  if (propAlreadyExists) {
+    Object.assign(prop, classMember);
   } else {
     classDoc.members = pushSafe(classDoc.members, classMember);
   }
@@ -222,3 +222,4 @@ export function isImport<T>(C: T | Import): C is Import {
   }
   return false;
 }
+

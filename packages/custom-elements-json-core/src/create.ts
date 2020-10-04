@@ -13,6 +13,7 @@ import fs from 'fs';
 import globby from 'globby';
 import path from 'path';
 import ts from 'typescript';
+
 import { getMixin } from './ast/getMixin';
 import { handleClass } from './ast/handleClass';
 import { handleCustomElementsDefine } from './ast/handleCustomElementsDefine';
@@ -67,6 +68,7 @@ export async function create(packagePath: string): Promise<Package> {
       (declaration): declaration is ClassDeclaration => declaration.kind === 'class',
     );
 
+
     classes.forEach(customElement => {
       if (customElement.superclass && customElement.superclass.name !== 'HTMLElement') {
         const classesAndImports = [...(classes || []), ...(customElementsJson.imports || [])];
@@ -86,6 +88,7 @@ export async function create(packagePath: string): Promise<Package> {
             }
           } else {
             // Superclass declared in local module
+
             customElement.superclass.module = currModule.path;
           }
         }
@@ -95,6 +98,7 @@ export async function create(packagePath: string): Promise<Package> {
           ...(currModule.declarations || []),
           ...(customElementsJson.imports || []),
         ].find(_import => _import.name === mixin.name);
+
 
         if (foundMixin) {
           /**

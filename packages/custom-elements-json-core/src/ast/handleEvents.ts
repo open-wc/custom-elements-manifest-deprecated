@@ -65,6 +65,7 @@ function visit(source: any, events: Event[]) {
               events.push(eventDoc);
             }
 
+
             if (isIdentifier(arg)) {
               customElementsJson.visitCurrentModule(node => {
                 if (isIdentifier(node)) {
@@ -78,6 +79,7 @@ function visit(source: any, events: Event[]) {
                         const firstArg = initializer.arguments?.[0] as any;
                         eventDoc.name = firstArg.text;
                         eventDoc.type = { type: initializer.expression?.getText() };
+
                         events.push(eventDoc);
                       }
                     }
