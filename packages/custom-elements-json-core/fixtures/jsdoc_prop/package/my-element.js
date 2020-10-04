@@ -4,6 +4,7 @@
  * @property {string} prop3 - some description
  * @property {Array} prop4 - some description
  * @property {Object} prop5 - some description
+ * @property {Object} prop6 - jsdoc only
  */
 export class MyElement extends HTMLElement {
   prop1;

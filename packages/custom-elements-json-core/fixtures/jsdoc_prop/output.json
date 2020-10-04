@@ -57,6 +57,13 @@
               "kind": "field",
               "privacy": "public",
               "default": "'bar'"
+            },
+            {
+              "name": "prop6",
+              "type": {
+                "type": "Object"
+              },
+              "description": "jsdoc only"
             }
           ],
           "superclass": {
