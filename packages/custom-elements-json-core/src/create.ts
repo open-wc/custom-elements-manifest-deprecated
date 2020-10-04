@@ -269,13 +269,13 @@ export async function create(packagePath: string): Promise<Package> {
             const newItem = { ...currItem };
 
             /**
-             * If a method is already present in the base class, but we encounter it here,
+             * If an attr, member or is already present in the base class, but we encounter it here,
              * it means that the base has overridden that method from the super class, so we bail
              */
-            const methodIsOverride = (customElement as any)[type]?.some(
+            const itemIsOverridden = (customElement as any)[type]?.some(
               (item: Attribute | Event | ClassMember) => newItem.name === item.name,
             );
-            if (methodIsOverride) {
+            if (itemIsOverridden) {
               return;
             }
 
