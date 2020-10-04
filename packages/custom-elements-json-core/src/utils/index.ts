@@ -13,7 +13,7 @@ export function isValidArray(array: any) {
   return Array.isArray(array) && array.length > 0;
 }
 
-export function pushSafe(array: any[], item: any): any[] {
+export function pushSafe(array: any, item: any): any[] {
   if(isValidArray(array)) {
     array.push(item);
   } else {

@@ -10,22 +10,21 @@
           "kind": "class",
           "description": "",
           "name": "SuperClass",
+          "events": [
+            {
+              "name": "super",
+              "type": {
+                "type": "Event"
+              }
+            }
+          ],
           "superclass": {
             "name": "HTMLElement"
           },
           "members": [
             {
-              "kind": "field",
-              "name": "bar",
-              "type": {
-                "type": "string"
-              },
-              "privacy": "public",
-              "default": "'bar'"
-            },
-            {
               "kind": "method",
-              "name": "overRideableMethod"
+              "name": "superfire"
             }
           ]
         }
@@ -49,32 +48,36 @@
           "kind": "class",
           "description": "",
           "name": "MyElement",
+          "events": [
+            {
+              "name": "base",
+              "type": {
+                "type": "Event"
+              }
+            },
+            {
+              "name": "super",
+              "type": {
+                "type": "Event"
+              },
+              "inheritedFrom": {
+                "name": "SuperClass",
+                "module": "./SuperClass.js"
+              }
+            }
+          ],
           "superclass": {
             "name": "SuperClass",
             "module": "./SuperClass.js"
           },
           "members": [
             {
-              "kind": "field",
-              "name": "foo",
-              "type": {
-                "type": "string"
-              },
-              "privacy": "public",
-              "default": "'foo'"
+              "kind": "method",
+              "name": "fire"
             },
             {
               "kind": "method",
-              "name": "overRideableMethod"
-            },
-            {
-              "kind": "field",
-              "name": "bar",
-              "type": {
-                "type": "string"
-              },
-              "privacy": "public",
-              "default": "'bar'",
+              "name": "superfire",
               "inheritedFrom": {
                 "name": "SuperClass",
                 "module": "./SuperClass.js"

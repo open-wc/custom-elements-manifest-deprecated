@@ -3,7 +3,7 @@ import fs from 'fs';
 import globby from 'globby';
 import ts from 'typescript';
 import { Package, Declaration, JavaScriptModule, CustomElement, Export, Attribute, ClassMember, Event } from 'custom-elements-json/schema';
-import { ExportType } from './utils';
+import { ExportType, isValidArray, pushSafe } from './utils';
 import { Import, isBareModuleSpecifier } from './utils';
 
 import { customElementsJson } from './customElementsJson';
@@ -225,41 +225,36 @@ export async function create(packagePath: string): Promise<Package> {
       if(klass.name === customElement.name) {
         return;
       }
-      // loop through attrs, events, members, add inherited from field, push to og class
-      klass.attributes && klass.attributes.forEach((attr: Attribute) => {
 
-      });
-      klass.events && klass.events.forEach((event: Event) => {
+      ['attributes', 'members', 'events'].forEach((type) => {
+        klass[type] && klass[type].forEach((currItem: Attribute|Event|ClassMember) => {
+          const moduleForKlass = customElementsJson.getModuleForClass(klass.name);
+          const moduleForMixin = customElementsJson.getModuleForMixin(klass.name);
 
-      });
+          const newItem = {...currItem};
 
-      klass.members && klass.members.forEach((member: ClassMember) => {
-        const moduleForKlass = customElementsJson.getModuleForClass(klass.name);
-        let newMember;
+          /**
+           * If a method is already present in the base class, but we encounter it here,
+           * it means that the base has overridden that method from the super class, so we bail
+           */
+          const methodIsOverride = (customElement as any)[type]?.some((item: Attribute|Event|ClassMember) => newItem.name === item.name);
+          if(methodIsOverride) {
+            return;
+          }
 
-        if(moduleForKlass && isBareModuleSpecifier(moduleForKlass)) {
-          newMember = {
-            ...member,
-            inheritedFrom: {
+          if(moduleForKlass && isBareModuleSpecifier(moduleForKlass)) {
+            newItem.inheritedFrom = {
               name: klass.name,
-              package: moduleForKlass
+              package: moduleForKlass || moduleForMixin
+            }
+          } else {
+            newItem.inheritedFrom = {
+              name: klass.name,
+              module: moduleForKlass || moduleForMixin
             }
           }
-        } else {
-          newMember = {
-            ...member,
-            inheritedFrom: {
-              name: klass.name,
-              module: moduleForKlass
-            }
-          }
-        }
-
-        if(Array.isArray(customElement.members) && customElement.members.length > 0) {
-          customElement.members.push(newMember);
-        } else {
-          customElement.members = [newMember];
-        }
+          (customElement as any)[type] = pushSafe((customElement as any)[type], newItem);
+        });
       });
     });
   });

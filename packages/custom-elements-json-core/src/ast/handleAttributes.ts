@@ -24,7 +24,7 @@ export function handleAttributes(node: any, classDoc: CustomElement) {
       if(member.name.getText() === 'observedAttributes') {
         if (ts.isPropertyDeclaration(member)) {
           (member as any).initializer.elements.forEach((element: any) => {
-            if(!attributes.some(attr => attr.name === element.text)) {
+            if(element.text !== undefined && !attributes.some(attr => attr.name === element.text)) {
               attributes.push({
                 name: element.text
               });
@@ -35,7 +35,7 @@ export function handleAttributes(node: any, classDoc: CustomElement) {
         if (ts.isGetAccessor(member)) {
           const returnStatement = (member as any).body.statements.find((statement: any) => statement.kind === ts.SyntaxKind.ReturnStatement);
           returnStatement.expression.elements.forEach((element: any) => {
-            if(!attributes.some(attr => attr.name === element.text)) {
+            if(element.text !== undefined && !attributes.some(attr => attr.name === element.text)) {
               attributes.push({
                 name: element.text
               });

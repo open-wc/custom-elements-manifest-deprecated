@@ -4,14 +4,14 @@
   "modules": [
     {
       "kind": "javascript-module",
-      "path": "./SuperClass.js",
+      "path": "./MyMixin.js",
       "declarations": [
         {
-          "kind": "class",
+          "kind": "mixin",
           "description": "",
-          "name": "SuperClass",
+          "name": "MyMixin",
           "superclass": {
-            "name": "HTMLElement"
+            "name": "superklass"
           },
           "members": [
             {
@@ -33,10 +33,10 @@
       "exports": [
         {
           "kind": "js",
-          "name": "SuperClass",
+          "name": "MyMixin",
           "declaration": {
-            "name": "SuperClass",
-            "module": "./SuperClass.js"
+            "name": "MyMixin",
+            "module": "./MyMixin.js"
           }
         }
       ]
@@ -49,9 +49,14 @@
           "kind": "class",
           "description": "",
           "name": "MyElement",
+          "mixins": [
+            {
+              "name": "MyMixin",
+              "module": "./MyMixin.js"
+            }
+          ],
           "superclass": {
-            "name": "SuperClass",
-            "module": "./SuperClass.js"
+            "name": "HTMLElement"
           },
           "members": [
             {
@@ -76,8 +81,8 @@
               "privacy": "public",
               "default": "'bar'",
               "inheritedFrom": {
-                "name": "SuperClass",
-                "module": "./SuperClass.js"
+                "name": "MyMixin",
+                "module": "./MyMixin.js"
               }
             }
           ],

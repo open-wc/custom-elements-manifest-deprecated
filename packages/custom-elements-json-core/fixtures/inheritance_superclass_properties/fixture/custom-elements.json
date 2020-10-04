@@ -22,6 +22,10 @@
               },
               "privacy": "public",
               "default": "'bar'"
+            },
+            {
+              "kind": "method",
+              "name": "overRideableMethod"
             }
           ]
         }
@@ -60,16 +64,20 @@
               "default": "'foo'"
             },
             {
-              "default": "'bar'",
-              "inheritedFrom": {
-                "module": "./SuperClass.js",
-                "name": "SuperClass"
-              },
+              "kind": "method",
+              "name": "overRideableMethod"
+            },
+            {
               "kind": "field",
               "name": "bar",
-              "privacy": "public",
               "type": {
                 "type": "string"
+              },
+              "privacy": "public",
+              "default": "'bar'",
+              "inheritedFrom": {
+                "name": "SuperClass",
+                "module": "./SuperClass.js"
               }
             }
           ],
