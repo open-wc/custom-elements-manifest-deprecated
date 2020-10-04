@@ -9,8 +9,28 @@ import {
 } from 'custom-elements-json/schema';
 import { JSDoc } from './extractJsDoc';
 
-function isValidArray(array: any) {
+export function isValidArray(array: any) {
   return Array.isArray(array) && array.length > 0;
+}
+
+export function pushSafe(array: any[], item: any): any[] {
+  if(isValidArray(array)) {
+    array.push(item);
+  } else {
+    array = [item];
+  }
+  return array;
+}
+
+/** Merges the jsdoc comment information with found properties registered in a different way */
+export function mergeJsDocWithPropAndPush(classDoc: any, classMember: any) {
+  const prop = classDoc.members?.find((member: any) => member.name === classMember.name);
+  const propAlreadyExists = prop !== undefined;
+  if(propAlreadyExists) {
+    Object.assign(prop, classMember)
+  } else {
+    classDoc.members = pushSafe(classDoc.members, classMember);
+  }
 }
 
 /** CLASS */
