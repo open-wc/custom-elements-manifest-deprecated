@@ -1,0 +1,89 @@
+{
+  "schemaVersion": "experimental",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "./my-element.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "MyElement",
+          "members": [
+            {
+              "name": "prop1",
+              "type": {
+                "type": "boolean"
+              },
+              "description": "some description",
+              "kind": "field",
+              "privacy": "public",
+              "default": "'foo'"
+            },
+            {
+              "name": "prop2",
+              "type": {
+                "type": "number"
+              },
+              "description": "some description",
+              "kind": "field",
+              "privacy": "public"
+            },
+            {
+              "name": "prop3",
+              "type": {
+                "type": "string"
+              },
+              "description": "some description",
+              "kind": "field",
+              "privacy": "public"
+            },
+            {
+              "name": "prop4",
+              "type": {
+                "type": "Array"
+              },
+              "description": "some description",
+              "kind": "field",
+              "privacy": "public"
+            },
+            {
+              "name": "prop5",
+              "type": {
+                "type": "Object"
+              },
+              "description": "some description",
+              "kind": "field",
+              "privacy": "public",
+              "default": "'bar'"
+            }
+          ],
+          "superclass": {
+            "name": "HTMLElement"
+          },
+          "attributes": [
+            {
+              "name": "prop4",
+              "fieldName": "prop4"
+            },
+            {
+              "name": "prop5",
+              "fieldName": "prop5"
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "MyElement",
+          "declaration": {
+            "name": "MyElement",
+            "module": "./my-element.js"
+          }
+        }
+      ]
+    }
+  ]
+}
