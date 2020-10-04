@@ -1,4 +1,3 @@
-import ts from 'typescript';
 import parse from 'comment-parser';
 
 /**

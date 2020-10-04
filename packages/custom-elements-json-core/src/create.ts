@@ -2,9 +2,9 @@ import path from 'path';
 import fs from 'fs';
 import globby from 'globby';
 import ts from 'typescript';
-import { Package, Declaration, JavaScriptModule, CustomElement, Export, Attribute, ClassMember, Event, MixinDeclaration } from 'custom-elements-json/schema';
-import { ExportType } from './ast/handleExport';
-import { Import, isBaremoduleSpecifier } from './ast/handleImport';
+import { Package, Declaration, JavaScriptModule, CustomElement, Export, Attribute, ClassMember, Event } from 'custom-elements-json/schema';
+import { ExportType } from './utils';
+import { Import, isBareModuleSpecifier } from './utils';
 
 import { customElementsJson } from './customElementsJson';
 
@@ -12,7 +12,7 @@ import { handleClass } from './ast/handleClass';
 import { handleCustomElementsDefine } from './ast/handleCustomElementsDefine';
 import { handleExport } from './ast/handleExport';
 import { handleImport } from './ast/handleImport';
-import { getMixin } from './ast/isMixin';
+import { getMixin } from './ast/getMixin';
 
 export async function create(packagePath: string): Promise<Package> {
   const modulePaths = await globby([`${packagePath}/**/*.js`]);
@@ -64,17 +64,17 @@ export async function create(packagePath: string): Promise<Package> {
 
         if(foundSuperclass) {
           // Superclass is imported, but from a bare module specifier
-          if(foundSuperclass.kind && foundSuperclass.isBaremoduleSpecifier) {
+          if(foundSuperclass.kind && foundSuperclass.isBareModuleSpecifier) {
             customElement.superclass.package = foundSuperclass.importPath;
           }
 
           // Superclass is imported, but from a different local module
-          if(foundSuperclass.kind && !foundSuperclass.isBaremoduleSpecifier) {
+          if(foundSuperclass.kind && !foundSuperclass.isBareModuleSpecifier) {
             customElement.superclass.module = foundSuperclass.importPath;
           }
 
           // Superclass declared in local module
-          if(foundSuperclass.isBaremoduleSpecifier === undefined) {
+          if(foundSuperclass.isBareModuleSpecifier === undefined) {
             customElement.superclass.module = currModule.path;
           }
         }
@@ -95,12 +95,12 @@ export async function create(packagePath: string): Promise<Package> {
               const nestedFoundMixin = [...(currModule.declarations || []), ...(customElementsJson.imports || [])].find((_import: Import) => _import.name === mixin.name);
 
               // Mixin is imported from a third party module (bare module specifier)
-              if(nestedFoundMixin.importPath && nestedFoundMixin.isBaremoduleSpecifier) {
+              if(nestedFoundMixin.importPath && nestedFoundMixin.isBareModuleSpecifier) {
                 mixin.package = nestedFoundMixin.importPath;
               }
 
               // Mixin is imported from a different local module
-              if(nestedFoundMixin.importPath && !nestedFoundMixin.isBaremoduleSpecifier) {
+              if(nestedFoundMixin.importPath && !nestedFoundMixin.isBareModuleSpecifier) {
                 mixin.module = nestedFoundMixin.importPath;
               }
 
@@ -113,12 +113,12 @@ export async function create(packagePath: string): Promise<Package> {
             });
           }
           // Mixin is imported from bare module specifier
-          if(foundMixin.importPath && foundMixin.isBaremoduleSpecifier) {
+          if(foundMixin.importPath && foundMixin.isBareModuleSpecifier) {
             mixin.package = foundMixin.importPath;
           }
 
           // Mixin is imported from a different local module
-          if(foundMixin.importPath && !foundMixin.isBaremoduleSpecifier) {
+          if(foundMixin.importPath && !foundMixin.isBareModuleSpecifier) {
             mixin.module = foundMixin.importPath;
           }
 
@@ -237,7 +237,7 @@ export async function create(packagePath: string): Promise<Package> {
         const moduleForKlass = customElementsJson.getModuleForClass(klass.name);
         let newMember;
 
-        if(moduleForKlass && isBaremoduleSpecifier(moduleForKlass)) {
+        if(moduleForKlass && isBareModuleSpecifier(moduleForKlass)) {
           newMember = {
             ...member,
             inheritedFrom: {

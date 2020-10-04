@@ -1,104 +1,15 @@
 
-import { JavaScriptModule, Export, VariableDeclaration, FunctionDeclaration, ClassDeclaration } from "custom-elements-json/schema";
+import { JavaScriptModule, Export, VariableDeclaration, FunctionDeclaration } from "custom-elements-json/schema";
 import ts from "typescript";
-import { extractJsDoc, JSDoc } from '../utils/extractJsDoc';
-
-export type ExportType = ts.VariableStatement
-  | ts.ExportDeclaration
-  | ts.FunctionDeclaration
-  | ts.ClassDeclaration
-  | ts.ExportAssignment;
-
-function hasExportModifier(node: ExportType): boolean {
-  if(Array.isArray(node.modifiers) && node.modifiers.length > 0) {
-    if(node.modifiers.some(mod => mod.kind === ts.SyntaxKind.ExportKeyword)) {
-      return true;
-    }
-  }
-  return false;
-}
-
-function hasDefaultModifier(node: ExportType): boolean {
-  if(Array.isArray(node.modifiers) && node.modifiers.length > 0) {
-    if(node.modifiers.some(mod => mod.kind === ts.SyntaxKind.DefaultKeyword)) {
-      return true;
-    }
-  }
-  return false;
-}
-
-function safePush(
-    _export: Export | null,
-    _declaration: VariableDeclaration | FunctionDeclaration | ClassDeclaration | null,
-    moduleDoc: JavaScriptModule,
-    ignore: string | undefined
-  ) {
-  if(_export) {
-    if(Array.isArray(moduleDoc.exports) && moduleDoc.exports.length > 0) {
-      moduleDoc.exports.push(_export);
-    } else {
-      moduleDoc.exports = [_export];
-    }
-  }
-
-  if(_declaration) {
-    if(ignore !== undefined && _declaration.name === ignore) return;
-    if(Array.isArray(moduleDoc.declarations) && moduleDoc.declarations.length > 0) {
-      moduleDoc.declarations.push(_declaration);
-    } else {
-      moduleDoc.declarations = [_declaration]
-    }
-  }
-}
-
-/**
- *
- * @example export { var1, var2 };
- */
-function hasNamedExports(node: ts.ExportDeclaration): boolean {
-  if(
-    Array.isArray((node as any).exportClause?.elements) &&
-    (node as any).exportClause.elements.length > 0
-  ) {
-    return true;
-  }
-  return false;
-}
-
-/**
- * @example export { var1, var2 } from 'foo';
- */
-function isReexport(node: ts.ExportDeclaration): boolean {
-  if(
-    node.moduleSpecifier !== undefined
-  ) {
-    return true;
-  }
-  return false;
-}
-
-function isBareModuleSpecifier(path: string): boolean {
-  return !path.startsWith("'./");
-}
-
-interface Mixin {
-  name: string;
-}
-
-function extractMixins(jsDocs: JSDoc[]): Mixin[] {
-  if(Array.isArray(jsDocs) && jsDocs.length > 0) {
-    return jsDocs.filter(jsDoc => jsDoc.tag === 'mixin')
-      .map((jsDoc) => ({
-        name: jsDoc.type
-      }));
-  } else {
-    return [];
-  }
-}
-
-function hasMixins(mixins: Mixin[]) {
-  return Array.isArray(mixins) && mixins.length > 0;
-}
+import {
+  ExportType,
+  hasExportModifier,
+  hasDefaultModifier,
+  safePush,
+  hasNamedExports,
+  isReexport,
+  isBareModuleSpecifier
+} from '../utils';
 
 export function handleExport(node: ExportType, moduleDoc: JavaScriptModule, ignore: string | undefined = undefined) {
   if(node.kind === ts.SyntaxKind.VariableStatement) {

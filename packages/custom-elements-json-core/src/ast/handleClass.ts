@@ -1,63 +1,22 @@
 import ts from 'typescript';
 import { handleEvents } from './handleEvents';
 import { handleAttributes } from './handleAttributes';
-import { ClassMember, CustomElement, JavaScriptModule, Reference, ClassMethod, Attribute, MixinDeclaration } from 'custom-elements-json/schema';
+import { ClassMember, JavaScriptModule, Reference, ClassMethod, Attribute } from 'custom-elements-json/schema';
 import { extractJsDoc } from '../utils/extractJsDoc';
+import {
+  hasModifiers,
+  hasJsDoc,
+  hasStaticKeyword,
+  isAlsoProperty,
+  getAttrName,
+  getReturnVal,
+  alreadyHasAttributes,
+  hasPropertyDecorator,
+} from '../utils';
 
-
-function hasModifiers(node: any): boolean {
-  return Array.isArray(node.modifiers) && node.modifiers.length > 0;
-}
-
-function hasJsDoc(node: any): boolean {
-  return Array.isArray(node.jsDoc) && node.jsDoc.length > 0;
-}
-
-function hasStaticKeyword(node: any): boolean {
-  return !!node?.modifiers?.find((mod: any) => mod.kind === ts.SyntaxKind.StaticKeyword);
-}
-
-function isAlsoProperty(node: any) {
-  let result = true;
-  ((node.initializer as ts.ObjectLiteralExpression) || node).properties.forEach((property: any) => {
-    if((property.name as ts.Identifier).text === 'attribute' && property.initializer.kind === ts.SyntaxKind.FalseKeyword) {
-      result = false;
-    }
-  })
-  return result;
-}
-
-function getAttrName(node: any): string | undefined {
-  let result = undefined;
-  ((node.initializer as ts.ObjectLiteralExpression) || node).properties.forEach((property: any) => {
-    if((property.name as ts.Identifier).text === 'attribute' && property.initializer.kind !== ts.SyntaxKind.FalseKeyword) {
-      result = property.initializer.text;
-    }
-  })
-  return result;
-}
-
-function getReturnVal(node: any) {
-  if(ts.isGetAccessor(node)) {
-    return (node.body!.statements.find((statement: any) => statement.kind === ts.SyntaxKind.ReturnStatement) as ts.ReturnStatement).expression;
-  } else {
-    return node.initializer;
-  }
-}
-
-function alreadyHasAttributes(doc: CustomElement): boolean {
-  return Array.isArray(doc.attributes);
-}
-
-function hasPropertyDecorator(node: ts.PropertyDeclaration | ts.GetAccessorDeclaration | ts.SetAccessorDeclaration): boolean {
-  return Array.isArray(node.decorators) &&
-    node.decorators.length > 0 &&
-    node.decorators.some((decorator: ts.Decorator) => ts.isDecorator(decorator));
-}
 
 export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class'|'mixin') {
 
-  // console.log(node.name);
   const classDoc: any = {
     "kind": kind,
     "description": "",
