@@ -1,7 +1,7 @@
 import ts from 'typescript';
 import { handleEvents } from './handleEvents';
 import { handleAttributes } from './handleAttributes';
-import { ClassMember, JavaScriptModule, Reference, ClassMethod, Attribute, MixinDeclaration } from 'custom-elements-json/schema';
+import { ClassMember, JavaScriptModule, Reference, ClassMethod, Attribute } from 'custom-elements-json/schema';
 import { extractJsDoc } from '../utils/extractJsDoc';
 import {
   hasModifiers,
@@ -17,7 +17,6 @@ import {
 
 export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class'|'mixin') {
 
-  // console.log(node.name);
   const classDoc: any = {
     "kind": kind,
     "description": "",

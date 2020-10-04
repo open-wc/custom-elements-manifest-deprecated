@@ -222,9 +222,9 @@ export class CustomElementsJson {
   }
 }
 
-const default_fixture = require('../../custom-elements-json-core/fixtures/exports/fixture/custom-elements.json');
-const customElementsJson = new CustomElementsJson(default_fixture);
+// const default_fixture = require('../../custom-elements-json-core/fixtures/exports/fixture/custom-elements.json');
+// const customElementsJson = new CustomElementsJson(default_fixture);
 // customElementsJson.getInheritanceTree('MyElement');
-console.log(customElementsJson.getInheritanceTree('MyElement'));
+// console.log(customElementsJson.getInheritanceTree('MyElement'));
 
 export * from './helpers';

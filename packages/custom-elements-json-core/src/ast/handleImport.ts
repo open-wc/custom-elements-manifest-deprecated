@@ -9,7 +9,8 @@ import {
 } from '../utils'
 
 /**
- * Handles the imports for a module, so they can later be resolved
+ * Gathers the imports for a module, so that declarations can later be resolved
+ * Imports are removed from the customElementsJson object after the link phase
  */
 export function handleImport(node: any) {
   const imports: Import[] = [];

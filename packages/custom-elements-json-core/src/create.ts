@@ -2,7 +2,7 @@ import path from 'path';
 import fs from 'fs';
 import globby from 'globby';
 import ts from 'typescript';
-import { Package, Declaration, JavaScriptModule, CustomElement, Export, Attribute, ClassMember, Event, MixinDeclaration } from 'custom-elements-json/schema';
+import { Package, Declaration, JavaScriptModule, CustomElement, Export, Attribute, ClassMember, Event } from 'custom-elements-json/schema';
 import { ExportType } from './utils';
 import { Import, isBareModuleSpecifier } from './utils';
 
