@@ -130,6 +130,7 @@ export type Declaration =
   | ClassDeclaration
   | FunctionDeclaration
   | VariableDeclaration
+  | MixinDeclaration
   | CustomElement;
 
 /**
