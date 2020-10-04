@@ -1,6 +1,6 @@
 import ts from 'typescript';
 import { CustomElementsJson } from '@custom-elements-json/helpers';
-import { Import } from './ast/handleImport';
+import { Import } from './utils';
 
 export class ExtendedCustomElementsJson extends CustomElementsJson {
   currentModule: any;
