@@ -95,6 +95,7 @@ class MyElement extends LitElement {
 | JSDoc                         | Description                                        |
 | ----------------------------- | -------------------------------------------------- |
 | `@attr`, <br>`@attribute`     | Documents attributes for your custom element       |
+| `@prop`, <br>`@property `     | Documents properties for your custom element       |
 | `@csspart`                    | Documents your custom elements CSS Shadow Parts    |
 | `@slot`                       | Documents the Slots used in your components        |
 | `@cssprop`,<br>`@cssproperty` | Documents CSS Custom Properties for your component |
@@ -111,6 +112,9 @@ class MyElement extends LitElement {
 
  * @cssprop --text-color - Controls the color of foo
  * @cssproperty --background-color - Controls the color of bar
+ * 
+ * @prop {boolean} prop1 - some description
+ * @property {number} prop2 - some description
  * 
  * @fires custom-event - some description for custom-event
  * @fires {Event} typed-event - some description for typed-event
