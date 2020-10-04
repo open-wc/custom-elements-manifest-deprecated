@@ -8,5 +8,5 @@ This implementation is at a very early stage of development, and there will prob
 
 ## Packages
 
-- [`@custom-elements-json/core`](./packages/custom-elements-json-helpers)
+- [`@custom-elements-json/core`](./packages/custom-elements-json-core)
 - [`@custom-elements-json/helpers`](./packages/custom-elements-json-helpers)

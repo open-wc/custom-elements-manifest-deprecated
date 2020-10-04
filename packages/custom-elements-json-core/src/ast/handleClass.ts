@@ -377,7 +377,7 @@ function visit(source: ts.SourceFile, member: any) {
           .filter((statement: any) => statement.expression.kind === ts.SyntaxKind.BinaryExpression)
           .forEach((statement: any) => {
             // @TODO get jsdoc types
-            if(statement.expression.left.name.getText() === member.name) {
+            if(statement.expression.left.name.getText() === member.name && member.kind === 'field') {
               member.default = statement.expression.right.getText();
             }
           });

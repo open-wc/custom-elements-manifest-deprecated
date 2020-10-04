@@ -56,6 +56,10 @@
               "name": "prop8",
               "static": true,
               "privacy": "public"
+            },
+            {
+              "kind": "method",
+              "name": "__onClick"
             }
           ],
           "tagName": "my-element"

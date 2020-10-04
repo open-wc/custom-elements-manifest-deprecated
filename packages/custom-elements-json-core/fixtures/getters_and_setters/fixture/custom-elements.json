@@ -3,14 +3,16 @@
   "readme": "",
   "modules": [
     {
-      "path": "./my-element.js",
       "kind": "javascript-module",
+      "path": "./my-element.js",
       "declarations": [
         {
           "kind": "class",
           "description": "",
           "name": "MyElement",
-          "superclass": { "name": "HTMLElement" },
+          "superclass": {
+            "name": "HTMLElement"
+          },
           "members": [
             {
               "kind": "field",
@@ -54,6 +56,10 @@
               "name": "prop8",
               "static": true,
               "privacy": "public"
+            },
+            {
+              "kind": "method",
+              "name": "__onClick"
             }
           ],
           "tagName": "my-element"

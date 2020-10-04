@@ -39,7 +39,10 @@ class MyElement extends HTMLElement {
     super();
     this.prop1 = 'foo';
     this.prop2 = 1;
+    this.__onClick = this.__onClick.bind(this); // should not show up as default value
   }
+
+  __onClick();
 }
 
 customElements.define('my-element', MyElement);
