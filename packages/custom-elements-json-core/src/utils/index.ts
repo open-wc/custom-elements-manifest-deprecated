@@ -29,11 +29,7 @@ export function mergeJsDocWithPropAndPush(classDoc: any, classMember: any) {
   if(propAlreadyExists) {
     Object.assign(prop, classMember)
   } else {
-    if(isValidArray(classDoc.members)) {
-      classDoc.members!.push(classMember);
-    } else {
-      classDoc.members = [classMember];
-    }
+    classDoc.members = pushSafe(classDoc.members, classMember);
   }
 }
 
