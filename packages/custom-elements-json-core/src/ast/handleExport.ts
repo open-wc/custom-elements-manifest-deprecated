@@ -243,7 +243,7 @@ export function handleExport(node: ExportType, moduleDoc: JavaScriptModule, igno
         kind: "js",
         name: isDefault ? "default" : node.name?.getText() || "",
         declaration: {
-          name: node.name?.getText() || "",
+          name: isDefault ? "default" : node.name?.getText() || "",
           module: moduleDoc.path
         }
       }
@@ -252,7 +252,7 @@ export function handleExport(node: ExportType, moduleDoc: JavaScriptModule, igno
       _declaration = {
         ..._declaration,
         kind: 'function',
-        name: node.name?.getText() || "",
+        name: isDefault ? "default" : node.name?.getText() || "",
       }
 
       safePush(_export, _declaration, moduleDoc, ignore);
