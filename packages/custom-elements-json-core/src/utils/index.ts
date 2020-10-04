@@ -5,7 +5,7 @@ import {
   FunctionDeclaration,
   ClassDeclaration,
   JavaScriptModule,
-  Export
+  Export,
 } from 'custom-elements-json/schema';
 import { JSDoc } from './extractJsDoc';
 
@@ -14,7 +14,7 @@ export function isValidArray(array: any) {
 }
 
 export function pushSafe(array: any, item: any): any[] {
-  if(isValidArray(array)) {
+  if (isValidArray(array)) {
     array.push(item);
   } else {
     array = [item];
@@ -26,8 +26,8 @@ export function pushSafe(array: any, item: any): any[] {
 export function mergeJsDocWithPropAndPush(classDoc: any, classMember: any) {
   const prop = classDoc.members?.find((member: any) => member.name === classMember.name);
   const propAlreadyExists = prop !== undefined;
-  if(propAlreadyExists) {
-    Object.assign(prop, classMember)
+  if (propAlreadyExists) {
+    Object.assign(prop, classMember);
   } else {
     classDoc.members = pushSafe(classDoc.members, classMember);
   }
@@ -49,26 +49,34 @@ export function hasStaticKeyword(node: any): boolean {
 export function isAlsoProperty(node: any) {
   let result = true;
   ((node.initializer as ts.ObjectLiteralExpression) || node).properties.forEach((property: any) => {
-    if((property.name as ts.Identifier).text === 'attribute' && property.initializer.kind === ts.SyntaxKind.FalseKeyword) {
+    if (
+      (property.name as ts.Identifier).text === 'attribute' &&
+      property.initializer.kind === ts.SyntaxKind.FalseKeyword
+    ) {
       result = false;
     }
-  })
+  });
   return result;
 }
 
 export function getAttrName(node: any): string | undefined {
   let result = undefined;
   ((node.initializer as ts.ObjectLiteralExpression) || node).properties.forEach((property: any) => {
-    if((property.name as ts.Identifier).text === 'attribute' && property.initializer.kind !== ts.SyntaxKind.FalseKeyword) {
+    if (
+      (property.name as ts.Identifier).text === 'attribute' &&
+      property.initializer.kind !== ts.SyntaxKind.FalseKeyword
+    ) {
       result = property.initializer.text;
     }
-  })
+  });
   return result;
 }
 
 export function getReturnVal(node: any) {
-  if(ts.isGetAccessor(node)) {
-    return (node.body!.statements.find((statement: any) => statement.kind === ts.SyntaxKind.ReturnStatement) as ts.ReturnStatement).expression;
+  if (ts.isGetAccessor(node)) {
+    return (node.body!.statements.find(
+      (statement: any) => statement.kind === ts.SyntaxKind.ReturnStatement,
+    ) as ts.ReturnStatement).expression;
   } else {
     return node.initializer;
   }
@@ -78,21 +86,26 @@ export function alreadyHasAttributes(doc: CustomElement): boolean {
   return isValidArray(doc.attributes);
 }
 
-export function hasPropertyDecorator(node: ts.PropertyDeclaration | ts.GetAccessorDeclaration | ts.SetAccessorDeclaration): boolean {
-  return isValidArray(node.decorators) &&
-    node.decorators!.some((decorator: ts.Decorator) => ts.isDecorator(decorator));
+export function hasPropertyDecorator(
+  node: ts.PropertyDeclaration | ts.GetAccessorDeclaration | ts.SetAccessorDeclaration,
+): boolean {
+  return (
+    isValidArray(node.decorators) &&
+    node.decorators!.some((decorator: ts.Decorator) => ts.isDecorator(decorator))
+  );
 }
 
 /** EXPORTS */
-export type ExportType = ts.VariableStatement
+export type ExportType =
+  | ts.VariableStatement
   | ts.ExportDeclaration
   | ts.FunctionDeclaration
   | ts.ClassDeclaration
   | ts.ExportAssignment;
 
 export function hasExportModifier(node: ExportType): boolean {
-  if(isValidArray(node.modifiers)) {
-    if(node.modifiers!.some(mod => mod.kind === ts.SyntaxKind.ExportKeyword)) {
+  if (isValidArray(node.modifiers)) {
+    if (node.modifiers!.some(mod => mod.kind === ts.SyntaxKind.ExportKeyword)) {
       return true;
     }
   }
@@ -100,8 +113,8 @@ export function hasExportModifier(node: ExportType): boolean {
 }
 
 export function hasDefaultModifier(node: ExportType): boolean {
-  if(isValidArray(node.modifiers)) {
-    if(node.modifiers!.some(mod => mod.kind === ts.SyntaxKind.DefaultKeyword)) {
+  if (isValidArray(node.modifiers)) {
+    if (node.modifiers!.some(mod => mod.kind === ts.SyntaxKind.DefaultKeyword)) {
       return true;
     }
   }
@@ -109,25 +122,25 @@ export function hasDefaultModifier(node: ExportType): boolean {
 }
 
 export function safePush(
-    _export: Export | null,
-    _declaration: VariableDeclaration | FunctionDeclaration | ClassDeclaration | null,
-    moduleDoc: JavaScriptModule,
-    ignore: string | undefined
-  ) {
-  if(_export) {
-    if(isValidArray(moduleDoc.exports)) {
+  _export: Export | null,
+  _declaration: VariableDeclaration | FunctionDeclaration | ClassDeclaration | null,
+  moduleDoc: JavaScriptModule,
+  ignore: string | undefined,
+) {
+  if (_export) {
+    if (isValidArray(moduleDoc.exports)) {
       moduleDoc.exports!.push(_export);
     } else {
       moduleDoc.exports = [_export];
     }
   }
 
-  if(_declaration) {
-    if(ignore !== undefined && _declaration.name === ignore) return;
-    if(isValidArray(moduleDoc.declarations)) {
+  if (_declaration) {
+    if (ignore !== undefined && _declaration.name === ignore) return;
+    if (isValidArray(moduleDoc.declarations)) {
       moduleDoc.declarations.push(_declaration);
     } else {
-      moduleDoc.declarations = [_declaration]
+      moduleDoc.declarations = [_declaration];
     }
   }
 }
@@ -137,7 +150,7 @@ export function safePush(
  * @example export { var1, var2 };
  */
 export function hasNamedExports(node: ts.ExportDeclaration): boolean {
-  if(isValidArray((node as any).exportClause?.elements)) {
+  if (isValidArray((node as any).exportClause?.elements)) {
     return true;
   }
   return false;
@@ -147,9 +160,7 @@ export function hasNamedExports(node: ts.ExportDeclaration): boolean {
  * @example export { var1, var2 } from 'foo';
  */
 export function isReexport(node: ts.ExportDeclaration): boolean {
-  if(
-    node.moduleSpecifier !== undefined
-  ) {
+  if (node.moduleSpecifier !== undefined) {
     return true;
   }
   return false;
@@ -160,10 +171,11 @@ export interface Mixin {
 }
 
 export function extractMixins(jsDocs: JSDoc[]): Mixin[] {
-  if(isValidArray(jsDocs)) {
-    return jsDocs.filter(jsDoc => jsDoc.tag === 'mixin')
-      .map((jsDoc) => ({
-        name: jsDoc.type
+  if (isValidArray(jsDocs)) {
+    return jsDocs
+      .filter(jsDoc => jsDoc.tag === 'mixin')
+      .map(jsDoc => ({
+        name: jsDoc.type,
       }));
   } else {
     return [];
@@ -177,7 +189,8 @@ export function hasMixins(mixins: Mixin[]) {
 /** IMPORTS */
 
 /** @example import defaultExport from 'foo'; */
-export function hasDefaultImport(node: ts.ImportDeclaration): boolean { // eslint-disable-line
+export function hasDefaultImport(node: ts.ImportDeclaration): boolean {
+  // eslint-disable-line
   return !!node?.importClause?.name;
 }
 
@@ -192,12 +205,12 @@ export function hasAggregatingImport(node: any): boolean {
 }
 
 export function isBareModuleSpecifier(specifier: string): boolean {
-  return !!(specifier.replace(/'/g, ''))[0].match(/[a-zA-Z]/g);
+  return !!specifier.replace(/'/g, '')[0].match(/[a-zA-Z]/g);
 }
 
 export interface Import {
   name: string;
-  kind: "default" | "named" | "aggregate",
+  kind: 'default' | 'named' | 'aggregate';
   importPath: string;
-  isBareModuleSpecifier: boolean
+  isBareModuleSpecifier: boolean;
 }

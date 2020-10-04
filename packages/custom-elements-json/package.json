@@ -2,22 +2,22 @@
   "name": "custom-elements-json",
   "version": "0.0.0",
   "description": "A file format for describing custom elements",
+  "license": "BSD-3-Clause",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/webcomponents/custom-elements-json.git"
+  },
+  "author": "",
+  "homepage": "https://github.com/webcomponents/custom-elements-json#readme",
+  "bugs": {
+    "url": "https://github.com/webcomponents/custom-elements-json/issues"
+  },
   "main": "index.js",
   "scripts": {
     "format": "prettier schema.ts --write",
     "generate-json-schema": "typescript-json-schema --required --ignoreErrors schema.ts -o schema.json Package"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/webcomponents/custom-elements-json.git"
-  },
   "keywords": [],
-  "author": "",
-  "license": "BSD-3-Clause",
-  "bugs": {
-    "url": "https://github.com/webcomponents/custom-elements-json/issues"
-  },
-  "homepage": "https://github.com/webcomponents/custom-elements-json#readme",
   "devDependencies": {
     "prettier": "^2.1.2",
     "typescript": "^3.7.2",

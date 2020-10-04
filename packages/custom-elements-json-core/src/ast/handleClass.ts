@@ -1,7 +1,13 @@
 import ts from 'typescript';
 import { handleEvents } from './handleEvents';
 import { handleAttributes } from './handleAttributes';
-import { ClassMember, JavaScriptModule, Reference, ClassMethod, Attribute } from 'custom-elements-json/schema';
+import {
+  ClassMember,
+  JavaScriptModule,
+  Reference,
+  ClassMethod,
+  Attribute,
+} from 'custom-elements-json/schema';
 import { extractJsDoc } from '../utils/extractJsDoc';
 import {
   hasModifiers,
@@ -13,26 +19,26 @@ import {
   alreadyHasAttributes,
   hasPropertyDecorator,
   mergeJsDocWithPropAndPush,
-  isValidArray, pushSafe
+  isValidArray,
+  pushSafe,
 } from '../utils';
 
-
-export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class'|'mixin') {
-
+export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class' | 'mixin') {
   const classDoc: any = {
-    "kind": kind,
-    "description": "",
-    "name": node.name.getText(),
-    "cssProperties": [],
-    "parts": [],
-    "slots": [],
-    "members": [],
-  }
+    kind: kind,
+    description: '',
+    name: node.name.getText(),
+    cssProperties: [],
+    parts: [],
+    slots: [],
+    members: [],
+  };
 
   /** Extract cssProperties, cssParts and slots from JSdoc, if any */
   const jsDocs = extractJsDoc(node);
-  if(Array.isArray(jsDocs) && jsDocs.length > 0) {
-    jsDocs.filter(jsDoc => jsDoc.tag === 'cssprop' || jsDoc.tag === 'cssproperty')
+  if (Array.isArray(jsDocs) && jsDocs.length > 0) {
+    jsDocs
+      .filter(jsDoc => jsDoc.tag === 'cssprop' || jsDoc.tag === 'cssproperty')
       .forEach(jsDoc => {
         classDoc.cssProperties!.push({
           name: jsDoc.name,
@@ -40,7 +46,8 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
         });
       });
 
-    jsDocs.filter(jsDoc => jsDoc.tag === 'prop' || jsDoc.tag === 'property')
+    jsDocs
+      .filter(jsDoc => jsDoc.tag === 'prop' || jsDoc.tag === 'property')
       .forEach(jsDoc => {
         classDoc.members!.push({
           name: jsDoc.name,
@@ -49,7 +56,8 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
         });
       });
 
-    jsDocs.filter(jsDoc => jsDoc.tag === 'csspart')
+    jsDocs
+      .filter(jsDoc => jsDoc.tag === 'csspart')
       .forEach(jsDoc => {
         classDoc.parts!.push({
           name: jsDoc.name,
@@ -57,7 +65,8 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
         });
       });
 
-    jsDocs.filter(jsDoc => jsDoc.tag === 'slot')
+    jsDocs
+      .filter(jsDoc => jsDoc.tag === 'slot')
       .forEach(jsDoc => {
         classDoc.slots!.push({
           name: jsDoc.name === '-' ? '' : jsDoc.name,
@@ -66,26 +75,26 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
       });
   }
 
-  if(classDoc.cssProperties && classDoc.cssProperties.length === 0) {
+  if (classDoc.cssProperties && classDoc.cssProperties.length === 0) {
     delete classDoc.cssProperties;
   }
 
-  if(classDoc.parts && classDoc.parts.length === 0) {
+  if (classDoc.parts && classDoc.parts.length === 0) {
     delete classDoc.parts;
   }
 
-  if(classDoc.slots && classDoc.slots.length === 0) {
+  if (classDoc.slots && classDoc.slots.length === 0) {
     delete classDoc.slots;
   }
 
-  if(classDoc.members && classDoc.members.length === 0) {
+  if (classDoc.members && classDoc.members.length === 0) {
     delete classDoc.members;
   }
 
   handleAttributes(node, classDoc);
   handleEvents(node, classDoc);
 
-  if(node.heritageClauses?.length > 0) {
+  if (node.heritageClauses?.length > 0) {
     node.heritageClauses.forEach((clause: any) => {
       clause.types.forEach((type: any) => {
         const mixins: Reference[] = [];
@@ -93,9 +102,9 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
         let superClass;
 
         // gather mixin calls
-        if(ts.isCallExpression(node)) {
+        if (ts.isCallExpression(node)) {
           mixins.push({ name: node.expression.getText() });
-          while(ts.isCallExpression(node.arguments[0])) {
+          while (ts.isCallExpression(node.arguments[0])) {
             mixins.push({ name: node.arguments[0].expression.getText() });
             node = node.arguments[0];
           }
@@ -104,20 +113,33 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
           superClass = node.text;
         }
 
-        if(mixins.length > 0 ) {
+        if (mixins.length > 0) {
           classDoc.mixins = mixins;
         }
 
         classDoc.superclass = {
-          "name": superClass,
-        }
-      })
-    })
+          name: superClass,
+        };
+      });
+    });
   }
 
-  if(node.members && node.members.length > 0) {
+  if (node.members && node.members.length > 0) {
     const gettersAndSetters: string[] = [];
-    const methodDenyList = ['connectedCallback', 'disconnectedCallback', 'attributeChangedCallback', 'adoptedCallback', 'requestUpdate', 'performUpdate', 'shouldUpdate', 'update', 'updated', 'render', 'firstUpdated', 'updateComplete'];
+    const methodDenyList = [
+      'connectedCallback',
+      'disconnectedCallback',
+      'attributeChangedCallback',
+      'adoptedCallback',
+      'requestUpdate',
+      'performUpdate',
+      'shouldUpdate',
+      'update',
+      'updated',
+      'render',
+      'firstUpdated',
+      'updateComplete',
+    ];
 
     /**
      * CLASS METHODS
@@ -135,44 +157,44 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
        * return
        *    type
        *    description
-      */
-      if(ts.isMethodDeclaration(member)) {
-        if(methodDenyList.includes((member.name as ts.Identifier).text)) {
+       */
+      if (ts.isMethodDeclaration(member)) {
+        if (methodDenyList.includes((member.name as ts.Identifier).text)) {
           return;
         }
 
         const method: ClassMethod = {
           kind: 'method',
-          name:''
-        }
+          name: '',
+        };
 
-        if(hasModifiers(member)) {
+        if (hasModifiers(member)) {
           member.modifiers!.forEach(modifier => {
-            switch(modifier.kind) {
+            switch (modifier.kind) {
               case ts.SyntaxKind.StaticKeyword:
                 method.static = true;
-                // eslint-disable-next-line
+              // eslint-disable-next-line
               case ts.SyntaxKind.PublicKeyword:
-                method.privacy = 'public'
+                method.privacy = 'public';
                 break;
               case ts.SyntaxKind.PrivateKeyword:
-                method.privacy = 'private'
+                method.privacy = 'private';
                 break;
               case ts.SyntaxKind.ProtectedKeyword:
-                method.privacy = 'protected'
+                method.privacy = 'protected';
                 break;
             }
           });
         }
 
-        if(ts.isPrivateIdentifier(member.name)) {
+        if (ts.isPrivateIdentifier(member.name)) {
           method.privacy = 'private';
         }
 
-        if(hasJsDoc(member)) {
+        if (hasJsDoc(member)) {
           const jsDoc = extractJsDoc(member);
           jsDoc.forEach(jsDoc => {
-            switch(jsDoc.tag) {
+            switch (jsDoc.tag) {
               case 'public':
                 method.privacy = 'public';
                 break;
@@ -191,35 +213,38 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
         classDoc.members = pushSafe(classDoc.members, method);
       }
 
-      if (ts.isPropertyDeclaration(member) || ts.isGetAccessor(member) || ts.isSetAccessor(member)) {
-
+      if (
+        ts.isPropertyDeclaration(member) ||
+        ts.isGetAccessor(member) ||
+        ts.isSetAccessor(member)
+      ) {
         const memberDenyList = ['styles', 'observedAttributes'];
 
         // LitElement properties
-        if(hasStaticKeyword(member)) {
-          if(memberDenyList.includes((member.name as ts.Identifier).text)) {
+        if (hasStaticKeyword(member)) {
+          if (memberDenyList.includes((member.name as ts.Identifier).text)) {
             return;
           }
 
-          if((member.name as ts.Identifier).text === 'properties') {
+          if ((member.name as ts.Identifier).text === 'properties') {
             const returnVal = getReturnVal(member);
             returnVal.properties.forEach((property: ts.PropertyAssignment) => {
               const classMember: ClassMember = {
                 kind: 'field',
                 name: property.name.getText(),
                 privacy: 'public',
-              }
+              };
 
-              if(isAlsoProperty(property)) {
+              if (isAlsoProperty(property)) {
                 const attribute: Attribute = {
                   name: getAttrName(property) || property.name.getText(),
-                  fieldName: property.name.getText()
-                }
+                  fieldName: property.name.getText(),
+                };
 
-                if(alreadyHasAttributes(classDoc)) {
+                if (alreadyHasAttributes(classDoc)) {
                   classDoc.attributes!.push(attribute);
                 } else {
-                  classDoc.attributes = [attribute]
+                  classDoc.attributes = [attribute];
                 }
               }
 
@@ -231,96 +256,101 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
 
         const classMember: ClassMember = {
           kind: 'field',
-          name: member.name.getText()
-        }
+          name: member.name.getText(),
+        };
 
         // LitElement `@property` decorator
-        if(hasPropertyDecorator(member)) {
-          const propertyDecorator = member.decorators!.find((decorator: any) => decorator.expression.expression.text === 'property');
-          const propertyOptions = (propertyDecorator as any).expression.arguments.find((arg: ts.ObjectLiteralExpression) => ts.isObjectLiteralExpression(arg));
+        if (hasPropertyDecorator(member)) {
+          const propertyDecorator = member.decorators!.find(
+            (decorator: any) => decorator.expression.expression.text === 'property',
+          );
+          const propertyOptions = (propertyDecorator as any).expression.arguments.find(
+            (arg: ts.ObjectLiteralExpression) => ts.isObjectLiteralExpression(arg),
+          );
 
-          if(isAlsoProperty(propertyOptions)) {
+          if (isAlsoProperty(propertyOptions)) {
             const attribute: Attribute = {
               name: getAttrName(propertyOptions) || member.name.getText(),
-              fieldName: member.name.getText()
-            }
+              fieldName: member.name.getText(),
+            };
 
-            if(alreadyHasAttributes(classDoc)) {
+            if (alreadyHasAttributes(classDoc)) {
               classDoc.attributes!.push(attribute);
             } else {
-              classDoc.attributes = [attribute]
+              classDoc.attributes = [attribute];
             }
           }
         }
 
-        if(gettersAndSetters.includes(member.name.getText())) {
+        if (gettersAndSetters.includes(member.name.getText())) {
           return;
         } else {
           gettersAndSetters.push(member.name.getText());
         }
 
-        if(typeof (member as any).initializer !== 'undefined') {
-          switch((member as any).initializer.kind) {
+        if (typeof (member as any).initializer !== 'undefined') {
+          switch ((member as any).initializer.kind) {
             case ts.SyntaxKind.NumericLiteral:
-              classMember.type = { type: "number"};
+              classMember.type = { type: 'number' };
               break;
             case ts.SyntaxKind.StringLiteral:
-              classMember.type = { type: "string"};
+              classMember.type = { type: 'string' };
               break;
             case ts.SyntaxKind.ArrayLiteralExpression:
-              classMember.type = { type: "array"};
+              classMember.type = { type: 'array' };
               break;
             case ts.SyntaxKind.ObjectLiteralExpression:
-              classMember.type = { type: "object"};
+              classMember.type = { type: 'object' };
               break;
             case ts.SyntaxKind.FunctionExpression:
-              classMember.type = { type: "function"};
+              classMember.type = { type: 'function' };
               break;
           }
         }
-        if(typeof member.modifiers === 'undefined') {
-          classMember.privacy = "public";
+        if (typeof member.modifiers === 'undefined') {
+          classMember.privacy = 'public';
 
-          (member as any).jsDoc && (member as any).jsDoc.forEach((jsDoc: any) => {
-            jsDoc.tags && jsDoc.tags.forEach((tag: any) => {
-              switch(tag.kind) {
-                case ts.SyntaxKind.JSDocPublicTag:
-                  classMember.privacy = "public";
-                  break;
-                case ts.SyntaxKind.JSDocPrivateTag:
-                  classMember.privacy = "private";
-                  break;
-                case ts.SyntaxKind.JSDocProtectedTag:
-                  classMember.privacy = "protected";
-                  break;
-              }
+          (member as any).jsDoc &&
+            (member as any).jsDoc.forEach((jsDoc: any) => {
+              jsDoc.tags &&
+                jsDoc.tags.forEach((tag: any) => {
+                  switch (tag.kind) {
+                    case ts.SyntaxKind.JSDocPublicTag:
+                      classMember.privacy = 'public';
+                      break;
+                    case ts.SyntaxKind.JSDocPrivateTag:
+                      classMember.privacy = 'private';
+                      break;
+                    case ts.SyntaxKind.JSDocProtectedTag:
+                      classMember.privacy = 'protected';
+                      break;
+                  }
+                });
             });
-          });
-
         } else {
-          member.modifiers.forEach((modifier) => {
-            switch(modifier.kind) {
+          member.modifiers.forEach(modifier => {
+            switch (modifier.kind) {
               case ts.SyntaxKind.StaticKeyword:
                 classMember.static = true;
-                // eslint-disable-next-line
+              // eslint-disable-next-line
               case ts.SyntaxKind.PublicKeyword:
-                classMember.privacy = "public";
+                classMember.privacy = 'public';
                 break;
               case ts.SyntaxKind.PrivateKeyword:
-                classMember.privacy = "private";
+                classMember.privacy = 'private';
                 break;
               case ts.SyntaxKind.ProtectedKeyword:
-                classMember.privacy = "protected";
+                classMember.privacy = 'protected';
                 break;
             }
           });
         }
 
         if (ts.isPrivateIdentifier(member.name)) {
-          classMember.privacy = "private";
+          classMember.privacy = 'private';
         }
 
-        if(typeof (member as any).initializer !== 'undefined') {
+        if (typeof (member as any).initializer !== 'undefined') {
           classMember.default = (member as any).initializer.getText();
         }
 
@@ -329,12 +359,13 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
       }
     });
 
-    classDoc.members && classDoc.members.forEach((member: any) => {
-      visit(node, member)
-    });
+    classDoc.members &&
+      classDoc.members.forEach((member: any) => {
+        visit(node, member);
+      });
   }
 
-  if(classDoc.members && classDoc.members!.length === 0) {
+  if (classDoc.members && classDoc.members!.length === 0) {
     delete classDoc.members;
   }
 
@@ -352,7 +383,10 @@ function visit(source: ts.SourceFile, member: any) {
           .filter((statement: any) => statement.expression.kind === ts.SyntaxKind.BinaryExpression)
           .forEach((statement: any) => {
             // @TODO get jsdoc types
-            if(statement.expression.left.name.getText() === member.name && member.kind === 'field') {
+            if (
+              statement.expression.left.name.getText() === member.name &&
+              member.kind === 'field'
+            ) {
               member.default = statement.expression.right.getText();
             }
           });

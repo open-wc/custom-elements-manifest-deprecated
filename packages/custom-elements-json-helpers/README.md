@@ -12,7 +12,7 @@ This library aims to ship some helpers to ease working with the custom-elements.
 // Node
 import { CustomElementsJson } from '@custom-elements-json/helpers';
 
-const foo = JSON.parse(fs.readFileSync('./custom-elements.json', 'utf-8'))
+const foo = JSON.parse(fs.readFileSync('./custom-elements.json', 'utf-8'));
 const customElementsJson = new CustomElementsJson(json);
 
 // Browser
@@ -29,6 +29,7 @@ const customElementsJson = new CustomElementsJson(json);
 #### `getByTagName`
 
 Returns all information for element `<my-element>`.
+
 ```js
 customElementsJson.getByTagName('my-element');
 ```
@@ -213,6 +214,7 @@ customElementsJson.getByTagName('my-element');
 #### `getByClassName`
 
 Returns all information for class `MyElement`.
+
 ```js
 customElementsJson.getByClassName('MyElement');
 ```
@@ -397,6 +399,7 @@ customElementsJson.getByClassName('MyElement');
 #### `getClasses`
 
 Returns all classes in a `custom-elements.json`
+
 ```js
 customElementsJson.getClasses();
 ```
@@ -570,30 +573,30 @@ customElementsJson.getClasses();
     kind: 'class',
     superclass: { name: 'HTMLElement' },
     name: 'MySuperClass',
-    mixins: [ [Object] ],
-    members: [ [Object] ]
+    mixins: [[Object]],
+    members: [[Object]],
   },
   {
     kind: 'class',
     superclass: { name: 'MySuperClass', module: './src/MySuperClass.js' },
     name: 'AnotherSuperClass',
-    members: [ [Object], [Object] ]
+    members: [[Object], [Object]],
   },
   {
     kind: 'class',
     superclass: { name: 'HTMLElement' },
     name: 'MyElement',
-    members: [ [Object] ],
-    tagName: 'my-element'
+    members: [[Object]],
+    tagName: 'my-element',
   },
   {
     kind: 'class',
     superclass: { name: 'AnotherSuperClass', module: './src/AnotherSuperClass.js' },
     name: 'AnotherComponent',
-    members: [ [Object], [Object], [Object] ],
-    tagName: 'another-component'
-  }
-]
+    members: [[Object], [Object], [Object]],
+    tagName: 'another-component',
+  },
+];
 ```
 
 </details>
@@ -603,6 +606,7 @@ customElementsJson.getClasses();
 #### `getMixins`
 
 Returns all mixins in a `custom-elements.json`
+
 ```js
 customElementsJson.getMixins();
 ```
@@ -776,9 +780,9 @@ customElementsJson.getMixins();
     name: 'MyMixinB',
     module: './src/MyMixinB.js',
     kind: 'variable',
-    type: '(klass: any) => typeof MyMixinB'
-  }
-]
+    type: '(klass: any) => typeof MyMixinB',
+  },
+];
 ```
 
 </details>
@@ -788,6 +792,7 @@ customElementsJson.getMixins();
 #### `getDefinitions`
 
 Returns all custom element definitions in a `custom-elements.json`
+
 ```js
 customElementsJson.getDefinitions();
 ```
@@ -960,14 +965,14 @@ customElementsJson.getDefinitions();
   {
     kind: 'definition',
     name: 'my-element',
-    declaration: { name: 'MyElement', module: './src/my-element.js' }
+    declaration: { name: 'MyElement', module: './src/my-element.js' },
   },
   {
     kind: 'definition',
     name: 'another-component',
-    declaration: { name: 'AnotherComponent', module: './src/another-component.js' }
-  }
-]
+    declaration: { name: 'AnotherComponent', module: './src/another-component.js' },
+  },
+];
 ```
 
 </details>
@@ -977,6 +982,7 @@ customElementsJson.getDefinitions();
 #### `getInheritanceTree`
 
 Returns inheritance for class `MyComponent`.
+
 ```js
 customElementsJson.getInheritanceTree('MyComponent');
 ```
@@ -1078,37 +1084,37 @@ customElementsJson.getInheritanceTree('MyComponent');
     kind: 'class',
     superclass: {
       name: 'LitElement',
-      module: './dev/src/custom-element/LitElement.js'
+      module: './dev/src/custom-element/LitElement.js',
     },
-    mixins: [ [Object], [Object] ],
-    name: 'MyComponent'
+    mixins: [[Object], [Object]],
+    name: 'MyComponent',
   },
   {
     name: 'TabindexMixin',
     module: './dev/src/custom-element/MyComponent.js',
     kind: 'variable',
-    type: '(klass: any) => typeof TabindexMixin'
+    type: '(klass: any) => typeof TabindexMixin',
   },
   {
     name: 'LocalizeMixin',
     module: './dev/src/custom-element/MyComponent.js',
     kind: 'variable',
-    type: '(klass: any) => typeof LocalizeMixin'
+    type: '(klass: any) => typeof LocalizeMixin',
   },
   {
     kind: 'class',
     superclass: {
       name: 'UpdatingElement',
-      module: './dev/src/custom-element/UpdatingElement.js'
+      module: './dev/src/custom-element/UpdatingElement.js',
     },
-    name: 'LitElement'
+    name: 'LitElement',
   },
   {
     kind: 'class',
     superclass: { name: 'HTMLElement' },
-    name: 'UpdatingElement'
-  }
-]
+    name: 'UpdatingElement',
+  },
+];
 ```
 
 </details>
@@ -1142,18 +1148,22 @@ if (h.hasModules(json)) {
 ```
 
 ### Package
+
 - `hasModules(package: PackageDoc) => boolean`
 
 ### Module
+
 - `hasExports(module: ModuleDoc) => boolean`
 
 ### Export
+
 - `isClass(export: ExportDoc) => boolean`
 - `isFunction(export: ExportDoc) => boolean`
 - `isVariable(export: ExportDoc) => boolean`
 - `isDefinition(export: ExportDoc) => boolean`
 
 ### CustomElement
+
 - `hasAttributes(customElement: CustomElementDoc) => boolean`
 - `hasEvents(customElement: CustomElementDoc) => boolean`
 - `hasSlots(customElement: CustomElementDoc) => boolean`
@@ -1162,6 +1172,7 @@ if (h.hasModules(json)) {
 - `hasMixins(customElement: CustomElementDoc) => boolean`
 
 ### ClassMember
+
 - `isField(member: ClassMember) => boolean`
 - `isMethod(member: ClassMember) => boolean`
 

@@ -1,4 +1,5 @@
 # custom-elements-json
+
 A file format for describing custom elements
 
 # Status
@@ -10,6 +11,7 @@ This effort is in the initial discussion and requirements-gathering phase. Pleas
 Many tools need some machine-readable descriptions of custom elements: IDEs, documentation viewers, linters, graphical design tools, etc.
 
 There have been, and are currently, several efforts in this area:
+
 - [Polymer Analyzer](https://github.com/Polymer/tools/tree/master/packages/analyzer)'s `analysis.json` file
 - [`custom-elements.json`](https://github.com/octref/web-components-examples)
 - https://github.com/JetBrains/web-types

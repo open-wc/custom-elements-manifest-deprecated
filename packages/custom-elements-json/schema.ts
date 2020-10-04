@@ -220,7 +220,6 @@ export interface Attribute {
 
   inheritedFrom?: Reference;
 
-
   /**
    * The default value of the attribute, if any.
    *

@@ -1,4 +1,14 @@
-import { Package, JavaScriptModule, Export, Declaration, CustomElementExport, FunctionDeclaration, CustomElement, VariableDeclaration, ClassDeclaration } from 'custom-elements-json/schema';
+import {
+  Package,
+  JavaScriptModule,
+  Export,
+  Declaration,
+  CustomElementExport,
+  FunctionDeclaration,
+  CustomElement,
+  VariableDeclaration,
+  ClassDeclaration,
+} from 'custom-elements-json/schema';
 import * as h from './helpers';
 
 export class CustomElementsJson {
@@ -12,29 +22,27 @@ export class CustomElementsJson {
 
   #initialized = false;
 
-  constructor({
-    schemaVersion,
-    readme,
-    modules,
-  }: Package = {
-    schemaVersion: 'experimental',
-    readme: '',
-    modules: []
-  }) {
+  constructor(
+    { schemaVersion, readme, modules }: Package = {
+      schemaVersion: 'experimental',
+      readme: '',
+      modules: [],
+    },
+  ) {
     this.schemaVersion = schemaVersion;
     this.readme = <string>readme;
     this.modules = modules;
   }
 
-  private loopAll(cb: (_export: Export|Declaration) => void) {
+  private loopAll(cb: (_export: Export | Declaration) => void) {
     this.modules.forEach((_module: JavaScriptModule) => {
-      if(h.hasExports(_module)) {
+      if (h.hasExports(_module)) {
         _module.exports!.forEach((_export: Export) => {
           cb(_export);
         });
       }
 
-      if(h.hasDeclarations(_module)) {
+      if (h.hasDeclarations(_module)) {
         _module.declarations!.forEach((declaration: Declaration) => {
           cb(declaration);
         });
@@ -54,21 +62,24 @@ export class CustomElementsJson {
   private init() {
     this.#initialized = true;
 
-    this.loopAll((item: Export|Declaration) => {
-      if(h.isClass(item) && (item as any).superclass) {
+    this.loopAll((item: Export | Declaration) => {
+      if (h.isClass(item) && (item as any).superclass) {
         this.#classes.set(item.name, item);
       }
     });
 
-    this.loopAll((item: Export|Declaration) => {
-      if(h.isMixin(item)) {
+    this.loopAll((item: Export | Declaration) => {
+      if (h.isMixin(item)) {
         this.#mixins.set(item.name, item);
       }
     });
 
-    this.loopAll((item: Export|Declaration) => {
-      if(h.isCustomElementExport(item)) {
-        this.#tagNames.set(item.name, this.#classes.get((item as CustomElementExport).declaration.name));
+    this.loopAll((item: Export | Declaration) => {
+      if (h.isCustomElementExport(item)) {
+        this.#tagNames.set(
+          item.name,
+          this.#classes.get((item as CustomElementExport).declaration.name),
+        );
 
         // get all CustomElementExports
         this.#definitions.set(item.name, item);
@@ -89,26 +100,26 @@ export class CustomElementsJson {
   }
 
   /** Gets all classes from declarations */
-  getClasses(){
-    if(this.#initialized === false) {
+  getClasses() {
+    if (this.#initialized === false) {
       this.init();
       this.#initialized = true;
     }
     const classes = [];
-    for(let[_, val] of this.#classes) {
+    for (let [_, val] of this.#classes) {
       classes.push(val);
     }
     return classes;
   }
 
   /** Gets registered custom elements, so elements that have customElements.define called, returns class including tagName */
-  getTagNames(){
-    if(!this.#initialized) {
+  getTagNames() {
+    if (!this.#initialized) {
       this.init();
       this.#initialized = true;
     }
     const definitions = [];
-    for(let[_, val] of this.#tagNames) {
+    for (let [_, val] of this.#tagNames) {
       definitions.push(val);
     }
     return definitions;
@@ -116,18 +127,17 @@ export class CustomElementsJson {
 
   /** Gets all CustomElementDefinitions */
   getDefinitions() {
-    if(!this.#initialized) {
+    if (!this.#initialized) {
       this.init();
       this.#initialized = true;
     }
     const definitions = [];
-    for(let[_, val] of this.#definitions) {
+    for (let [_, val] of this.#definitions) {
       definitions.push(val);
     }
 
     return definitions;
   }
-
 
   // private initMixins() {
   //   let foundMixins = new Map();
@@ -159,44 +169,42 @@ export class CustomElementsJson {
   //   });
   // }
 
-
-  getMixins(){
-    if(!this.#initialized) {
+  getMixins() {
+    if (!this.#initialized) {
       this.init();
       this.#initialized = true;
     }
     const mixins = [];
-    for(const [, val] of this.#mixins) {
+    for (const [, val] of this.#mixins) {
       mixins.push(val);
     }
     return mixins;
   }
 
   getInheritanceTree(className: string) {
-    if(!this.#initialized) {
+    if (!this.#initialized) {
       this.init();
       this.#initialized = true;
     }
 
-    const tree: Array<ClassDeclaration|VariableDeclaration|FunctionDeclaration> = [];
+    const tree: Array<ClassDeclaration | VariableDeclaration | FunctionDeclaration> = [];
 
     let klass = this.#classes.get(className);
 
-    if(klass) {
+    if (klass) {
       tree.push(klass);
 
-      if(h.hasMixins(klass)) {
-        klass.mixins.forEach((mixin: VariableDeclaration|FunctionDeclaration) => {
+      if (h.hasMixins(klass)) {
+        klass.mixins.forEach((mixin: VariableDeclaration | FunctionDeclaration) => {
           tree.push(this.#mixins.get(mixin.name));
         });
       }
 
-      while(this.#classes.has(klass.superclass.name)) {
-        const newKlass = this.#classes.get(klass.superclass.name)
+      while (this.#classes.has(klass.superclass.name)) {
+        const newKlass = this.#classes.get(klass.superclass.name);
 
-        if(h.hasMixins(newKlass)) {
-          newKlass.mixins.forEach((mixin: VariableDeclaration|FunctionDeclaration) => {
-
+        if (h.hasMixins(newKlass)) {
+          newKlass.mixins.forEach((mixin: VariableDeclaration | FunctionDeclaration) => {
             tree.push(this.#mixins.get(mixin.name));
           });
         }
@@ -212,7 +220,7 @@ export class CustomElementsJson {
   }
 
   getModuleForClass(className: string): string | undefined {
-    if(!this.#initialized) {
+    if (!this.#initialized) {
       this.init();
       this.#initialized = true;
     }
@@ -220,10 +228,10 @@ export class CustomElementsJson {
     let result = undefined;
 
     this.modules.forEach((_module: JavaScriptModule) => {
-      if(h.hasDeclarations(_module)) {
+      if (h.hasDeclarations(_module)) {
         _module.declarations!.forEach((declaration: Declaration) => {
-          if(h.isClass(declaration)) {
-            if(declaration.name === className) {
+          if (h.isClass(declaration)) {
+            if (declaration.name === className) {
               result = _module.path;
             }
           }
@@ -235,7 +243,7 @@ export class CustomElementsJson {
   }
 
   getModuleForMixin(className: string): string | undefined {
-    if(!this.#initialized) {
+    if (!this.#initialized) {
       this.init();
       this.#initialized = true;
     }
@@ -243,10 +251,10 @@ export class CustomElementsJson {
     let result = undefined;
 
     this.modules.forEach((_module: JavaScriptModule) => {
-      if(h.hasDeclarations(_module)) {
+      if (h.hasDeclarations(_module)) {
         _module.declarations!.forEach((declaration: Declaration) => {
-          if(h.isMixin(declaration)) {
-            if(declaration.name === className) {
+          if (h.isMixin(declaration)) {
+            if (declaration.name === className) {
               result = _module.path;
             }
           }
