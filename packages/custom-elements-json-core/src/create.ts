@@ -1,28 +1,25 @@
-import path from 'path';
+import {
+  Attribute,
+  ClassDeclaration,
+  ClassMember,
+  CustomElement,
+  Declaration,
+  Event,
+  Export,
+  JavaScriptModule,
+  Package,
+} from 'custom-elements-json/schema';
 import fs from 'fs';
 import globby from 'globby';
+import path from 'path';
 import ts from 'typescript';
-import {
-  Package,
-  Declaration,
-  ClassDeclaration,
-  JavaScriptModule,
-  CustomElement,
-  Export,
-  Attribute,
-  ClassMember,
-  Event,
-} from 'custom-elements-json/schema';
-import { ExportType, isImport } from './utils';
-import { Import, isBareModuleSpecifier } from './utils';
-
-import { customElementsJson } from './customElementsJson';
-
+import { getMixin } from './ast/getMixin';
 import { handleClass } from './ast/handleClass';
 import { handleCustomElementsDefine } from './ast/handleCustomElementsDefine';
 import { handleExport } from './ast/handleExport';
 import { handleImport } from './ast/handleImport';
-import { getMixin } from './ast/getMixin';
+import { customElementsJson } from './customElementsJson';
+import { ExportType, isBareModuleSpecifier, isImport } from './utils';
 
 export async function create(packagePath: string): Promise<Package> {
   const modulePaths = await globby([`${packagePath}/**/*.js`]);
@@ -290,8 +287,8 @@ export async function create(packagePath: string): Promise<Package> {
         });
     });
   });
+  customElementsJson.imports = [];
 
-  delete customElementsJson.imports;
   delete customElementsJson.currentModule;
 
   console.log(JSON.stringify(customElementsJson, null, 2));

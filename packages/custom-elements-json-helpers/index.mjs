@@ -33,3 +33,4 @@ export {
   isField,
   isMethod,
 };
+export default cjsEntrypoint;
