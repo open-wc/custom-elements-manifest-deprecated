@@ -1,7 +1,7 @@
 import { create } from './create';
 
 (async () => {
-  const packagePath = `${process.cwd()}/fixtures/inheritance_superclass_properties/package`;
+  const packagePath = `${process.cwd()}/fixtures/jsdoc_var/package`;
   console.log(packagePath);
 
   await create(packagePath);

@@ -1,0 +1,59 @@
+{
+  "schemaVersion": "experimental",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "./my-element.js",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "var1",
+          "description": "description",
+          "type": {
+            "type": "SomeType"
+          }
+        },
+        {
+          "kind": "variable",
+          "name": "var2",
+          "description": "description",
+          "type": {
+            "type": "string"
+          }
+        },
+        {
+          "kind": "variable",
+          "name": "var3",
+          "description": "only description"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "var1",
+          "declaration": {
+            "name": "var1",
+            "module": "./my-element.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "var2",
+          "declaration": {
+            "name": "var2",
+            "module": "./my-element.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "var3",
+          "declaration": {
+            "name": "var3",
+            "module": "./my-element.js"
+          }
+        }
+      ]
+    }
+  ]
+}

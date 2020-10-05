@@ -13,7 +13,9 @@ import {
   hasNamedExports,
   isReexport,
   isBareModuleSpecifier,
+  isValidArray
 } from '../utils';
+import { extractJsDoc } from '../utils/extractJsDoc';
 
 export function handleExport(
   node: ExportType,
@@ -21,6 +23,10 @@ export function handleExport(
   ignore: string | undefined = undefined,
 ) {
   if (node.kind === ts.SyntaxKind.VariableStatement) {
+    const extractedJsDoc = extractJsDoc(node);
+    // only get the 'closest' jsDoc
+    const jsDoc = extractedJsDoc[extractedJsDoc.length - 1];
+
     let _export: Export = {
       kind: 'js',
       name: '',
@@ -30,6 +36,16 @@ export function handleExport(
       kind: 'variable',
       name: '',
     };
+
+    if(jsDoc) {
+      if('description' in jsDoc){
+        _declaration.description = jsDoc.description;
+      }
+      if('type' in jsDoc){
+        _declaration.type = { type: jsDoc.type };
+      }
+    }
+
 
     if (hasExportModifier(node)) {
       node.declarationList.declarations.forEach(declaration => {

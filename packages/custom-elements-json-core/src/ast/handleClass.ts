@@ -145,19 +145,6 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
      * CLASS METHODS
      */
     node.members.forEach((member: any) => {
-      /**
-       * kind method
-       * static
-       * private
-       * inherited from
-       * name
-       * summary
-       * description
-       * parameters
-       * return
-       *    type
-       *    description
-       */
       if (ts.isMethodDeclaration(member)) {
         if (methodDenyList.includes((member.name as ts.Identifier).text)) {
           return;
@@ -193,7 +180,7 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
 
         if (hasJsDoc(member)) {
           const jsDoc = extractJsDoc(member);
-          jsDoc.forEach(jsDoc => {
+          jsDoc.forEach((jsDoc: any) => {
             switch (jsDoc.tag) {
               case 'public':
                 method.privacy = 'public';

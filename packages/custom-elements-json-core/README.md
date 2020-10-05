@@ -88,6 +88,11 @@ class MyElement extends LitElement {
     `;
   }
 }
+
+/** @type {boolean} - This will show up in the custom-elements.json too */
+export const someVariable = true;
+
+customElements.define('my-element', MyElement);
 ```
 
 ### Supported JSDoc
