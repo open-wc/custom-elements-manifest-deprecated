@@ -156,11 +156,10 @@ export async function create(packagePath: string): Promise<Package> {
         const isUsed = currModule.declarations.find(nestedDeclaration => {
           if (
             nestedDeclaration.kind === 'class' &&
-            Array.isArray(nestedDeclaration.mixins) &&
-            nestedDeclaration.mixins.length > 0
+            isValidArray(nestedDeclaration.mixins)
           ) {
             return (
-              nestedDeclaration.mixins.find(mixin => mixin.name === declaration.name) !== undefined
+              nestedDeclaration.mixins!.find(mixin => mixin.name === declaration.name) !== undefined
             );
           }
         });
@@ -184,7 +183,6 @@ export async function create(packagePath: string): Promise<Package> {
   });
 
   /** POST-PROCESSING, e.g.: linking class to definitions etc */
-  // @TODO: Find the module path for a superclass
   const classes = customElementsJson.getClasses();
   const definitions = customElementsJson.getDefinitions(); // CustomElementExports
 
@@ -245,10 +243,8 @@ export async function create(packagePath: string): Promise<Package> {
                   },
                 };
 
-                if (Array.isArray(customElement.members) && customElement.members.length > 0) {
-                  customElement.members.push(newMember);
-                } else {
-                  customElement.members = [newMember];
+                if (isValidArray(customElement.members)) {
+                  customElement.members = pushSafe(customElement.members, newMember);
                 }
               });
           }
