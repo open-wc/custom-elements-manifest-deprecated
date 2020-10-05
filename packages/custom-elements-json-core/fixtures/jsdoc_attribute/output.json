@@ -1,0 +1,151 @@
+{
+  "schemaVersion": "experimental",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "./edgecase.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "EdgeCase",
+          "attributes": [
+            {
+              "name": "typed-js-doc",
+              "type": {
+                "type": "boolean"
+              },
+              "description": "THIS WILL OVERRIDE"
+            }
+          ],
+          "superclass": {
+            "name": "HTMLElement"
+          }
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "EdgeCase",
+          "declaration": {
+            "name": "EdgeCase",
+            "module": "./edgecase.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "./static_field.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "MyElement2",
+          "attributes": [
+            {
+              "name": "bar"
+            },
+            {
+              "name": "with-fieldName",
+              "fieldName": "fieldName",
+              "type": {
+                "type": "boolean"
+              }
+            },
+            {
+              "name": "placeholder",
+              "description": "some jsdoc"
+            },
+            {
+              "name": "typed-js-doc",
+              "type": {
+                "type": "string"
+              },
+              "description": "some description"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "type": "boolean"
+              }
+            },
+            {
+              "name": "foo"
+            }
+          ],
+          "superclass": {
+            "name": "HTMLElement"
+          }
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "MyElement2",
+          "declaration": {
+            "name": "MyElement2",
+            "module": "./static_field.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "./static_getter.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "MyElement",
+          "attributes": [
+            {
+              "name": "bar"
+            },
+            {
+              "name": "with-fieldName",
+              "fieldName": "fieldName",
+              "type": {
+                "type": "boolean"
+              }
+            },
+            {
+              "name": "placeholder",
+              "description": "some jsdoc"
+            },
+            {
+              "name": "typed-js-doc",
+              "type": {
+                "type": "string"
+              },
+              "description": "some description"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "type": "boolean"
+              }
+            },
+            {
+              "name": "foo"
+            }
+          ],
+          "superclass": {
+            "name": "HTMLElement"
+          }
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "MyElement",
+          "declaration": {
+            "name": "MyElement",
+            "module": "./static_getter.js"
+          }
+        }
+      ]
+    }
+  ]
+}
