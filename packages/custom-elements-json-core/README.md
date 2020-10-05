@@ -81,6 +81,23 @@ class MyElement extends LitElement {
     `;
   }
 
+  static get observedAttributes() {
+    return [
+      /**
+       * @type {boolean} - description
+       * @property disabled - corresponding property
+       */
+      'disabled',
+    ];
+  }
+
+  get disabled() {
+    /* etc */
+  }
+  set disabled(val) {
+    /* etc */
+  }
+
   render() {
     return html`
       <div part="bar"></div>

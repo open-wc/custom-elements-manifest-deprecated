@@ -1,11 +1,12 @@
 import ts from 'typescript';
 import { Attribute, CustomElement } from 'custom-elements-json/schema';
-import { extractJsDoc } from '../utils/extractJsDoc';
+import { extractJsDoc, extractJsDocCommentFromText, computeLeadingComment } from '../utils/extractJsDoc';
+import { isValidArray } from '../utils';
 
 export function handleAttributes(node: any, classDoc: CustomElement) {
   const attributes: Attribute[] = [];
 
-  /** Extract attributes from JSdoc, if any */
+  /** Extract attributes from JSdoc above class, if present */
   const jsDocs = extractJsDoc(node);
   if (Array.isArray(jsDocs) && jsDocs.length > 0) {
     jsDocs
@@ -29,9 +30,8 @@ export function handleAttributes(node: any, classDoc: CustomElement) {
                 element.text !== undefined &&
                 !attributes.some(attr => attr.name === element.text)
               ) {
-                attributes.push({
-                  name: element.text,
-                });
+                const attribute = createAttribute(node, element);
+                attributes.push(attribute);
               }
             });
           }
@@ -45,9 +45,8 @@ export function handleAttributes(node: any, classDoc: CustomElement) {
                 element.text !== undefined &&
                 !attributes.some(attr => attr.name === element.text)
               ) {
-                attributes.push({
-                  name: element.text,
-                });
+                const attribute = createAttribute(node, element);
+                attributes.push(attribute);
               }
             });
           }
@@ -58,4 +57,33 @@ export function handleAttributes(node: any, classDoc: CustomElement) {
   if (attributes.length > 0) {
     classDoc.attributes = attributes;
   }
+}
+
+function createAttribute(node: any, element:any): Attribute {
+  const attribute: Attribute = {
+    name: element.text
+  };
+
+  /**
+   * handle JSDoc
+   * In this case, there wont be a `.jsdoc` property on the node, just a `.leadingComments` property
+   * so we have to compute the JSDoc comment ourself
+   */
+  const comment = computeLeadingComment(node, element);
+  const jsDoc = extractJsDocCommentFromText(comment);
+
+  if(isValidArray(jsDoc)) {
+    jsDoc.forEach((doc: any) => {
+      if(doc.tag === 'type') {
+        attribute.type = { type: doc.type }
+      }
+      if(doc.description !== '') {
+        attribute.description = doc.description;
+      }
+      if(doc.tag === 'property') {
+        attribute.fieldName = doc.name;
+      }
+    });
+  }
+  return attribute
 }
