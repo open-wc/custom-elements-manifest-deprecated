@@ -63,7 +63,7 @@ function visit(source: any, events: Event[]) {
           if(isValidArray(jsDoc)) {
             jsDoc.forEach((doc: any) => {
               if(doc.tag === 'type') {
-                eventDoc.type = { type: doc.type };
+                eventDoc.type = { type: doc.type.replace(/import(.*)\./, '') };
               }
               if(doc.description && doc.description !== '') {
                 eventDoc.description = doc.description.replace('- ', '');
