@@ -379,17 +379,18 @@ function visit(source: ts.SourceFile, member: any) {
               member.kind === 'field'
             ) {
               /** If a assignment in the constructor has jsdoc types or descriptions, get them and add them */
-              if(statement.jsDoc) {
-                const type = ts.getJSDocTypeTag(statement)?.typeExpression.type.getText().replace(/import(.*)\./, '');
-                const description = ts.getJSDocTypeTag(statement)?.comment?.replace('- ', '');
-
-                if(type && !member.type) {
-                  member.type = { type };
-                }
-                if(description) {
-                  member.description = description;
-                }
+              const jsDocs = extractJsDoc(statement);
+              if (isValidArray(jsDocs)) {
+                jsDocs.forEach((doc: any) => {
+                    if(doc.tag === 'type' && !member.type) {
+                      member.type = { type: doc.type };
+                    }
+                    if('description' in doc && doc.description !== '') {
+                      member.description = doc.description;
+                    }
+                  });
               }
+
               member.default = statement.expression.right.getText();
             }
           });
