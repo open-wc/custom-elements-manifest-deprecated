@@ -63,7 +63,7 @@ export function handleParamsAndReturnType(functionlike: any, node: any): any {
     }
   }
 
-  // return type of functionlike
+  // TS return type of functionlike
   if(hasType(node)) {
     functionlike.return = {
       type: node.type.getText(),
