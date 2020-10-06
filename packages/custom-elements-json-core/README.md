@@ -91,6 +91,12 @@ class MyElement extends LitElement {
     ];
   }
 
+  constructor() {
+    super();
+    /** @type {boolean} - disabled state */
+    this.disabled = true;
+  }
+
   get disabled() {
     /* etc */
   }
