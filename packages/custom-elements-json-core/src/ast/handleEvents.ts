@@ -63,13 +63,15 @@ function visit(source: any, events: Event[]) {
           if(isValidArray(jsDoc)) {
             jsDoc.forEach((doc: any) => {
               if(doc.tag === 'type') {
-                eventDoc.type = { type: doc.type };
+                if(doc.type && doc.type !== '') {
+                  eventDoc.type = { type: doc.type.replace(/import(.*)\./, '') };
+                }
+                if(doc.name && doc.name !== '') {
+                  eventDoc.name = doc.name;
+                }
               }
               if(doc.description && doc.description !== '') {
                 eventDoc.description = doc.description.replace('- ', '');
-              }
-              if(doc.name && doc.name !== '') {
-                eventDoc.name = doc.name;
               }
             });
           }
