@@ -9,6 +9,7 @@ import {
   Attribute,
 } from 'custom-elements-json/schema';
 import { extractJsDoc } from '../utils/extractJsDoc';
+import { handleParamsAndReturnType } from '../ast/handleFunctionlike';
 import {
   hasModifiers,
   hasJsDoc,
@@ -150,7 +151,7 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
           return;
         }
 
-        const method: ClassMethod = {
+        let method: ClassMethod = {
           kind: 'method',
           name: '',
         };
@@ -196,6 +197,7 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
         }
 
         method.name = (member.name as ts.Identifier).text;
+        method = handleParamsAndReturnType(method, member);
 
         classDoc.members = pushSafe(classDoc.members, method);
       }

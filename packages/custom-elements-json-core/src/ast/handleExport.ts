@@ -5,6 +5,7 @@ import {
   FunctionDeclaration,
 } from 'custom-elements-json/schema';
 import ts from 'typescript';
+import { handleParamsAndReturnType } from './handleFunctionlike';
 import {
   ExportType,
   hasExportModifier,
@@ -192,6 +193,8 @@ export function handleExport(
         kind: 'function',
         name: isDefault ? 'default' : node.name?.getText() || '',
       };
+
+      _declaration = handleParamsAndReturnType(_declaration, node);
 
       safePush(_export, _declaration, moduleDoc, ignore);
     }
