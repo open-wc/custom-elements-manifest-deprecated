@@ -104,6 +104,11 @@ class MyElement extends LitElement {
     /* etc */
   }
 
+  fire() {
+    /** @type {FooEvent} foo-event - description */
+    this.dispatchEvent(new FooEvent('foo-changed'));
+  }
+
   render() {
     return html`
       <div part="bar"></div>

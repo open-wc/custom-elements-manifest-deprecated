@@ -2,6 +2,7 @@ import ts from 'typescript';
 import { Event, CustomElement } from 'custom-elements-json/schema';
 import { customElementsJson } from '../customElementsJson';
 import { extractJsDoc } from '../utils/extractJsDoc';
+import { isValidArray } from '../utils';
 
 export function handleEvents(node: any, classDoc: CustomElement) {
   const events: Event[] = [];
@@ -49,6 +50,7 @@ function visit(source: any, events: Event[]) {
     switch (node.kind) {
       case ts.SyntaxKind.CallExpression:
         if (node.expression.name.getText() === 'dispatchEvent') {
+
           const eventDoc: Event = {
             name: '',
             type: {
@@ -56,12 +58,32 @@ function visit(source: any, events: Event[]) {
             },
           };
 
+          const jsDoc = extractJsDoc(node.parent);
+
+          if(isValidArray(jsDoc)) {
+            jsDoc.forEach((doc: any) => {
+              if(doc.tag === 'type') {
+                if(doc.type && doc.type !== '') {
+                  eventDoc.type = { type: doc.type.replace(/import(.*)\./, '') };
+                }
+                if(doc.name && doc.name !== '') {
+                  eventDoc.name = doc.name;
+                }
+              }
+              if(doc.description && doc.description !== '') {
+                eventDoc.description = doc.description.replace('- ', '');
+              }
+            });
+          }
+
+
           node.arguments.forEach((arg: any) => {
             if (arg.kind === ts.SyntaxKind.NewExpression) {
-              // @TODO
-              // if the type of event is not Event or CustomEvent, find a reference to the type
               eventDoc.name = arg.arguments[0].text;
-              eventDoc.type = { type: arg.expression.text };
+
+              if(eventDoc.type.type === '') {
+                eventDoc.type = { type: arg.expression.text };
+              }
               events.push(eventDoc);
             }
 

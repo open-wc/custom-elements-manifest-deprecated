@@ -383,7 +383,7 @@ function visit(source: ts.SourceFile, member: any) {
               if (isValidArray(jsDocs)) {
                 jsDocs.forEach((doc: any) => {
                     if(doc.tag === 'type' && !member.type) {
-                      member.type = { type: doc.type };
+                      member.type = { type: doc.type.replace(/import(.*)\./, '') };
                     }
                     if('description' in doc && doc.description !== '') {
                       member.description = doc.description;

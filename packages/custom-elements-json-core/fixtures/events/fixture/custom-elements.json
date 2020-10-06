@@ -18,6 +18,20 @@
               }
             },
             {
+              "name": "jsdoc-event",
+              "type": {
+                "type": "JsDocEvent"
+              },
+              "description": "some description for jsdoc-event"
+            },
+            {
+              "name": "jsdoc-event-2",
+              "type": {
+                "type": "jsDocEventOnlyDescription"
+              },
+              "description": "only description"
+            },
+            {
               "name": "custom-event",
               "type": {
                 "type": "CustomEvent"
@@ -43,13 +57,6 @@
               }
             },
             {
-              "name": "jsdoc-event",
-              "type": {
-                "type": "Event"
-              },
-              "description": "some description for jsdoc-event"
-            },
-            {
               "name": "event-event",
               "type": {
                 "type": "CustomEvent"
@@ -57,10 +64,21 @@
               "description": "some description for event-event"
             }
           ],
+          "superclass": {
+            "name": "HTMLElement"
+          },
           "members": [
             {
               "kind": "method",
               "name": "normalEvent"
+            },
+            {
+              "kind": "method",
+              "name": "jsDocEvent"
+            },
+            {
+              "kind": "method",
+              "name": "jsDocEventOnlyDescription"
             },
             {
               "kind": "method",
@@ -79,9 +97,6 @@
               "name": "extendedEvent"
             }
           ],
-          "superclass": {
-            "name": "HTMLElement"
-          },
           "tagName": "my-element"
         }
       ],
