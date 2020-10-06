@@ -6,6 +6,8 @@ export class MyElement extends HTMLElement {
   constructor() {
     super();
     this.foo = 'foo';
+    /** @type {Object} */ // should not override the ts type
+    this.bar = {a:'a',b:'b'};
     /** @type {string} - description */
     this.jsdoc1 = '';
     /** @type {boolean} - description2 */

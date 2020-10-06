@@ -383,7 +383,7 @@ function visit(source: ts.SourceFile, member: any) {
                 const type = ts.getJSDocTypeTag(statement)?.typeExpression.type.getText().replace(/import(.*)\./, '');
                 const description = ts.getJSDocTypeTag(statement)?.comment?.replace('- ', '');
 
-                if(type) {
+                if(type && !member.type) {
                   member.type = { type };
                 }
                 if(description) {

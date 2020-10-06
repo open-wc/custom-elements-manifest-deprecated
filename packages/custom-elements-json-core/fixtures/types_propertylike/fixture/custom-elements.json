@@ -29,7 +29,8 @@
               "privacy": "public",
               "type": {
                 "type": "{a:'a',b:'b'}"
-              }
+              },
+              "default": "{a:'a',b:'b'}"
             },
             {
               "kind": "field",
