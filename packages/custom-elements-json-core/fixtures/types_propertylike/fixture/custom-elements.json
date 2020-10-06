@@ -73,6 +73,7 @@
               "kind": "field",
               "name": "jsdoc4",
               "privacy": "public",
+              "description": "only description",
               "default": "1"
             },
             {
