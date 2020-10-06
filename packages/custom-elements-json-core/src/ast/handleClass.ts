@@ -337,6 +337,11 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
           classMember.privacy = 'private';
         }
 
+        /** Add TS type to field, if present */
+        if(member.type) {
+          classMember.type = { type: member.type.getText() }
+        }
+
         if (typeof (member as any).initializer !== 'undefined') {
           classMember.default = (member as any).initializer.getText();
         }
@@ -369,11 +374,22 @@ function visit(source: ts.SourceFile, member: any) {
           .filter((statement: any) => statement.kind === ts.SyntaxKind.ExpressionStatement)
           .filter((statement: any) => statement.expression.kind === ts.SyntaxKind.BinaryExpression)
           .forEach((statement: any) => {
-            // @TODO get jsdoc types
             if (
               statement.expression.left.name.getText() === member.name &&
               member.kind === 'field'
             ) {
+              /** If a assignment in the constructor has jsdoc types or descriptions, get them and add them */
+              if(statement.jsDoc) {
+                const type = ts.getJSDocTypeTag(statement)?.typeExpression.type.getText().replace(/import(.*)\./, '');
+                const description = ts.getJSDocTypeTag(statement)?.comment?.replace('- ', '');
+
+                if(type) {
+                  member.type = { type };
+                }
+                if(description) {
+                  member.description = description;
+                }
+              }
               member.default = statement.expression.right.getText();
             }
           });

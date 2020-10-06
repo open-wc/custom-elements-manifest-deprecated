@@ -46,6 +46,11 @@ export function handleExport(
       }
     }
 
+    node.declarationList.declarations.forEach(declaration => {
+      if(declaration.type) {
+        _declaration.type = {type: declaration.type.getText()}
+      }
+    });
 
     if (hasExportModifier(node)) {
       node.declarationList.declarations.forEach(declaration => {
