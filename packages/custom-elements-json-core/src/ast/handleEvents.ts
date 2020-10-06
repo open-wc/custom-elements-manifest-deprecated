@@ -78,7 +78,7 @@ function visit(source: any, events: Event[]) {
           node.arguments.forEach((arg: any) => {
             if (arg.kind === ts.SyntaxKind.NewExpression) {
               eventDoc.name = arg.arguments[0].text;
-              console.log(eventDoc);
+
               if(eventDoc.type.type === '') {
                 eventDoc.type = { type: arg.expression.text };
               }
