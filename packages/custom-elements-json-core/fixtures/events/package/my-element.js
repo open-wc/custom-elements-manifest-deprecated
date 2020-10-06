@@ -10,6 +10,16 @@ class MyElement extends HTMLElement {
     this.dispatchEvent(new Event('normal-event'));
   }
 
+  jsDocEvent() {
+    /** @type {JsDocEvent} jsdoc-event - description */
+    this.dispatchEvent(new JsDocEvent('jsdoc-event'));
+  }
+
+  jsDocEventOnlyDescription() {
+    /** only description */
+    this.dispatchEvent(new jsDocEventOnlyDescription('jsdoc-event-2'));
+  }
+
   customEvent() {
     this.dispatchEvent(new CustomEvent('custom-event', {detail: {}}));
   }
