@@ -266,7 +266,7 @@ export class CustomElementsJson {
   }
 }
 
-// const default_fixture = require('../../custom-elements-json-core/fixtures/mixins/fixture/custom-elements.json');
+// const default_fixture = require('../../custom-elements-json-analyzer/fixtures/mixins/fixture/custom-elements.json');
 // const customElementsJson = new CustomElementsJson(default_fixture);
 
 // console.log(customElementsJson.getMixins());

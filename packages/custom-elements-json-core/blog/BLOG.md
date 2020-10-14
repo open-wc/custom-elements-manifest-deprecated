@@ -88,11 +88,11 @@ A major usecase of `custom-elements.json` is that it allows us to reliably detec
 
 We believe `custom-elements.json` will open the door for a lot, lot more new exciting ideas and tooling. Which usecases can _you_ come up with? Do you have an idea, but are unsure where to start? Feel free to reach out to us on the [Polymer Slack](https://www.polymer-project.org/slack-invite), we're always happy to have a chat and help you get started.
 
-## `@custom-elements-json/core`
+## `@custom-elements-json/analyzer`
 
 It's unlikely that developers will write their `custom-elements.json` file by hand. So at [open-wc](http://open-wc.org/), we worked hard on a tool that does it for you!
 
-[`@custom-elements-json/core`](TODO) will scan the source files in your project, and generate a `custom-elements.json` for you.
+[`@custom-elements-json/analyzer`](TODO) will scan the source files in your project, and generate a `custom-elements.json` for you.
 
 Here's how you can use it today:
 
@@ -100,9 +100,9 @@ Here's how you can use it today:
 npx custom-elements-json create
 ```
 
-Currently, `@custom-elements-json/core` supports vanilla custom elements (in both JavaScript and TypeScript), and has a special handling for [LitElement](http://lit-element.polymer-project.org/). In the future, this could be extended to support additional libraries like [Stencil](https://stenciljs.com/) as well. If you'd like to request support for a library, or if you'd like to implement support for a library, please create an issue on the [GitHub repository](TODO), or reach out on the [Polymer Slack](https://www.polymer-project.org/slack-invite).
+Currently, `@custom-elements-json/analyzer` supports vanilla custom elements (in both JavaScript and TypeScript), and has a special handling for [LitElement](http://lit-element.polymer-project.org/). In the future, this could be extended to support additional libraries like [Stencil](https://stenciljs.com/) as well. If you'd like to request support for a library, or if you'd like to implement support for a library, please create an issue on the [GitHub repository](TODO), or reach out on the [Polymer Slack](https://www.polymer-project.org/slack-invite).
 
-It's still very early days for `@custom-elements-json/core`, and we're still ironing out all usecases and bugs, so feel free to try it out and let us know on [GitHub](TODO) if you run into anything weird!
+It's still very early days for `@custom-elements-json/analyzer`, and we're still ironing out all usecases and bugs, so feel free to try it out and let us know on [GitHub](TODO) if you run into anything weird!
 
 ## `@custom-elements-json/helpers`
 

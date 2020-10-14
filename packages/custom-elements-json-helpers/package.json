@@ -5,12 +5,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/open-wc/custom-elements-json-helpers.git"
+    "url": "https://github.com/open-wc/custom-elements-json.git"
   },
   "author": "open-wc",
-  "homepage": "https://github.com/open-wc/custom-elements-json-helpers",
+  "homepage": "https://github.com/open-wc/custom-elements-json",
   "bugs": {
-    "url": "https://github.com/open-wc/custom-elements-json-helpers"
+    "url": "https://github.com/open-wc/custom-elements-json"
   },
   "main": "dist/index.js",
   "module": "index.mjs",

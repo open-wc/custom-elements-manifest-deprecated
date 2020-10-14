@@ -1,4 +1,4 @@
-# @custom-elements-json/core
+# @custom-elements-json/analyzer
 
 > ⚠️ Very experimental and very unfinished
 
@@ -9,7 +9,7 @@ This implementation is at a very early stage of development, and there will prob
 ## Install
 
 ```bash
-npm i -D @custom-elements-json/core
+npm i -D @custom-elements-json/analyzer
 ```
 
 ## Usage
@@ -45,7 +45,7 @@ class MyElement extends HTMLElement {
 
 ### Support
 
-`@custom-elements-json/core` currently supports:
+`@custom-elements-json/analyzer` currently supports:
 
 - Vanilla web components
 - LitElement
@@ -58,7 +58,7 @@ TypeScript is also supported.
 
 For all supported syntax, please check the [fixtures](./fixtures) folder.
 
-`@custom-elements-json/core` is able to figure out most of your components API by itself, but for some things it needs a little help, including the following: CSS Shadow Parts, CSS Custom Properties and Slots. You can document these using JSDoc.
+`@custom-elements-json/analyzer` is able to figure out most of your components API by itself, but for some things it needs a little help, including the following: CSS Shadow Parts, CSS Custom Properties and Slots. You can document these using JSDoc.
 
 ```js
 import { LitElement, html, css } from 'lit-element';
@@ -158,11 +158,11 @@ class MyElement extends HTMLElement {}
 
 ## How it works
 
-`@custom-elements-json/core` will scan the source files in your project, and run them through the TypeScript compiler to gather information about your package. Construction of the `custom-elements.json` happens in two phases:
+`@custom-elements-json/analyzer` will scan the source files in your project, and run them through the TypeScript compiler to gather information about your package. Construction of the `custom-elements.json` happens in two phases:
 
 ### Analyze phase
 
-During the analyze phase, `@custom-elements-json/core` goes through the AST of every module in your package, and gathers as much information about them as possible, like for example a class and all its members, events, attributes, etc. During this phase it also gathers a modules imports, imports are not specified in `custom-elements.json`, but are required for the second phase, and then deleted once processed.
+During the analyze phase, `@custom-elements-json/analyzer` goes through the AST of every module in your package, and gathers as much information about them as possible, like for example a class and all its members, events, attributes, etc. During this phase it also gathers a modules imports, imports are not specified in `custom-elements.json`, but are required for the second phase, and then deleted once processed.
 
 ### Link phase
 
