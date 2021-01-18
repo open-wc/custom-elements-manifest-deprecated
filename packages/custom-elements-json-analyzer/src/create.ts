@@ -24,7 +24,7 @@ import { handleImport } from './ast/handleImport';
 import { getMixin } from './ast/getMixin';
 
 export async function create(packagePath: string): Promise<Package> {
-  const modulePaths = await globby([`${packagePath}/**/*.js`]);
+  const modulePaths = await globby([`${packagePath}/**/*.js`, `!${packagePath}/**/.*.js`, `!${packagePath}/**/*.config.js`]);
 
   modulePaths.forEach(modulePath => {
     const relativeModulePath = `./${path.relative(packagePath, modulePath)}`;
