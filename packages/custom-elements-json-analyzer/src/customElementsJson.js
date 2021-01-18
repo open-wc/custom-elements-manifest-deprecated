@@ -1,23 +1,22 @@
 import ts from 'typescript';
 import { CustomElementsJson } from '@custom-elements-json/helpers';
-import { Import } from './utils';
 
 export class ExtendedCustomElementsJson extends CustomElementsJson {
-  currentModule: any;
-  imports: any;
+  currentModule;
+  imports;
 
-  setCurrentModule(source: any) {
+  setCurrentModule(source) {
     this.currentModule = source;
   }
 
-  setImportsForCurrentModule(imports: Import[]) {
+  setImportsForCurrentModule(imports) {
     this.imports = [...(this.imports || []), ...imports];
   }
 
-  visitCurrentModule(cb: (node: any) => void) {
+  visitCurrentModule(cb) {
     visitNode(this.currentModule);
 
-    function visitNode(node: ts.Node) {
+    function visitNode(node) {
       cb(node);
       ts.forEachChild(node, visitNode);
     }

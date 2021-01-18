@@ -2,18 +2,8 @@ import path from 'path';
 import fs from 'fs';
 import globby from 'globby';
 import ts from 'typescript';
-import {
-  Package,
-  Declaration,
-  JavaScriptModule,
-  CustomElement,
-  Export,
-  Attribute,
-  ClassMember,
-  Event,
-} from 'custom-elements-json/schema';
-import { ExportType, isValidArray, pushSafe } from './utils';
-import { Import, isBareModuleSpecifier } from './utils';
+import { isValidArray, pushSafe } from './utils';
+import { isBareModuleSpecifier } from './utils';
 
 import { customElementsJson } from './customElementsJson';
 
@@ -23,7 +13,7 @@ import { handleExport } from './ast/handleExport';
 import { handleImport } from './ast/handleImport';
 import { getMixin } from './ast/getMixin';
 
-export async function create(packagePath: string): Promise<Package> {
+export async function create(packagePath) {
   const modulePaths = await globby([`${packagePath}/**/*.js`, `!${packagePath}/**/.*.js`, `!${packagePath}/**/*.config.js`]);
 
   modulePaths.forEach(modulePath => {
@@ -53,7 +43,7 @@ export async function create(packagePath: string): Promise<Package> {
      */
     const currModule = customElementsJson.modules.find(
       _module => _module.path === relativeModulePath,
-    ) as JavaScriptModule;
+    );
     visit(sourceFile, currModule);
 
     /**
@@ -67,10 +57,10 @@ export async function create(packagePath: string): Promise<Package> {
     // Match mixins with their imports
     const classes = currModule.declarations.filter(declaration => declaration.kind === 'class');
 
-    classes.forEach((customElement: any) => {
+    classes.forEach((customElement) => {
       if (customElement.superclass && customElement.superclass.name !== 'HTMLElement') {
         const foundSuperclass = [...(classes || []), ...(customElementsJson.imports || [])].find(
-          (_import: Import) => {
+          (_import) => {
             return _import.name === customElement.superclass.name;
           },
         );
@@ -94,11 +84,11 @@ export async function create(packagePath: string): Promise<Package> {
       }
 
       customElement.mixins &&
-        customElement.mixins.forEach((mixin: any) => {
+        customElement.mixins.forEach((mixin) => {
           const foundMixin = [
             ...(currModule.declarations || []),
             ...(customElementsJson.imports || []),
-          ].find((_import: Import) => _import.name === mixin.name);
+          ].find((_import) => _import.name === mixin.name);
 
           if (foundMixin) {
             /**
@@ -106,11 +96,11 @@ export async function create(packagePath: string): Promise<Package> {
              * @example const MyMixin1 = klass => class MyMixin1 extends MyMixin2(klass) {}
              */
             if (Array.isArray(foundMixin.mixins) && foundMixin.mixins.length > 0) {
-              foundMixin.mixins.forEach((mixin: any) => {
+              foundMixin.mixins.forEach((mixin) => {
                 const nestedFoundMixin = [
                   ...(currModule.declarations || []),
                   ...(customElementsJson.imports || []),
-                ].find((_import: Import) => _import.name === mixin.name);
+                ].find((_import) => _import.name === mixin.name);
 
                 // Mixin is imported from a third party module (bare module specifier)
                 if (nestedFoundMixin.importPath && nestedFoundMixin.isBareModuleSpecifier) {
@@ -149,8 +139,8 @@ export async function create(packagePath: string): Promise<Package> {
     });
 
     // Find any mixins that were used in a class, so we can add them to a modules declarations
-    const usedMixins: any = [];
-    currModule.declarations.forEach((declaration: any) => {
+    const usedMixins = [];
+    currModule.declarations.forEach((declaration) => {
       if (declaration.kind === 'mixin') {
         // if its a mixin, find out if a class is making use of it
         const isUsed = currModule.declarations.find(nestedDeclaration => {
@@ -159,7 +149,7 @@ export async function create(packagePath: string): Promise<Package> {
             isValidArray(nestedDeclaration.mixins)
           ) {
             return (
-              nestedDeclaration.mixins!.find(mixin => mixin.name === declaration.name) !== undefined
+              nestedDeclaration.mixins.find(mixin => mixin.name === declaration.name) !== undefined
             );
           }
         });
@@ -191,7 +181,7 @@ export async function create(packagePath: string): Promise<Package> {
     for (const _module of customElementsJson.modules) {
       const modulePath = _module.path;
       // @TODO: I dont think you need to go through the exports here
-      const match = [...(<Declaration[]>_module.declarations), ...(<Export[]>_module.exports)].some(
+      const match = [...(_module.declarations), ...(_module.exports)].some(
         classDoc => {
           return classDoc.name === definition.declaration.name;
         },
@@ -205,7 +195,7 @@ export async function create(packagePath: string): Promise<Package> {
   }
 
   // Match tagNames for classDocs, and inheritance chain
-  classes.forEach((customElement: CustomElement) => {
+  classes.forEach((customElement) => {
     const tagName = definitions.find(
       def => def && def.declaration && def.declaration.name === customElement.name,
     )?.name;
@@ -216,7 +206,7 @@ export async function create(packagePath: string): Promise<Package> {
     // getInheritance chain
     const inheritanceChain = customElementsJson.getInheritanceTree(customElement.name);
 
-    inheritanceChain.forEach((klass: any) => {
+    inheritanceChain.forEach((klass) => {
       // Handle mixins
       if (klass.kind !== 'class') {
         if (klass.package) {
@@ -227,14 +217,14 @@ export async function create(packagePath: string): Promise<Package> {
         if (klass.module) {
           // @TODO add attrs/members/events
           const klassModule = customElementsJson.modules.find(
-            (_module: any) => _module.path === klass.module,
+            (_module) => _module.path === klass.module,
           );
           if (klassModule) {
-            const foundMixin: any = klassModule.declarations.find(
-              (declaration: any) => declaration.kind === 'mixin' && declaration.name === klass.name,
+            const foundMixin = klassModule.declarations.find(
+              (declaration) => declaration.kind === 'mixin' && declaration.name === klass.name,
             );
             foundMixin.members &&
-              foundMixin.members.forEach((member: any) => {
+              foundMixin.members.forEach((member) => {
                 const newMember = {
                   ...member,
                   inheritedFrom: {
@@ -258,7 +248,7 @@ export async function create(packagePath: string): Promise<Package> {
 
       ['attributes', 'members', 'events'].forEach(type => {
         klass[type] &&
-          klass[type].forEach((currItem: Attribute | Event | ClassMember) => {
+          klass[type].forEach((currItem) => {
             const moduleForKlass = customElementsJson.getModuleForClass(klass.name);
             const moduleForMixin = customElementsJson.getModuleForMixin(klass.name);
 
@@ -268,8 +258,8 @@ export async function create(packagePath: string): Promise<Package> {
              * If an attr, member or is already present in the base class, but we encounter it here,
              * it means that the base has overridden that method from the super class, so we bail
              */
-            const itemIsOverridden = (customElement as any)[type]?.some(
-              (item: Attribute | Event | ClassMember) => newItem.name === item.name,
+            const itemIsOverridden = (customElement)[type]?.some(
+              (item) => newItem.name === item.name,
             );
             if (itemIsOverridden) {
               return;
@@ -286,7 +276,7 @@ export async function create(packagePath: string): Promise<Package> {
                 module: moduleForKlass || moduleForMixin,
               };
             }
-            (customElement as any)[type] = pushSafe((customElement as any)[type], newItem);
+            (customElement)[type] = pushSafe((customElement)[type], newItem);
           });
       });
     });
@@ -299,17 +289,17 @@ export async function create(packagePath: string): Promise<Package> {
   return customElementsJson;
 }
 
-function visit(source: ts.SourceFile, moduleDoc: JavaScriptModule) {
+function visit(source, moduleDoc) {
   visitNode(source);
 
-  function visitNode(node: ts.Node) {
-    const mixin: any = getMixin(node as ts.VariableStatement | ts.FunctionDeclaration);
+  function visitNode(node) {
+    const mixin = getMixin(node);
     const isMixin = mixin !== false;
 
     switch (node.kind) {
       case ts.SyntaxKind.ClassDeclaration:
         handleClass(node, moduleDoc, 'class');
-        handleExport(node as ExportType, moduleDoc);
+        handleExport(node, moduleDoc);
         break;
       case ts.SyntaxKind.PropertyAccessExpression:
         handleCustomElementsDefine(node, moduleDoc);
@@ -320,10 +310,10 @@ function visit(source: ts.SourceFile, moduleDoc: JavaScriptModule) {
       case ts.SyntaxKind.ExportAssignment:
         if (isMixin) {
           handleClass(mixin, moduleDoc, 'mixin');
-          handleExport(node as ExportType, moduleDoc, mixin.name.text);
+          handleExport(node, moduleDoc, mixin.name.text);
           break;
         }
-        handleExport(node as ExportType, moduleDoc);
+        handleExport(node, moduleDoc);
         break;
       case ts.SyntaxKind.ImportDeclaration:
         handleImport(node);

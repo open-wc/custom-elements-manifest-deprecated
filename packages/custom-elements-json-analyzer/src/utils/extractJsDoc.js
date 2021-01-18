@@ -1,45 +1,28 @@
 import parse from 'comment-parser';
 import ts from 'typescript';
 
-/**
- * @attr {boolean} disabled - description
- * tag type name description
- */
 
-export interface JSDoc {
-  tag: string;
-  type: string;
-  name: string;
-  optional: boolean;
-  description: string;
-  line: number;
-  source: string;
-}
 
-interface Description {
-  description: string;
-}
-
-function extractImportType(jsDoc: any) {
+function extractImportType(jsDoc) {
   if(jsDoc.type && jsDoc.type.match(/import(.*)\./)) {
     jsDoc.type = jsDoc.type.replace(/import(.*)\./, '');
   }
   return jsDoc;
 }
 
-export function computeLeadingComment(node: any, element: any): string {
+export function computeLeadingComment(node, element) {
   const leadingComments = ts.getLeadingCommentRanges(node.getFullText(), element.getFullStart());
   if(leadingComments) {
-    return node.getFullText().substring((leadingComments as any)[0].pos, (leadingComments as any)[0].end);
+    return node.getFullText().substring((leadingComments)[0].pos, (leadingComments)[0].end);
   }
   return '';
 }
 
-export function extractJsDocCommentFromText(text: string): any {
+export function extractJsDocCommentFromText(text) {
   const result = [];
-  const res: any = parse(text)[0];
+  const res = parse(text)[0];
   if(res) {
-    res && res.tags && res.tags.forEach((tag: any) => {
+    res && res.tags && res.tags.forEach((tag) => {
       tag = extractImportType(tag);
       result.push(tag);
     });
@@ -53,15 +36,15 @@ export function extractJsDocCommentFromText(text: string): any {
   return [];
 }
 
-export function extractJsDoc(node: any): any {
-  const result: Array<JSDoc|Description> = [];
+export function extractJsDoc(node) {
+  const result = [];
   if (Array.isArray(node.jsDoc) && node.jsDoc.length > 0) {
     // only get the jsdoc thats directly above the node
     const jsDoc = node.jsDoc[node.jsDoc.length - 1];
 
-    const res: any = parse(jsDoc.getText())[0];
+    const res = parse(jsDoc.getText())[0];
     if(res) {
-      res.tags.forEach((tag: any) => {
+      res.tags.forEach((tag) => {
         tag = extractImportType(tag);
         result.push(tag);
       });

@@ -1,8 +1,8 @@
 import ts from 'typescript';
 
 export function getMixin(
-  node: ts.VariableStatement | ts.FunctionDeclaration,
-): boolean | ts.ClassExpression {
+  node
+) {
   if (ts.isVariableStatement(node) || ts.isFunctionDeclaration(node)) {
     if (ts.isVariableStatement(node)) {
       /**
@@ -13,7 +13,7 @@ export function getMixin(
         ts.isVariableDeclaration(declaration),
       );
       if (variableDeclaration) {
-        const body = (variableDeclaration?.initializer as ts.ArrowFunction)?.body;
+        const body = (variableDeclaration?.initializer)?.body;
         if (body && ts.isClassExpression(body)) {
           return body;
         }
@@ -25,8 +25,8 @@ export function getMixin(
           const returnStatement = body.statements.find(statement =>
             ts.isReturnStatement(statement),
           );
-          if (returnStatement && ts.isClassExpression((returnStatement as any).expression)) {
-            return (returnStatement as any).expression;
+          if (returnStatement && ts.isClassExpression((returnStatement).expression)) {
+            return (returnStatement).expression;
           }
         }
       }
@@ -39,8 +39,8 @@ export function getMixin(
       const { body } = node;
       if (body && ts.isBlock(body)) {
         const returnStatement = body.statements.find(statement => ts.isReturnStatement(statement));
-        if (returnStatement && ts.isClassExpression((returnStatement as any).expression)) {
-          return (returnStatement as any).expression;
+        if (returnStatement && ts.isClassExpression((returnStatement).expression)) {
+          return (returnStatement).expression;
         }
       }
     }
