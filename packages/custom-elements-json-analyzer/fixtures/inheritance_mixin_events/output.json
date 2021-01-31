@@ -4,7 +4,7 @@
   "modules": [
     {
       "kind": "javascript-module",
-      "path": "./MyMixin.js",
+      "path": "./fixtures/inheritance_mixin_events/package/MyMixin.js",
       "declarations": [
         {
           "kind": "mixin",
@@ -35,14 +35,14 @@
           "name": "MyMixin",
           "declaration": {
             "name": "MyMixin",
-            "module": "./MyMixin.js"
+            "module": "./fixtures/inheritance_mixin_events/package/MyMixin.js"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "./my-element.js",
+      "path": "./fixtures/inheritance_mixin_events/package/my-element.js",
       "declarations": [
         {
           "kind": "class",
@@ -62,7 +62,7 @@
               },
               "inheritedFrom": {
                 "name": "MyMixin",
-                "module": "./MyMixin.js"
+                "module": "./fixtures/inheritance_mixin_events/package/MyMixin.js"
               }
             }
           ],
@@ -85,7 +85,7 @@
               "name": "superfire",
               "inheritedFrom": {
                 "name": "MyMixin",
-                "module": "./MyMixin.js"
+                "module": "./fixtures/inheritance_mixin_events/package/MyMixin.js"
               }
             }
           ],
@@ -98,7 +98,7 @@
           "name": "my-element",
           "declaration": {
             "name": "MyElement",
-            "module": "./my-element.js"
+            "module": "./fixtures/inheritance_mixin_events/package/my-element.js"
           }
         }
       ]

@@ -4,7 +4,7 @@
   "modules": [
     {
       "kind": "javascript-module",
-      "path": "./fixtures/default/package/my-element.js",
+      "path": "./fixtures/custom_elements_define/package/my-element.js",
       "declarations": [
         {
           "kind": "class",
@@ -30,10 +30,26 @@
       "exports": [
         {
           "kind": "custom-element-definition",
+          "name": "my-foo",
+          "declaration": {
+            "name": "MyFoo",
+            "module": "./foo.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "my-bar",
+          "declaration": {
+            "name": "MyBar",
+            "package": "foo"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
           "name": "my-element",
           "declaration": {
             "name": "MyElement",
-            "module": "./fixtures/default/package/my-element.js"
+            "module": "./fixtures/custom_elements_define/package/my-element.js"
           }
         }
       ]

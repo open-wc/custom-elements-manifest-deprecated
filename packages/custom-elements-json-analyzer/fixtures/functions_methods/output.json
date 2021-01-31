@@ -4,7 +4,7 @@
   "modules": [
     {
       "kind": "javascript-module",
-      "path": "./my-element.js",
+      "path": "./fixtures/functions_methods/package/my-element.js",
       "declarations": [
         {
           "kind": "class",
@@ -238,7 +238,7 @@
           "name": "MyElement",
           "declaration": {
             "name": "MyElement",
-            "module": "./my-element.js"
+            "module": "./fixtures/functions_methods/package/my-element.js"
           }
         },
         {
@@ -246,7 +246,7 @@
           "name": "function1",
           "declaration": {
             "name": "function1",
-            "module": "./my-element.js"
+            "module": "./fixtures/functions_methods/package/my-element.js"
           }
         },
         {
@@ -254,7 +254,7 @@
           "name": "function2",
           "declaration": {
             "name": "function2",
-            "module": "./my-element.js"
+            "module": "./fixtures/functions_methods/package/my-element.js"
           }
         },
         {
@@ -262,7 +262,7 @@
           "name": "function3",
           "declaration": {
             "name": "function3",
-            "module": "./my-element.js"
+            "module": "./fixtures/functions_methods/package/my-element.js"
           }
         },
         {
@@ -270,7 +270,7 @@
           "name": "function4",
           "declaration": {
             "name": "function4",
-            "module": "./my-element.js"
+            "module": "./fixtures/functions_methods/package/my-element.js"
           }
         },
         {
@@ -278,7 +278,7 @@
           "name": "tsFunction1",
           "declaration": {
             "name": "tsFunction1",
-            "module": "./my-element.js"
+            "module": "./fixtures/functions_methods/package/my-element.js"
           }
         },
         {
@@ -286,7 +286,7 @@
           "name": "jsDocFunction1",
           "declaration": {
             "name": "jsDocFunction1",
-            "module": "./my-element.js"
+            "module": "./fixtures/functions_methods/package/my-element.js"
           }
         },
         {
@@ -294,7 +294,7 @@
           "name": "jsDocFunction2",
           "declaration": {
             "name": "jsDocFunction2",
-            "module": "./my-element.js"
+            "module": "./fixtures/functions_methods/package/my-element.js"
           }
         },
         {
@@ -302,7 +302,7 @@
           "name": "jsDocFunction3",
           "declaration": {
             "name": "jsDocFunction3",
-            "module": "./my-element.js"
+            "module": "./fixtures/functions_methods/package/my-element.js"
           }
         },
         {
@@ -310,7 +310,7 @@
           "name": "jsDocFunction4",
           "declaration": {
             "name": "jsDocFunction4",
-            "module": "./my-element.js"
+            "module": "./fixtures/functions_methods/package/my-element.js"
           }
         }
       ]

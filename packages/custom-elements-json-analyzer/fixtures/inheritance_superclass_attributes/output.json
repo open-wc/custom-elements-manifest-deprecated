@@ -4,7 +4,7 @@
   "modules": [
     {
       "kind": "javascript-module",
-      "path": "./SuperClass.js",
+      "path": "./fixtures/inheritance_superclass_attributes/package/SuperClass.js",
       "declarations": [
         {
           "kind": "class",
@@ -26,14 +26,14 @@
           "name": "SuperClass",
           "declaration": {
             "name": "SuperClass",
-            "module": "./SuperClass.js"
+            "module": "./fixtures/inheritance_superclass_attributes/package/SuperClass.js"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "./my-element.js",
+      "path": "./fixtures/inheritance_superclass_attributes/package/my-element.js",
       "declarations": [
         {
           "kind": "class",
@@ -47,7 +47,7 @@
               "name": "vertical",
               "inheritedFrom": {
                 "name": "SuperClass",
-                "module": "./SuperClass.js"
+                "module": "./fixtures/inheritance_superclass_attributes/package/SuperClass.js"
               }
             }
           ],
@@ -64,7 +64,7 @@
           "name": "my-element",
           "declaration": {
             "name": "MyElement",
-            "module": "./my-element.js"
+            "module": "./fixtures/inheritance_superclass_attributes/package/my-element.js"
           }
         }
       ]

@@ -3,23 +3,19 @@
   "readme": "",
   "modules": [
     {
+      "path": "./my-element.js",
       "kind": "javascript-module",
-      "path": "./fixtures/default/package/my-element.js",
       "declarations": [
         {
           "kind": "class",
           "description": "",
           "name": "MyElement",
-          "superclass": {
-            "name": "HTMLElement"
-          },
+          "superclass": { "name": "HTMLElement" },
           "members": [
             {
               "kind": "field",
               "name": "foo",
-              "type": {
-                "type": "string"
-              },
+              "type": {"type": "string"},
               "privacy": "public",
               "default": "'bar'"
             }
@@ -33,7 +29,7 @@
           "name": "my-element",
           "declaration": {
             "name": "MyElement",
-            "module": "./fixtures/default/package/my-element.js"
+            "module": "./my-element.js"
           }
         }
       ]

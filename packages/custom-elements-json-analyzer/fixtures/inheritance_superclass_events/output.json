@@ -4,7 +4,7 @@
   "modules": [
     {
       "kind": "javascript-module",
-      "path": "./SuperClass.js",
+      "path": "./fixtures/inheritance_superclass_events/package/SuperClass.js",
       "declarations": [
         {
           "kind": "class",
@@ -35,14 +35,14 @@
           "name": "SuperClass",
           "declaration": {
             "name": "SuperClass",
-            "module": "./SuperClass.js"
+            "module": "./fixtures/inheritance_superclass_events/package/SuperClass.js"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "./my-element.js",
+      "path": "./fixtures/inheritance_superclass_events/package/my-element.js",
       "declarations": [
         {
           "kind": "class",
@@ -62,7 +62,7 @@
               },
               "inheritedFrom": {
                 "name": "SuperClass",
-                "module": "./SuperClass.js"
+                "module": "./fixtures/inheritance_superclass_events/package/SuperClass.js"
               }
             }
           ],
@@ -80,7 +80,7 @@
               "name": "superfire",
               "inheritedFrom": {
                 "name": "SuperClass",
-                "module": "./SuperClass.js"
+                "module": "./fixtures/inheritance_superclass_events/package/SuperClass.js"
               }
             }
           ],
@@ -93,7 +93,7 @@
           "name": "my-element",
           "declaration": {
             "name": "MyElement",
-            "module": "./my-element.js"
+            "module": "./fixtures/inheritance_superclass_events/package/my-element.js"
           }
         }
       ]

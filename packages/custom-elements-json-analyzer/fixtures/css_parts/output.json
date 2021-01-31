@@ -4,7 +4,7 @@
   "modules": [
     {
       "kind": "javascript-module",
-      "path": "./my-element.js",
+      "path": "./fixtures/css_parts/package/my-element.js",
       "declarations": [
         {
           "kind": "class",
@@ -32,7 +32,7 @@
           "name": "my-element",
           "declaration": {
             "name": "MyElement",
-            "module": "./my-element.js"
+            "module": "./fixtures/css_parts/package/my-element.js"
           }
         }
       ]

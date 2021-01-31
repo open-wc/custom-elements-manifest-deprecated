@@ -14,7 +14,7 @@ import {
 } from 'custom-elements-json/schema';
 import { ExportType, isValidArray, pushSafe } from './utils';
 import { Import, isBareModuleSpecifier } from './utils';
-
+import commandLineArgs from 'command-line-args';
 import { customElementsJson } from './customElementsJson';
 
 import { handleClass } from './ast/handleClass';
@@ -23,11 +23,11 @@ import { handleExport } from './ast/handleExport';
 import { handleImport } from './ast/handleImport';
 import { getMixin } from './ast/getMixin';
 
-export async function create(packagePath: string): Promise<Package> {
-  const modulePaths = await globby([`${packagePath}/**/*.js`, `!${packagePath}/**/.*.js`, `!${packagePath}/**/*.config.js`]);
+export async function create(options: commandLineArgs.CommandLineOptions): Promise<Package> {
+  const modulePaths = await globby(options.glob);
 
   modulePaths.forEach(modulePath => {
-    const relativeModulePath = `./${path.relative(packagePath, modulePath)}`;
+    const relativeModulePath = `./${path.relative(process.cwd(), modulePath)}`;
 
     customElementsJson.modules.push({
       kind: 'javascript-module',
