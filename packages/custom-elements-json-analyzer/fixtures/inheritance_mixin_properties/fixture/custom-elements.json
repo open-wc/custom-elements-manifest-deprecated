@@ -4,7 +4,7 @@
   "modules": [
     {
       "kind": "javascript-module",
-      "path": "./MyMixin.js",
+      "path": "./fixtures/inheritance_mixin_properties/package/MyMixin.js",
       "declarations": [
         {
           "kind": "mixin",
@@ -36,14 +36,14 @@
           "name": "MyMixin",
           "declaration": {
             "name": "MyMixin",
-            "module": "./MyMixin.js"
+            "module": "./fixtures/inheritance_mixin_properties/package/MyMixin.js"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "./my-element.js",
+      "path": "./fixtures/inheritance_mixin_properties/package/my-element.js",
       "declarations": [
         {
           "kind": "class",
@@ -82,7 +82,7 @@
               "default": "'bar'",
               "inheritedFrom": {
                 "name": "MyMixin",
-                "module": "./MyMixin.js"
+                "module": "./fixtures/inheritance_mixin_properties/package/MyMixin.js"
               }
             }
           ],
@@ -95,7 +95,7 @@
           "name": "my-element",
           "declaration": {
             "name": "MyElement",
-            "module": "./my-element.js"
+            "module": "./fixtures/inheritance_mixin_properties/package/my-element.js"
           }
         }
       ]

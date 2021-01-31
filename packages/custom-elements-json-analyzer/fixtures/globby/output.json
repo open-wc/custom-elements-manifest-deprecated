@@ -26,7 +26,7 @@
           "name": "my-element",
           "declaration": {
             "name": "MyElement",
-            "module": ""
+            "module": "./fixtures/globby/package/my-element.config.js"
           }
         }
       ]

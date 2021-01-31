@@ -3,14 +3,16 @@
   "readme": "",
   "modules": [
     {
-      "path": "./my-element.js",
       "kind": "javascript-module",
+      "path": "./fixtures/fields/package/my-element.js",
       "declarations": [
         {
           "kind": "class",
           "description": "",
           "name": "MyElement",
-          "superclass": { "name": "HTMLElement" },
+          "superclass": {
+            "name": "HTMLElement"
+          },
           "members": [
             {
               "kind": "field",
@@ -20,35 +22,45 @@
             {
               "kind": "field",
               "name": "prop2",
-              "type": {"type": "string"},
+              "type": {
+                "type": "string"
+              },
               "privacy": "public",
               "default": "'bar'"
             },
             {
               "kind": "field",
               "name": "prop3",
-              "type": {"type": "number"},
+              "type": {
+                "type": "number"
+              },
               "privacy": "public",
               "default": "1"
             },
             {
               "kind": "field",
               "name": "prop4",
-              "type": {"type": "array"},
+              "type": {
+                "type": "array"
+              },
               "privacy": "public",
               "default": "[]"
             },
             {
               "kind": "field",
               "name": "prop5",
-              "type": {"type": "object"},
+              "type": {
+                "type": "object"
+              },
               "privacy": "public",
               "default": "{}"
             },
             {
               "kind": "field",
               "name": "#prop6",
-              "type": {"type": "string"},
+              "type": {
+                "type": "string"
+              },
               "privacy": "private",
               "default": "'bar'"
             },
@@ -98,7 +110,7 @@
           "name": "my-element",
           "declaration": {
             "name": "MyElement",
-            "module": "./my-element.js"
+            "module": "./fixtures/fields/package/my-element.js"
           }
         }
       ]

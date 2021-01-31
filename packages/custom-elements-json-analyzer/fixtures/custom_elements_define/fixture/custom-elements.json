@@ -3,19 +3,23 @@
   "readme": "",
   "modules": [
     {
-      "path": "./my-element.js",
       "kind": "javascript-module",
+      "path": "./fixtures/custom_elements_define/package/my-element.js",
       "declarations": [
         {
           "kind": "class",
           "description": "",
           "name": "MyElement",
-          "superclass": { "name": "HTMLElement" },
+          "superclass": {
+            "name": "HTMLElement"
+          },
           "members": [
             {
               "kind": "field",
               "name": "foo",
-              "type": {"type": "string"},
+              "type": {
+                "type": "string"
+              },
               "privacy": "public",
               "default": "'bar'"
             }
@@ -26,10 +30,26 @@
       "exports": [
         {
           "kind": "custom-element-definition",
+          "name": "my-foo",
+          "declaration": {
+            "name": "MyFoo",
+            "module": "./foo.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "my-bar",
+          "declaration": {
+            "name": "MyBar",
+            "package": "foo"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
           "name": "my-element",
           "declaration": {
             "name": "MyElement",
-            "module": "./my-element.js"
+            "module": "./fixtures/custom_elements_define/package/my-element.js"
           }
         }
       ]

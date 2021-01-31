@@ -4,7 +4,7 @@
   "modules": [
     {
       "kind": "javascript-module",
-      "path": "./my-element.js",
+      "path": "./fixtures/imports/package/my-element.js",
       "declarations": [],
       "exports": []
     }

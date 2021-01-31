@@ -4,7 +4,7 @@
   "modules": [
     {
       "kind": "javascript-module",
-      "path": "./my-element.js",
+      "path": "./fixtures/link_superclasses/package/my-element.js",
       "declarations": [
         {
           "kind": "class",
@@ -21,7 +21,7 @@
           "name": "ExtendsLocal",
           "superclass": {
             "name": "LocalSuperclass",
-            "module": "./my-element.js"
+            "module": "./fixtures/link_superclasses/package/my-element.js"
           }
         },
         {
@@ -49,7 +49,7 @@
           "name": "ExtendsLocal",
           "declaration": {
             "name": "ExtendsLocal",
-            "module": "./my-element.js"
+            "module": "./fixtures/link_superclasses/package/my-element.js"
           }
         },
         {
@@ -57,7 +57,7 @@
           "name": "ExtendsBaremodule",
           "declaration": {
             "name": "ExtendsBaremodule",
-            "module": "./my-element.js"
+            "module": "./fixtures/link_superclasses/package/my-element.js"
           }
         },
         {
@@ -65,7 +65,7 @@
           "name": "ExtendsLocalImported",
           "declaration": {
             "name": "ExtendsLocalImported",
-            "module": "./my-element.js"
+            "module": "./fixtures/link_superclasses/package/my-element.js"
           }
         },
         {
@@ -73,7 +73,7 @@
           "name": "my-element",
           "declaration": {
             "name": "MyElement",
-            "module": "./my-element.js"
+            "module": "./fixtures/link_superclasses/package/my-element.js"
           }
         }
       ]
