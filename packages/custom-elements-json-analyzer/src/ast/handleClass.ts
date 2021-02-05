@@ -406,7 +406,7 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
           classMember.type = { type: member.type.getText() }
         }
 
-        if (typeof (member as any).initializer !== 'undefined') {
+        if (typeof (member as any).initializer !== 'undefined' && !ts.isCallExpression((member as any).initializer)) {
           classMember.default = (member as any).initializer.getText();
         }
 

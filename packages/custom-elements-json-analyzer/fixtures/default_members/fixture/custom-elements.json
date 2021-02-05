@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "experimental",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "./fixtures/default_members/package/my-element.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "MyElement",
+          "superclass": {
+            "name": "HTMLElement"
+          },
+          "members": [
+            {
+              "kind": "field",
+              "name": "shadow",
+              "privacy": "public"
+            },
+            {
+              "kind": "field",
+              "name": "functionCall",
+              "privacy": "public"
+            }
+          ],
+          "tagName": "my-element"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "my-element",
+          "declaration": {
+            "name": "MyElement",
+            "module": "./fixtures/default_members/package/my-element.js"
+          }
+        }
+      ]
+    }
+  ]
+}
