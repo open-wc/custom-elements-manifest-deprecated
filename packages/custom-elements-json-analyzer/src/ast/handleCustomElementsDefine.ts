@@ -1,6 +1,7 @@
 import { CustomElementExport, JavaScriptModule } from 'custom-elements-json/schema';
 import { customElementsJson } from '../customElementsJson';
 import { isValidArray } from '../utils';
+import path from 'path';
 
 export function handleCustomElementsDefine(node: any, moduleDoc: JavaScriptModule) {
   if (node.expression.getText() === 'customElements' && node.name.getText() === 'define') {
@@ -38,14 +39,15 @@ export function handleCustomElementsDefine(node: any, moduleDoc: JavaScriptModul
                 },
 
          * But should the `module` there be absolute? e.g.: "./fixtures/custom_elements_define/package/foo.js"
+         * Like this? console.log(path.resolve(path.dirname(moduleDoc.path), foundImport.importPath).replace(process.cwd(), ''))
+         *
+         * UPDATE: Checked with Benny. Should be relative from the rootpath, so the example above is correct.
          */
         definitionDoc.declaration.module = foundImport.importPath;
       }
     } else {
       definitionDoc.declaration.module = moduleDoc.path;
     }
-
-    console.log(moduleDoc.path);
 
     moduleDoc.exports!.push(definitionDoc);
   }

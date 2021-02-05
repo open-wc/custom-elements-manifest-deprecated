@@ -24,6 +24,7 @@
           "members": [
             {
               "kind": "method",
+              "privacy": "public",
               "name": "superfire"
             }
           ]
@@ -73,10 +74,12 @@
           "members": [
             {
               "kind": "method",
+              "privacy": "public",
               "name": "fire"
             },
             {
               "kind": "method",
+              "privacy": "public",
               "name": "superfire",
               "inheritedFrom": {
                 "name": "SuperClass",

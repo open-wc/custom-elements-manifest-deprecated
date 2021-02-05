@@ -11,7 +11,8 @@
           "description": "",
           "name": "MyElement",
           "superclass": {
-            "name": "HTMLElement"
+            "name": "LitElement",
+            "package": "lit-element"
           },
           "members": [
             {

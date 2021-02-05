@@ -11,7 +11,8 @@
           "description": "",
           "name": "MyMixin",
           "superclass": {
-            "name": "superklass"
+            "name": "superklass",
+            "module": "./fixtures/inheritance_mixin_properties/package/MyMixin.js"
           },
           "members": [
             {
@@ -25,6 +26,7 @@
             },
             {
               "kind": "method",
+              "privacy": "public",
               "name": "overRideableMethod"
             }
           ]
@@ -70,6 +72,7 @@
             },
             {
               "kind": "method",
+              "privacy": "public",
               "name": "overRideableMethod"
             },
             {

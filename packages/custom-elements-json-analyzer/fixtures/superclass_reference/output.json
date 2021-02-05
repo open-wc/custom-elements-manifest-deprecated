@@ -1,0 +1,81 @@
+{
+  "schemaVersion": "experimental",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "./fixtures/superclass_reference/package/my-element.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "Empty",
+          "superclass": {
+            "name": "HTMLElement"
+          }
+        },
+        {
+          "kind": "class",
+          "description": "",
+          "name": "Current",
+          "superclass": {
+            "name": "CurrentElement",
+            "module": "./fixtures/superclass_reference/package/my-element.js"
+          }
+        },
+        {
+          "kind": "class",
+          "description": "",
+          "name": "Package",
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit-element"
+          }
+        },
+        {
+          "kind": "class",
+          "description": "",
+          "name": "LocalModule",
+          "superclass": {
+            "name": "LocalElement",
+            "module": "./local.js"
+          }
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "Empty",
+          "declaration": {
+            "name": "Empty",
+            "module": "./fixtures/superclass_reference/package/my-element.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "Current",
+          "declaration": {
+            "name": "Current",
+            "module": "./fixtures/superclass_reference/package/my-element.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "Package",
+          "declaration": {
+            "name": "Package",
+            "module": "./fixtures/superclass_reference/package/my-element.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LocalModule",
+          "declaration": {
+            "name": "LocalModule",
+            "module": "./fixtures/superclass_reference/package/my-element.js"
+          }
+        }
+      ]
+    }
+  ]
+}

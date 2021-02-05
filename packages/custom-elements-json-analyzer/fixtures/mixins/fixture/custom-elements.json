@@ -16,7 +16,8 @@
             }
           ],
           "superclass": {
-            "name": "klass"
+            "name": "klass",
+            "module": "./fixtures/mixins/package/MyMixin1.js"
           },
           "members": [
             {

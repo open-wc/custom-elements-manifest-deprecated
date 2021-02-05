@@ -59,7 +59,8 @@
             },
             {
               "kind": "method",
-              "name": "__onClick"
+              "name": "__onClick",
+              "privacy": "public"
             }
           ],
           "tagName": "my-element"

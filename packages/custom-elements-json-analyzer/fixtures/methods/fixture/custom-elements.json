@@ -11,11 +11,13 @@
           "description": "",
           "name": "MyElement",
           "superclass": {
-            "name": "HTMLElement"
+            "name": "LitElement",
+            "package": "lit-element"
           },
           "members": [
             {
               "kind": "method",
+              "privacy": "public",
               "name": "regular"
             },
             {

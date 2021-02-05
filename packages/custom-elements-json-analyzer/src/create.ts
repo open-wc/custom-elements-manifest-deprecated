@@ -83,7 +83,7 @@ export async function create(options: commandLineArgs.CommandLineOptions): Promi
 
           // Superclass is imported, but from a different local module
           if (foundSuperclass.kind && !foundSuperclass.isBareModuleSpecifier) {
-            customElement.superclass.module = foundSuperclass.importPath;
+            customElement.superclass.module = path.resolve(path.dirname(currModule.path), foundSuperclass.importPath).replace(process.cwd(), '');
           }
 
           // Superclass declared in local module
@@ -191,7 +191,7 @@ export async function create(options: commandLineArgs.CommandLineOptions): Promi
     for (const _module of customElementsJson.modules) {
       const modulePath = _module.path;
       // @TODO: I dont think you need to go through the exports here
-      const match = [...(<Declaration[]>_module.declarations), ...(<Export[]>_module.exports)].some(
+      const match = [...(<Declaration[]>_module.declarations)].some(
         classDoc => {
           return classDoc.name === definition.declaration.name;
         },
@@ -218,14 +218,13 @@ export async function create(options: commandLineArgs.CommandLineOptions): Promi
 
     inheritanceChain.forEach((klass: any) => {
       // Handle mixins
-      if (klass.kind !== 'class') {
-        if (klass.package) {
+      if (klass?.kind !== 'class') {
+        if (klass?.package) {
           // the mixin comes from a bare module specifier, skip it
           return;
         }
 
-        if (klass.module) {
-          // @TODO add attrs/members/events
+        if (klass?.module) {
           const klassModule = customElementsJson.modules.find(
             (_module: any) => _module.path === klass.module,
           );
@@ -252,12 +251,12 @@ export async function create(options: commandLineArgs.CommandLineOptions): Promi
       }
 
       // ignore the current class itself
-      if (klass.name === customElement.name) {
+      if (klass?.name === customElement.name) {
         return;
       }
 
       ['attributes', 'members', 'events'].forEach(type => {
-        klass[type] &&
+        klass && klass[type] &&
           klass[type].forEach((currItem: Attribute | Event | ClassMember) => {
             const moduleForKlass = customElementsJson.getModuleForClass(klass.name);
             const moduleForMixin = customElementsJson.getModuleForMixin(klass.name);

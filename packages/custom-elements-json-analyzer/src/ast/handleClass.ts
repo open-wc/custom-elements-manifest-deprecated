@@ -23,8 +23,12 @@ import {
   isValidArray,
   pushSafe,
 } from '../utils';
+import { customElementsJson } from '../customElementsJson';
+import path from 'path';
+
 
 export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class' | 'mixin') {
+  
   const classDoc: any = {
     kind: kind,
     description: '',
@@ -100,7 +104,7 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
       clause.types.forEach((type: any) => {
         const mixins: Reference[] = [];
         let node = type.expression;
-        let superClass;
+        let superClass: string;
 
         // gather mixin calls
         if (ts.isCallExpression(node)) {
@@ -121,6 +125,28 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
         classDoc.superclass = {
           name: superClass,
         };
+
+        // @TODO: mixins are References too, add module/package to it
+        const foundSuperClass = isValidArray(customElementsJson.imports) && customElementsJson.imports.find((_import: any) => {
+          return _import.name === superClass;
+        });
+    
+        // superclass is imported from another file
+        if(foundSuperClass) {
+          // superclass is from 3rd party package
+          if(foundSuperClass.isBareModuleSpecifier) {
+            classDoc.superclass.package = foundSuperClass.importPath;
+          } else {
+            // superclass is imported from a local module
+            classDoc.superclass.module = path.resolve(path.dirname(moduleDoc.path), foundSuperClass.importPath).replace(process.cwd(), '');
+          }
+        } else {
+          classDoc.superclass.module = moduleDoc.path;
+        }
+
+        if(superClass === 'HTMLElement') {
+          delete classDoc.superclass.module;
+        }
       });
     });
   }
@@ -147,13 +173,14 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
      */
     node.members.forEach((member: any) => {
       if (ts.isMethodDeclaration(member)) {
-        if (methodDenyList.includes((member.name as ts.Identifier).text)) {
+        if (methodDenyList.includes((member.name as ts.Identifier).text) && classDoc.superclass.name === 'LitElement') {
           return;
         }
 
         let method: ClassMethod = {
           kind: 'method',
           name: '',
+          privacy: 'public'
         };
 
         if (hasModifiers(member)) {

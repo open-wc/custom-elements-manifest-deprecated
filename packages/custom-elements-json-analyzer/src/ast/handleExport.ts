@@ -91,7 +91,6 @@ export function handleExport(
    * @example export default var1;
    */
   if (node.kind === ts.SyntaxKind.ExportAssignment) {
-    // @TODO: var8 can be imported from a different package, module, or declared in the local module. Find where it comes from
     const _export: Export = {
       kind: 'js',
       name: 'default',
@@ -109,7 +108,6 @@ export function handleExport(
      */
     if (hasNamedExports(node) && !isReexport(node)) {
       (node as any).exportClause?.elements?.forEach((element: any) => {
-        // @TODO: these could be reexports, need to find module or package
         const _export: Export = {
           kind: 'js',
           name: element.name.getText(),

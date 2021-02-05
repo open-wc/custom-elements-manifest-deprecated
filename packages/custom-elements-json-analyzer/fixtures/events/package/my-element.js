@@ -36,6 +36,10 @@ class MyElement extends HTMLElement {
   extendedEvent() {
     this.dispatchEvent(new ExtendedEvent('extended-event', {detail: {}}));
   }
+
+  notIncluded() {
+    this.shadowRoot.querySelector('foo').dispatchEvent(new Event('not-included'));
+  }
 }
 
 customElements.define('my-element', MyElement);

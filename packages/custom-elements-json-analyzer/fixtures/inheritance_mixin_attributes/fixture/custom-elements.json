@@ -16,7 +16,8 @@
             }
           ],
           "superclass": {
-            "name": "superklass"
+            "name": "superklass",
+            "module": "./fixtures/inheritance_mixin_attributes/package/MyMixin.js"
           }
         }
       ],

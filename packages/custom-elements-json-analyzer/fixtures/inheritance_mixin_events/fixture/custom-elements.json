@@ -19,11 +19,13 @@
             }
           ],
           "superclass": {
-            "name": "superclass"
+            "name": "superclass",
+            "module": "./fixtures/inheritance_mixin_events/package/MyMixin.js"
           },
           "members": [
             {
               "kind": "method",
+              "privacy": "public",
               "name": "superfire"
             }
           ]
@@ -78,10 +80,12 @@
           "members": [
             {
               "kind": "method",
+              "privacy": "public",
               "name": "fire"
             },
             {
               "kind": "method",
+              "privacy": "public",
               "name": "superfire",
               "inheritedFrom": {
                 "name": "MyMixin",

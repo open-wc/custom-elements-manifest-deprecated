@@ -205,7 +205,7 @@ export function hasAggregatingImport(node: any): boolean {
 }
 
 export function isBareModuleSpecifier(specifier: string): boolean {
-  return !!specifier.replace(/'/g, '')[0].match(/[a-zA-Z]/g);
+  return !!specifier.replace(/'/g, '')[0].match(/[@a-zA-Z]/g);
 }
 
 export interface Import {

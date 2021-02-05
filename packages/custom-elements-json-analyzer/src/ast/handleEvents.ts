@@ -49,7 +49,9 @@ function visit(source: any, events: Event[]) {
   function visitNode(node: any) {
     switch (node.kind) {
       case ts.SyntaxKind.CallExpression:
-        if (node.expression.name.getText() === 'dispatchEvent') {
+
+        // if callexpression is `this.dispatchEvent`
+        if (node.expression?.name?.getText() === 'dispatchEvent' && node.expression.expression.kind === ts.SyntaxKind.ThisKeyword) {
 
           const eventDoc: Event = {
             name: '',

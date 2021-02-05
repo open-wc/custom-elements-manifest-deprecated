@@ -1,4 +1,6 @@
-class MyElement extends HTMLElement {
+import { LitElement } from 'lit-element';
+
+class MyElement extends LitElement {
   regular(){}
   #private(){} // should be private
   static staticMethod(){}
