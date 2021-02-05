@@ -53,7 +53,7 @@
           ],
           "superclass": {
             "name": "SuperClass",
-            "module": "./SuperClass.js"
+            "module": "/fixtures/inheritance_superclass_attributes/package/SuperClass.js"
           },
           "tagName": "my-element"
         }

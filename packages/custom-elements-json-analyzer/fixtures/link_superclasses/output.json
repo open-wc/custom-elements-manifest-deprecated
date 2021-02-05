@@ -39,7 +39,7 @@
           "name": "ExtendsLocalImported",
           "superclass": {
             "name": "LocalImportedSuperclass",
-            "module": "./my-module.js"
+            "module": "/fixtures/link_superclasses/package/my-module.js"
           }
         }
       ],

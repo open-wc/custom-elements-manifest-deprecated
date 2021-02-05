@@ -52,7 +52,7 @@
           "name": "MyElement",
           "superclass": {
             "name": "SuperClass",
-            "module": "./SuperClass.js"
+            "module": "/fixtures/inheritance_superclass_properties/package/SuperClass.js"
           },
           "members": [
             {

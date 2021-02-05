@@ -26,24 +26,7 @@ export function handleCustomElementsDefine(node: any, moduleDoc: JavaScriptModul
         delete definitionDoc.declaration.module;
         definitionDoc.declaration.package = foundImport.importPath;
       } else {
-        /**
-         * @TODO:
-         * This will result in:
-         *       {
-                  "kind": "custom-element-definition",
-                  "name": "my-foo",
-                  "declaration": {
-                    "name": "MyFoo",
-                    "module": "./foo.js"
-                  }
-                },
-
-         * But should the `module` there be absolute? e.g.: "./fixtures/custom_elements_define/package/foo.js"
-         * Like this? console.log(path.resolve(path.dirname(moduleDoc.path), foundImport.importPath).replace(process.cwd(), ''))
-         *
-         * UPDATE: Checked with Benny. Should be relative from the rootpath, so the example above is correct.
-         */
-        definitionDoc.declaration.module = foundImport.importPath;
+        definitionDoc.declaration.module = path.resolve(path.dirname(moduleDoc.path), foundImport.importPath).replace(process.cwd(), '');
       }
     } else {
       definitionDoc.declaration.module = moduleDoc.path;

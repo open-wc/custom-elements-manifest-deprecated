@@ -38,7 +38,7 @@
           "name": "LocalModule",
           "superclass": {
             "name": "LocalElement",
-            "module": "./local.js"
+            "module": "/fixtures/superclass_reference/package/local.js"
           }
         }
       ],

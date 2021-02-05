@@ -69,7 +69,7 @@
           ],
           "superclass": {
             "name": "SuperClass",
-            "module": "./SuperClass.js"
+            "module": "/fixtures/inheritance_superclass_events/package/SuperClass.js"
           },
           "members": [
             {

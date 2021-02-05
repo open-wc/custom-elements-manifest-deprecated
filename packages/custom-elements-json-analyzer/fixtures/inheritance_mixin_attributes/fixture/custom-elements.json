@@ -55,7 +55,7 @@
           "mixins": [
             {
               "name": "MyMixin",
-              "module": "./MyMixin.js"
+              "module": "/fixtures/inheritance_mixin_attributes/package/MyMixin.js"
             }
           ],
           "superclass": {

@@ -26,6 +26,40 @@ import {
 import { customElementsJson } from '../customElementsJson';
 import path from 'path';
 
+interface Mixin {
+  name: string,
+  package?: string,
+  module?: string
+}
+
+function createMixin(name: string): Mixin {
+  const mixin: Mixin = {
+    name
+  };
+  const currentModulePath = customElementsJson.currentModule.fileName;
+
+  const foundMixin = isValidArray(customElementsJson.imports) && customElementsJson.imports.find((_import: any) => {
+    return _import.name === name;
+  });
+
+  if(foundMixin) {
+    // Mixin is imported from bare module specifier
+    if (foundMixin.importPath && foundMixin.isBareModuleSpecifier) {
+      mixin.package = foundMixin.importPath;
+    }
+  
+    // Mixin is imported from a different local module
+    if (foundMixin.importPath && !foundMixin.isBareModuleSpecifier) {
+      mixin.module = path.resolve(path.dirname(currentModulePath), foundMixin.importPath).replace(process.cwd(), '');
+    }
+  
+    // Mixin was found in the current modules declarations, so defined locally
+    if (!foundMixin.importPath) {
+      mixin.module = currentModulePath;
+    }
+  }
+  return mixin;
+}
 
 export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class' | 'mixin') {
   
@@ -108,9 +142,11 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
 
         // gather mixin calls
         if (ts.isCallExpression(node)) {
-          mixins.push({ name: node.expression.getText() });
+          const mixinName = node.expression.getText();
+          mixins.push(createMixin(mixinName))
           while (ts.isCallExpression(node.arguments[0])) {
-            mixins.push({ name: node.arguments[0].expression.getText() });
+            const mixinName = node.expression.getText();
+            mixins.push(createMixin(mixinName));
             node = node.arguments[0];
           }
           superClass = node.arguments[0].text;
@@ -126,7 +162,6 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
           name: superClass,
         };
 
-        // @TODO: mixins are References too, add module/package to it
         const foundSuperClass = isValidArray(customElementsJson.imports) && customElementsJson.imports.find((_import: any) => {
           return _import.name === superClass;
         });

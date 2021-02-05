@@ -24,7 +24,8 @@
           "members": [
             {
               "kind": "method",
-              "name": "superfire"
+              "name": "superfire",
+              "privacy": "public"
             }
           ]
         }
@@ -68,16 +69,18 @@
           ],
           "superclass": {
             "name": "SuperClass",
-            "module": "./SuperClass.js"
+            "module": "/fixtures/inheritance_superclass_events/package/SuperClass.js"
           },
           "members": [
             {
               "kind": "method",
-              "name": "fire"
+              "name": "fire",
+              "privacy": "public"
             },
             {
               "kind": "method",
               "name": "superfire",
+              "privacy": "public",
               "inheritedFrom": {
                 "name": "SuperClass",
                 "module": "./fixtures/inheritance_superclass_events/package/SuperClass.js"

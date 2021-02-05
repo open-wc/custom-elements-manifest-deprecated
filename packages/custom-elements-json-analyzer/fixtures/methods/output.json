@@ -17,7 +17,8 @@
           "members": [
             {
               "kind": "method",
-              "name": "regular"
+              "name": "regular",
+              "privacy": "public"
             },
             {
               "kind": "method",
@@ -27,8 +28,8 @@
             {
               "kind": "method",
               "name": "staticMethod",
-              "static": true,
-              "privacy": "public"
+              "privacy": "public",
+              "static": true
             },
             {
               "kind": "method",

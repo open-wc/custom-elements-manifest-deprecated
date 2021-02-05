@@ -16,11 +16,13 @@
           "members": [
             {
               "kind": "method",
-              "name": "method1"
+              "name": "method1",
+              "privacy": "public"
             },
             {
               "kind": "method",
               "name": "method2",
+              "privacy": "public",
               "parameters": [
                 {
                   "name": "param1"
@@ -30,6 +32,7 @@
             {
               "kind": "method",
               "name": "method3",
+              "privacy": "public",
               "parameters": [
                 {
                   "name": "param1"
@@ -42,6 +45,7 @@
             {
               "kind": "method",
               "name": "method4",
+              "privacy": "public",
               "parameters": [
                 {
                   "name": "param1"
@@ -55,9 +59,12 @@
             {
               "kind": "method",
               "name": "tsMethod1",
+              "privacy": "public",
               "description": "only description",
               "return": {
-                "type": "boolean"
+                "type": {
+                  "type": "boolean"
+                }
               },
               "parameters": [
                 {
@@ -71,14 +78,19 @@
             {
               "kind": "method",
               "name": "jsDocMethod1",
+              "privacy": "public",
               "description": "Method description",
               "return": {
-                "type": "boolean"
+                "type": {
+                  "type": "boolean"
+                }
               },
               "parameters": [
                 {
                   "name": "foo",
-                  "type": "string",
+                  "type": {
+                    "type": "string"
+                  },
                   "description": "description"
                 }
               ]
@@ -86,17 +98,24 @@
             {
               "kind": "method",
               "name": "jsDocMethod2",
+              "privacy": "public",
               "return": {
-                "type": "boolean"
+                "type": {
+                  "type": "boolean"
+                }
               },
               "parameters": [
                 {
                   "name": "foo",
-                  "type": "string"
+                  "type": {
+                    "type": "string"
+                  }
                 },
                 {
                   "name": "bar",
-                  "type": "string",
+                  "type": {
+                    "type": "string"
+                  },
                   "optional": true
                 }
               ]
@@ -104,8 +123,11 @@
             {
               "kind": "method",
               "name": "jsDocMethod3",
+              "privacy": "public",
               "return": {
-                "type": "boolean"
+                "type": {
+                  "type": "boolean"
+                }
               },
               "parameters": [
                 {
@@ -116,6 +138,7 @@
             {
               "kind": "method",
               "name": "jsDocMethod4",
+              "privacy": "public",
               "description": "only description",
               "parameters": [
                 {
@@ -167,7 +190,9 @@
           "kind": "function",
           "name": "tsFunction1",
           "return": {
-            "type": "boolean"
+            "type": {
+              "type": "boolean"
+            }
           },
           "parameters": [
             {
@@ -182,12 +207,16 @@
           "kind": "function",
           "name": "jsDocFunction1",
           "return": {
-            "type": "boolean"
+            "type": {
+              "type": "boolean"
+            }
           },
           "parameters": [
             {
               "name": "foo",
-              "type": "string"
+              "type": {
+                "type": "string"
+              }
             }
           ]
         },
@@ -195,16 +224,22 @@
           "kind": "function",
           "name": "jsDocFunction2",
           "return": {
-            "type": "boolean"
+            "type": {
+              "type": "boolean"
+            }
           },
           "parameters": [
             {
               "name": "foo",
-              "type": "string"
+              "type": {
+                "type": "string"
+              }
             },
             {
               "name": "bar",
-              "type": "string",
+              "type": {
+                "type": "string"
+              },
               "optional": true
             }
           ]
@@ -213,7 +248,9 @@
           "kind": "function",
           "name": "jsDocFunction3",
           "return": {
-            "type": "boolean"
+            "type": {
+              "type": "boolean"
+            }
           },
           "parameters": [
             {

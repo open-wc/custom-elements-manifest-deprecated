@@ -33,7 +33,7 @@
           "name": "my-foo",
           "declaration": {
             "name": "MyFoo",
-            "module": "./foo.js"
+            "module": "/fixtures/custom_elements_define/package/foo.js"
           }
         },
         {

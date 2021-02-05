@@ -68,31 +68,6 @@ export async function create(options: commandLineArgs.CommandLineOptions): Promi
     const classes = currModule.declarations.filter(declaration => declaration.kind === 'class');
 
     classes.forEach((customElement: any) => {
-      if (customElement.superclass && customElement.superclass.name !== 'HTMLElement') {
-        const foundSuperclass = [...(classes || []), ...(customElementsJson.imports || [])].find(
-          (_import: Import) => {
-            return _import.name === customElement.superclass.name;
-          },
-        );
-
-        if (foundSuperclass) {
-          // Superclass is imported, but from a bare module specifier
-          if (foundSuperclass.kind && foundSuperclass.isBareModuleSpecifier) {
-            customElement.superclass.package = foundSuperclass.importPath;
-          }
-
-          // Superclass is imported, but from a different local module
-          if (foundSuperclass.kind && !foundSuperclass.isBareModuleSpecifier) {
-            customElement.superclass.module = path.resolve(path.dirname(currModule.path), foundSuperclass.importPath).replace(process.cwd(), '');
-          }
-
-          // Superclass declared in local module
-          if (foundSuperclass.isBareModuleSpecifier === undefined) {
-            customElement.superclass.module = currModule.path;
-          }
-        }
-      }
-
       customElement.mixins &&
         customElement.mixins.forEach((mixin: any) => {
           const foundMixin = [
@@ -119,7 +94,7 @@ export async function create(options: commandLineArgs.CommandLineOptions): Promi
 
                 // Mixin is imported from a different local module
                 if (nestedFoundMixin.importPath && !nestedFoundMixin.isBareModuleSpecifier) {
-                  mixin.module = nestedFoundMixin.importPath;
+                  mixin.module = path.resolve(path.dirname(currModule.path), nestedFoundMixin.importPath).replace(process.cwd(), '');
                 }
 
                 // Mixin was found in the current modules declarations, so defined locally
@@ -137,7 +112,7 @@ export async function create(options: commandLineArgs.CommandLineOptions): Promi
 
             // Mixin is imported from a different local module
             if (foundMixin.importPath && !foundMixin.isBareModuleSpecifier) {
-              mixin.module = foundMixin.importPath;
+              mixin.module = path.resolve(path.dirname(currModule.path), foundMixin.importPath).replace(process.cwd(), '');
             }
 
             // Mixin was found in the current modules declarations, so defined locally
