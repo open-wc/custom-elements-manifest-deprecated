@@ -8,7 +8,6 @@
       "declarations": [
         {
           "kind": "mixin",
-          "description": "",
           "name": "MyMixin",
           "superclass": {
             "name": "superklass",
@@ -49,7 +48,6 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
           "name": "MyElement",
           "mixins": [
             {

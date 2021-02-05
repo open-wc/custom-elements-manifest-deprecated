@@ -8,7 +8,6 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
           "name": "SuperClass",
           "events": [
             {
@@ -47,7 +46,6 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
           "name": "MyElement",
           "events": [
             {

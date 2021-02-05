@@ -4,7 +4,10 @@ import { isValidArray } from '../utils';
 import path from 'path';
 
 export function handleCustomElementsDefine(node: any, moduleDoc: JavaScriptModule) {
-  if (node.expression.getText() === 'customElements' && node.name.getText() === 'define') {
+  if (
+    (node.expression.getText() === 'customElements' || node.expression.getText() === 'window.customElements') && 
+    node.name.getText() === 'define'
+  ) {
     const elementClass = node.parent.arguments[1].text;
     const elementTag = node.parent.arguments[0].text;
     const definitionDoc: CustomElementExport = {
@@ -12,7 +15,6 @@ export function handleCustomElementsDefine(node: any, moduleDoc: JavaScriptModul
       name: elementTag,
       declaration: {
         name: elementClass,
-        module: '',
       },
     };
 
@@ -23,7 +25,6 @@ export function handleCustomElementsDefine(node: any, moduleDoc: JavaScriptModul
 
     if(foundImport) {
       if(foundImport.isBareModuleSpecifier) {
-        delete definitionDoc.declaration.module;
         definitionDoc.declaration.package = foundImport.importPath;
       } else {
         definitionDoc.declaration.module = path.resolve(path.dirname(moduleDoc.path), foundImport.importPath).replace(process.cwd(), '');

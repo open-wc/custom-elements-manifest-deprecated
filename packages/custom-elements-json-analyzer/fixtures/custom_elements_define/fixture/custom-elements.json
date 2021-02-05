@@ -8,7 +8,6 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
           "name": "MyElement",
           "superclass": {
             "name": "HTMLElement"
@@ -25,6 +24,14 @@
             }
           ],
           "tagName": "my-element"
+        },
+        {
+          "kind": "class",
+          "name": "MyWindow",
+          "superclass": {
+            "name": "HTMLElement"
+          },
+          "tagName": "my-window"
         }
       ],
       "exports": [
@@ -49,6 +56,14 @@
           "name": "my-element",
           "declaration": {
             "name": "MyElement",
+            "module": "./fixtures/custom_elements_define/package/my-element.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "my-window",
+          "declaration": {
+            "name": "MyWindow",
             "module": "./fixtures/custom_elements_define/package/my-element.js"
           }
         }

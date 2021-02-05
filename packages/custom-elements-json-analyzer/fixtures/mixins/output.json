@@ -8,7 +8,6 @@
       "declarations": [
         {
           "kind": "mixin",
-          "description": "",
           "name": "MyMixin1",
           "mixins": [
             {
@@ -50,7 +49,6 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
           "name": "MyElement",
           "mixins": [
             {

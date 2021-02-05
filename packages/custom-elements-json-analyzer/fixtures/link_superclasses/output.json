@@ -8,7 +8,6 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
           "name": "MyElement",
           "superclass": {
             "name": "HTMLElement"
@@ -17,7 +16,6 @@
         },
         {
           "kind": "class",
-          "description": "",
           "name": "ExtendsLocal",
           "superclass": {
             "name": "LocalSuperclass",
@@ -26,7 +24,6 @@
         },
         {
           "kind": "class",
-          "description": "",
           "name": "ExtendsBaremodule",
           "superclass": {
             "name": "LitElement",
@@ -35,7 +32,6 @@
         },
         {
           "kind": "class",
-          "description": "",
           "name": "ExtendsLocalImported",
           "superclass": {
             "name": "LocalImportedSuperclass",

@@ -8,7 +8,6 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
           "name": "Empty",
           "superclass": {
             "name": "HTMLElement"
@@ -16,7 +15,6 @@
         },
         {
           "kind": "class",
-          "description": "",
           "name": "Current",
           "superclass": {
             "name": "CurrentElement",
@@ -25,7 +23,6 @@
         },
         {
           "kind": "class",
-          "description": "",
           "name": "Package",
           "superclass": {
             "name": "LitElement",
@@ -34,7 +31,6 @@
         },
         {
           "kind": "class",
-          "description": "",
           "name": "LocalModule",
           "superclass": {
             "name": "LocalElement",

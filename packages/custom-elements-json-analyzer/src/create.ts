@@ -7,7 +7,6 @@ import {
   Declaration,
   JavaScriptModule,
   CustomElement,
-  Export,
   Attribute,
   ClassMember,
   Event,

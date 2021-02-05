@@ -130,6 +130,10 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
     delete classDoc.members;
   }
 
+  if(!classDoc.description) {
+    delete classDoc.description;
+  }
+
   handleAttributes(node, classDoc);
   handleEvents(node, classDoc);
 

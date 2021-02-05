@@ -8,7 +8,6 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
           "name": "EdgeCase",
           "attributes": [
             {
@@ -41,7 +40,6 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
           "name": "MyElement2",
           "attributes": [
             {
@@ -97,7 +95,6 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
           "name": "MyElement",
           "attributes": [
             {
