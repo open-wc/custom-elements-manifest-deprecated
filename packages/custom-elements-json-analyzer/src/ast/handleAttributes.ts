@@ -40,7 +40,7 @@ export function handleAttributes(node: any, classDoc: CustomElement) {
             const returnStatement = (member as any).body.statements.find(
               (statement: any) => statement.kind === ts.SyntaxKind.ReturnStatement,
             );
-            returnStatement.expression.elements.forEach((element: any) => {
+            returnStatement.expression.elements?.forEach((element: any) => {
               if (
                 element.text !== undefined &&
                 !attributes.some(attr => attr.name === element.text)
