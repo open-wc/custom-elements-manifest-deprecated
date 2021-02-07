@@ -4,7 +4,7 @@
   "modules": [
     {
       "kind": "javascript-module",
-      "path": "./fixtures/destructured_parameters/package/my-element.js",
+      "path": "./fixtures/default/package/my-element.js",
       "declarations": [
         {
           "kind": "class",
@@ -14,27 +14,13 @@
           },
           "members": [
             {
-              "kind": "method",
+              "kind": "field",
               "name": "foo",
+              "type": {
+                "type": "string"
+              },
               "privacy": "public",
-              "parameters": [
-                {
-                  "name": "{bar, baz}"
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "bar",
-              "privacy": "public",
-              "parameters": [
-                {
-                  "name": "obj",
-                  "type": {
-                    "type": "{ a: string, b: Number }"
-                  }
-                }
-              ]
+              "default": "'bar'"
             }
           ],
           "tagName": "my-element"
@@ -46,7 +32,7 @@
           "name": "my-element",
           "declaration": {
             "name": "MyElement",
-            "module": "./fixtures/destructured_parameters/package/my-element.js"
+            "module": "./fixtures/default/package/my-element.js"
           }
         }
       ]

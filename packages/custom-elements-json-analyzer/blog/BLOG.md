@@ -1,13 +1,13 @@
-# Introducing custom-elements.json
+# Introducing Custom Elements Manifest
 
 The idea for a `web-components.json` was first suggested in
 this [GitHub issue](https://github.com/w3c/webcomponents/issues/776) on the web components GitHub repository, by Pine from the VS Code team, with the initial goal for IDEs to be able to better support custom elements.
 
 ![octref](./octref.gif)
 
-Developers tend to have many differing opinions, and standardization tends to... take time. More than 2 years later, we are happy to finally be able to share with you: `custom-elements.json` 🎉
+Developers tend to have many differing opinions, and standardization tends to... take time. More than 2 years later, we are happy to finally be able to share with you: _Custom Elements Manifest_ 🎉
 
-`custom-elements.json` is a file format that describes custom elements. This format will allow tooling and IDEs to give rich information about the custom elements in a given project. A `custom-elements.json` contains metadata about the custom elements in your project; their properties, methods, attributes, inheritance, slots, CSS Shadow Parts, CSS custom properties, and a modules exports.
+Custom Elements Manifest is a file format that describes the custom elements in your project. This format will allow tooling and IDEs to give rich information about the custom elements in a given project. A `custom-elements.json` contains metadata about the custom elements in your project; their properties, methods, attributes, inheritance, slots, CSS Shadow Parts, CSS custom properties, and a modules exports.
 
 ## Example
 
@@ -37,7 +37,7 @@ class MyElement extends LitElement {
 }
 ```
 
-> Note that this example uses LitElement, but `custom-elements.json` is not strictly tied, or exclusive to LitElement. Other libraries (or no libraries!), like Stencil, can also be documented using `custom-elements.json`.
+> Note that this example uses LitElement, but Custom Elements Manifest is not strictly tied, or exclusive to LitElement. Other libraries (or no libraries!), like Stencil, can also be documented using the Custom Elements Manifest schema.
 
 Will result in the following `custom-elements.json`:
 
@@ -51,7 +51,7 @@ Will result in the following `custom-elements.json`:
 
 ## Usecases
 
-Why `custom-elements.json`?
+Why Custom Elements Manifest?
 
 ### Documentation and demos
 
@@ -67,14 +67,13 @@ Using a `custom-elements.json` file, it would be easy to generate or display dem
 
 React currently is the only major framework where [custom elements require some special handling](https://custom-elements-everywhere.com/). React will pass all data to a custom element in the form of HTML attributes, and cannot listen for DOM events coming from Custom Elements without the use of a workaround.
 
-The solution for this is to create a wrapper React component that handles these things. Using the custom-elements.json, creation of these wrapper components could be automated.
+The solution for this is to create a wrapper React component that handles these things. Using a `custom-elements.json` file, creation of these wrapper components could be automated.
 
 Some component libraries like [Fast](http://fast.design/) or [Shoelace](https://shoelace.style/) provide specific instructions on how to integrate with certain frameworks. Automating this integration layer could make development easier for both authors of component libraries, but also for consumers of libraries.
 
 ### Avoiding breaking API changes in minor or patch versions
 
-Another interesting usecase, inspired by [`elm-package`](https://github.com/elm-lang/elm-package#elm-package), is that
-tooling would be able to detect whether or not the public API of a custom element has changed, based on a snapshot of the current `custom-elements.json` file to decide the impact of an update, and potentially prevent breaking API change in patch or minor versions.
+Another interesting usecase, inspired by [`elm-package`](https://github.com/elm-lang/elm-package#elm-package), is that tooling could be able to detect whether or not the public API of a custom element has changed, based on a snapshot of the current `custom-elements.json` file to decide the impact of an update, and potentially prevent breaking API change in patch or minor versions.
 
 ### Linting
 
@@ -88,19 +87,21 @@ A major usecase of `custom-elements.json` is that it allows us to reliably detec
 
 We believe `custom-elements.json` will open the door for a lot, lot more new exciting ideas and tooling. Which usecases can _you_ come up with? Do you have an idea, but are unsure where to start? Feel free to reach out to us on the [Polymer Slack](https://www.polymer-project.org/slack-invite), we're always happy to have a chat and help you get started.
 
-## `@custom-elements-json/analyzer`
+## 🛠 The Tools
 
 It's unlikely that developers will write their `custom-elements.json` file by hand. So at [open-wc](http://open-wc.org/), we worked hard on a tool that does it for you!
+
+## `@custom-elements-json/analyzer`
 
 [`@custom-elements-json/analyzer`](TODO) will scan the source files in your project, and generate a `custom-elements.json` for you.
 
 Here's how you can use it today:
 
 ```bash
-npx custom-elements-json create
+npx custom-elements-json analyze
 ```
 
-Currently, `@custom-elements-json/analyzer` supports vanilla custom elements (in both JavaScript and TypeScript), and has a special handling for [LitElement](http://lit-element.polymer-project.org/). In the future, this could be extended to support additional libraries like [Stencil](https://stenciljs.com/) as well. If you'd like to request support for a library, or if you'd like to implement support for a library, please create an issue on the [GitHub repository](TODO), or reach out on the [Polymer Slack](https://www.polymer-project.org/slack-invite).
+Currently, `@custom-elements-json/analyzer` supports vanilla custom elements (in both JavaScript and TypeScript), and has a special handling for [LitElement](http://lit-element.polymer-project.org/). In the future, this could be extended to support additional libraries like [Stencil](https://stenciljs.com/) and others as well. If you'd like to request support for a library, or if you'd like to implement support for a library, please create an issue on the [GitHub repository](TODO), or reach out on the [Polymer Slack](https://www.polymer-project.org/slack-invite).
 
 It's still very early days for `@custom-elements-json/analyzer`, and we're still ironing out all usecases and bugs, so feel free to try it out and let us know on [GitHub](TODO) if you run into anything weird!
 
