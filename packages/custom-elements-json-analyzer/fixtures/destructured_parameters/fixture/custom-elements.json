@@ -31,7 +31,7 @@
                 {
                   "name": "obj",
                   "type": {
-                    "type": "{ a: string b: Number }"
+                    "type": "{ a: string, b: Number }"
                   }
                 }
               ]

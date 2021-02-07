@@ -9,7 +9,7 @@ class MyElement extends HTMLElement {
 
   /**
    * @param {{
-   *   a: string
+   *   a: string,
    *   b: Number
    * }} obj 
    */
