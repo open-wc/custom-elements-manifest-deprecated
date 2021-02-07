@@ -48,7 +48,7 @@ export function hasStaticKeyword(node: any): boolean {
 
 export function isAlsoProperty(node: any) {
   let result = true;
-  ((node.initializer as ts.ObjectLiteralExpression) || node).properties.forEach((property: any) => {
+  ((node.initializer as ts.ObjectLiteralExpression) || node).properties?.forEach((property: any) => {
     if (
       (property.name as ts.Identifier).text === 'attribute' &&
       property.initializer.kind === ts.SyntaxKind.FalseKeyword
@@ -61,7 +61,7 @@ export function isAlsoProperty(node: any) {
 
 export function getAttrName(node: any): string | undefined {
   let result = undefined;
-  ((node.initializer as ts.ObjectLiteralExpression) || node).properties.forEach((property: any) => {
+  ((node.initializer as ts.ObjectLiteralExpression) || node).properties?.forEach((property: any) => {
     if (
       (property.name as ts.Identifier).text === 'attribute' &&
       property.initializer.kind !== ts.SyntaxKind.FalseKeyword

@@ -4,6 +4,8 @@ import { create } from './create';
 import commandLineArgs from 'command-line-args';
 import fs from 'fs';
 
+const { command } = commandLineArgs([{ name: 'command', defaultOption: true }], { stopAtFirstUnknown: true })
+
 const optionDefinitions = [
   { name: 'glob', type: String, multiple: true, defaultOption: true, defaultValue: [ '**/*.{js,ts}', '!**/.*.{js,ts}', '!**/*.test.{js,ts}', '!**/*.config.{js,ts}' ] },
   { name: 'exclude', type: String, multiple: true },
@@ -13,7 +15,9 @@ const options = commandLineArgs(optionDefinitions);
 
 (async () => {
   console.log(options);
-  await create(options);
+  if(command === 'analyze') {
+    await create(options);
+  }
 
   try {
     const packageJsonPath = `${process.cwd()}/package.json`;
