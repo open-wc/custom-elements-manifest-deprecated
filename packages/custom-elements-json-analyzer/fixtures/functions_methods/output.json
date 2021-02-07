@@ -64,15 +64,7 @@
                 "type": {
                   "type": "boolean"
                 }
-              },
-              "parameters": [
-                {
-                  "name": "param",
-                  "type": {
-                    "type": "string"
-                  }
-                }
-              ]
+              }
             },
             {
               "kind": "method",
@@ -127,23 +119,13 @@
                 "type": {
                   "type": "boolean"
                 }
-              },
-              "parameters": [
-                {
-                  "name": "foo"
-                }
-              ]
+              }
             },
             {
               "kind": "method",
               "name": "jsDocMethod4",
               "privacy": "public",
-              "description": "only description",
-              "parameters": [
-                {
-                  "name": "foo"
-                }
-              ]
+              "description": "only description"
             }
           ]
         },
@@ -250,22 +232,12 @@
             "type": {
               "type": "boolean"
             }
-          },
-          "parameters": [
-            {
-              "name": "foo"
-            }
-          ]
+          }
         },
         {
           "kind": "function",
           "name": "jsDocFunction4",
-          "description": "only description",
-          "parameters": [
-            {
-              "name": "foo"
-            }
-          ]
+          "description": "only description"
         }
       ],
       "exports": [
