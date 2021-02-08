@@ -4,276 +4,94 @@
   "modules": [
     {
       "kind": "javascript-module",
-      "path": "./fixtures/TEST/package/src/LionStep.js",
+      "path": "./fixtures/TEST/package/my-el.js",
       "declarations": [
         {
           "kind": "class",
-          "name": "LionStep",
+          "name": "MyElement",
+          "cssProperties": [
+            {
+              "name": "--text-color",
+              "description": "Controls the color of foo"
+            },
+            {
+              "name": "--background-color",
+              "description": "Controls the color of bar"
+            }
+          ],
+          "parts": [
+            {
+              "name": "bar",
+              "description": "Styles the color of bar"
+            }
+          ],
+          "slots": [
+            {
+              "name": "container",
+              "description": "You can put some elements here"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "disabled"
+            }
+          ],
           "events": [
             {
-              "name": "enter",
+              "name": "foo-changed",
               "type": {
-                "type": "CustomEvent"
-              }
-            },
-            {
-              "name": "leave",
-              "type": {
-                "type": "CustomEvent"
-              }
-            },
-            {
-              "name": "skip",
-              "type": {
-                "type": "CustomEvent"
-              }
+                "type": "FooEvent"
+              },
+              "description": "description"
             }
           ],
           "superclass": {
             "name": "LitElement",
-            "package": "@lion/core"
+            "package": "lit-element"
           },
-          "attributes": [
-            {
-              "name": "status",
-              "fieldName": "status"
-            },
-            {
-              "name": "invert-condition",
-              "fieldName": "invertCondition"
-            },
-            {
-              "name": "forward-only",
-              "fieldName": "forwardOnly"
-            },
-            {
-              "name": "initial-step",
-              "fieldName": "initialStep"
-            }
-          ],
           "members": [
             {
               "kind": "field",
-              "name": "status",
+              "name": "disabled",
               "privacy": "public",
-              "default": "'untouched'"
-            },
-            {
-              "kind": "field",
-              "name": "condition",
-              "privacy": "public",
-              "default": "data => true"
-            },
-            {
-              "kind": "field",
-              "name": "invertCondition",
-              "privacy": "public",
-              "default": "false"
-            },
-            {
-              "kind": "field",
-              "name": "forwardOnly",
-              "privacy": "public",
-              "default": "false"
-            },
-            {
-              "kind": "field",
-              "name": "initialStep",
-              "privacy": "public",
-              "default": "false"
+              "type": {
+                "type": "boolean"
+              },
+              "description": "disabled state",
+              "default": "true"
             },
             {
               "kind": "method",
-              "name": "enter",
+              "name": "fire",
               "privacy": "public"
-            },
-            {
-              "kind": "method",
-              "name": "leave",
-              "privacy": "public"
-            },
-            {
-              "kind": "method",
-              "name": "skip",
-              "privacy": "public"
-            },
-            {
-              "kind": "method",
-              "name": "passesCondition",
-              "privacy": "public",
-              "parameters": [
-                {
-                  "name": "data",
-                  "type": {
-                    "type": "Object"
-                  },
-                  "optional": true
-                }
-              ]
             }
-          ]
-        }
-      ],
-      "exports": [
+          ],
+          "tagName": "my-element"
+        },
         {
-          "kind": "js",
-          "name": "LionStep",
-          "declaration": {
-            "name": "LionStep",
-            "module": "./fixtures/TEST/package/src/LionStep.js"
+          "kind": "variable",
+          "name": "someVariable",
+          "description": "This will show up in the custom-elements.json too",
+          "type": {
+            "type": "boolean"
           }
         }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "./fixtures/TEST/package/src/LionSteps.js",
-      "declarations": [
-        {
-          "kind": "class",
-          "name": "LionSteps",
-          "events": [
-            {
-              "name": "transition",
-              "type": {
-                "type": "CustomEvent"
-              }
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "@lion/core"
-          },
-          "attributes": [
-            {
-              "name": "data",
-              "fieldName": "data"
-            },
-            {
-              "name": "current",
-              "fieldName": "current"
-            }
-          ],
-          "members": [
-            {
-              "kind": "field",
-              "name": "data",
-              "privacy": "public",
-              "type": {
-                "type": "{[key: string]: ?}"
-              },
-              "default": "{}"
-            },
-            {
-              "kind": "field",
-              "name": "current",
-              "privacy": "public",
-              "type": {
-                "type": "number"
-              },
-              "default": "0"
-            },
-            {
-              "kind": "method",
-              "name": "next",
-              "privacy": "public"
-            },
-            {
-              "kind": "method",
-              "name": "previous",
-              "privacy": "public"
-            },
-            {
-              "kind": "field",
-              "name": "steps",
-              "privacy": "public"
-            },
-            {
-              "kind": "method",
-              "name": "_goTo",
-              "privacy": "public",
-              "parameters": [
-                {
-                  "name": "newCurrent",
-                  "type": {
-                    "type": "number"
-                  }
-                },
-                {
-                  "name": "oldCurrent",
-                  "type": {
-                    "type": "number"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "_changeStep",
-              "privacy": "public",
-              "parameters": [
-                {
-                  "name": "newCurrent",
-                  "type": {
-                    "type": "number"
-                  }
-                },
-                {
-                  "name": "oldCurrent",
-                  "type": {
-                    "type": "number"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "_dispatchTransitionEvent",
-              "privacy": "public",
-              "parameters": [
-                {
-                  "name": "fromStep",
-                  "type": {
-                    "type": "{number: number, element: LionStep}"
-                  }
-                },
-                {
-                  "name": "toStep",
-                  "type": {
-                    "type": "{number: number, element: LionStep}"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "_onCurrentChanged",
-              "privacy": "public",
-              "parameters": [
-                {
-                  "name": "newValues",
-                  "type": {
-                    "type": "{current: number}"
-                  }
-                },
-                {
-                  "name": "oldValues",
-                  "type": {
-                    "type": "{current: number}"
-                  }
-                }
-              ]
-            }
-          ]
-        }
       ],
       "exports": [
         {
           "kind": "js",
-          "name": "LionSteps",
+          "name": "someVariable",
           "declaration": {
-            "name": "LionSteps",
-            "module": "./fixtures/TEST/package/src/LionSteps.js"
+            "name": "someVariable",
+            "module": "./fixtures/TEST/package/my-el.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "my-element",
+          "declaration": {
+            "name": "MyElement",
+            "module": "./fixtures/TEST/package/my-el.js"
           }
         }
       ]

@@ -1,6 +1,6 @@
 # @custom-elements-manifest/analyzer
 
-> ⚠️ Very experimental and very unfinished
+> ⚠️ This project is still experimental, please try it out in your projects and create issues if you run into any problems
 
 Custom Elements Manifest is a file format that describes custom elements. This format will allow tooling and IDEs to give rich information about the custom elements in a given project. It is, however, very experimental and things are subject to change. Follow the discussion [here](https://github.com/webcomponents/custom-elements-manifest).
 
@@ -19,6 +19,8 @@ custom-elements-manifest analyze
 ```
 
 ## Demo
+
+`my-element.js`:
 
 ```js
 class MyElement extends HTMLElement {
@@ -39,8 +41,64 @@ class MyElement extends HTMLElement {
 }
 ```
 
+`custom-elements.json`:
+
 ```JSON
-// TODO example custom-elements.json
+{
+  "schemaVersion": "experimental",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "./my-element.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "MyElement",
+          "attributes": [
+            {
+              "name": "disabled"
+            }
+          ],
+          "events": [
+            {
+              "name": "disabled-changed",
+              "type": {
+                "type": "Event"
+              }
+            }
+          ],
+          "superclass": {
+            "name": "HTMLElement"
+          },
+          "members": [
+            {
+              "kind": "field",
+              "name": "disabled",
+              "privacy": "public"
+            },
+            {
+              "kind": "method",
+              "name": "fire",
+              "privacy": "public"
+            }
+          ],
+          "tagName": "my-element"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "my-element",
+          "declaration": {
+            "name": "MyElement",
+            "module": "./my-element.js"
+          }
+        }
+      ]
+    }
+  ]
+}
 ```
 
 ### Support
@@ -122,6 +180,116 @@ export const someVariable = true;
 
 customElements.define('my-element', MyElement);
 ```
+
+<details>
+  <summary>
+    <code>custom-elements.json</code>:
+  </summary>
+
+```json
+{
+  "schemaVersion": "experimental",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "./fixtures/TEST/package/my-el.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "MyElement",
+          "cssProperties": [
+            {
+              "name": "--text-color",
+              "description": "Controls the color of foo"
+            },
+            {
+              "name": "--background-color",
+              "description": "Controls the color of bar"
+            }
+          ],
+          "parts": [
+            {
+              "name": "bar",
+              "description": "Styles the color of bar"
+            }
+          ],
+          "slots": [
+            {
+              "name": "container",
+              "description": "You can put some elements here"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "disabled"
+            }
+          ],
+          "events": [
+            {
+              "name": "foo-changed",
+              "type": {
+                "type": "FooEvent"
+              },
+              "description": "description"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit-element"
+          },
+          "members": [
+            {
+              "kind": "field",
+              "name": "disabled",
+              "privacy": "public",
+              "type": {
+                "type": "boolean"
+              },
+              "description": "disabled state",
+              "default": "true"
+            },
+            {
+              "kind": "method",
+              "name": "fire",
+              "privacy": "public"
+            }
+          ],
+          "tagName": "my-element"
+        },
+        {
+          "kind": "variable",
+          "name": "someVariable",
+          "description": "This will show up in the custom-elements.json too",
+          "type": {
+            "type": "boolean"
+          }
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "someVariable",
+          "declaration": {
+            "name": "someVariable",
+            "module": "./fixtures/TEST/package/my-el.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "my-element",
+          "declaration": {
+            "name": "MyElement",
+            "module": "./fixtures/TEST/package/my-el.js"
+          }
+        }
+      ]
+    }
+  ]
+}
+```
+
+</details>
 
 ### Supported JSDoc
 
