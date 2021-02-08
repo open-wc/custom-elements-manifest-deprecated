@@ -417,7 +417,11 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
           classMember.type = { type: member.type.getText() }
         }
 
-        if (typeof (member as any).initializer !== 'undefined' && !ts.isCallExpression((member as any).initializer)) {
+        if (
+          typeof (member as any).initializer !== 'undefined' && 
+          !ts.isCallExpression((member as any).initializer) && 
+          !ts.isArrowFunction((member as any).initializer)
+        ) {
           classMember.default = (member as any).initializer.getText();
         }
 
@@ -465,7 +469,12 @@ function visit(source: ts.SourceFile, member: any) {
                   });
               }
 
-              member.default = statement.expression.right.getText();
+              if(
+                !ts.isCallExpression(statement.expression.right) && 
+                !ts.isArrowFunction(statement.expression.right)
+              ) {
+                member.default = statement.expression.right.getText();
+              }
             }
           });
         break;

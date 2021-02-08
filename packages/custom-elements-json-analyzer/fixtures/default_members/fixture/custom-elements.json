@@ -22,6 +22,22 @@
               "kind": "field",
               "name": "functionCall",
               "privacy": "public"
+            },
+            {
+              "kind": "field",
+              "name": "arrowFunction",
+              "privacy": "public"
+            },
+            {
+              "kind": "field",
+              "name": "foo",
+              "privacy": "public"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "foo",
+              "fieldName": "foo"
             }
           ],
           "tagName": "my-element"
