@@ -25,6 +25,7 @@ import {
 } from '../utils';
 import { customElementsJson } from '../customElementsJson';
 import path from 'path';
+import { handleCustomElementsDefine } from './handleCustomElementsDefine';
 
 interface Mixin {
   name: string,
@@ -62,7 +63,6 @@ function createMixin(name: string): Mixin {
 }
 
 export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class' | 'mixin') {
-  
   const classDoc: any = {
     kind: kind,
     description: '',
@@ -73,13 +73,20 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
     members: [],
   };
 
+  if(isValidArray(node.decorators)) {
+    const customElementDecorator = node.decorators?.find((decorator: ts.Decorator) => {
+      return (decorator.expression as any).expression.getText() === 'customElement';
+    }).expression;
+    handleCustomElementsDefine(customElementDecorator, moduleDoc);
+  }
+
   /** Extract cssProperties, cssParts and slots from JSdoc, if any */
   const jsDocs = extractJsDoc(node);
   if (Array.isArray(jsDocs) && jsDocs.length > 0) {
     jsDocs
       .filter(jsDoc => jsDoc.tag === 'cssprop' || jsDoc.tag === 'cssproperty')
       .forEach(jsDoc => {
-        classDoc.cssProperties!.push({
+        classDoc.cssProperties.push({
           name: jsDoc.name,
           description: jsDoc.description.replace('- ', ''),
         });
@@ -88,7 +95,7 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
     jsDocs
       .filter(jsDoc => jsDoc.tag === 'prop' || jsDoc.tag === 'property')
       .forEach(jsDoc => {
-        classDoc.members!.push({
+        classDoc.members.push({
           name: jsDoc.name,
           type: { type: jsDoc.type },
           description: jsDoc.description.replace('- ', ''),
@@ -98,7 +105,7 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
     jsDocs
       .filter(jsDoc => jsDoc.tag === 'csspart')
       .forEach(jsDoc => {
-        classDoc.parts!.push({
+        classDoc.parts.push({
           name: jsDoc.name,
           description: jsDoc.description.replace('- ', ''),
         });
@@ -107,7 +114,7 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
     jsDocs
       .filter(jsDoc => jsDoc.tag === 'slot')
       .forEach(jsDoc => {
-        classDoc.slots!.push({
+        classDoc.slots.push({
           name: jsDoc.name === '-' ? '' : jsDoc.name,
           description: jsDoc.description.replace('- ', ''),
         });
@@ -419,10 +426,9 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
       }
     });
 
-    classDoc.members &&
-      classDoc.members.forEach((member: any) => {
-        visit(node, member);
-      });
+    classDoc.members?.forEach((member: any) => {
+      visit(node, member);
+    });
   }
 
   if (classDoc.members && classDoc.members!.length === 0) {

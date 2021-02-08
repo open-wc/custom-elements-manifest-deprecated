@@ -164,7 +164,6 @@ export async function create(options: commandLineArgs.CommandLineOptions): Promi
   for (const definition of definitions) {
     for (const _module of customElementsJson.modules) {
       const modulePath = _module.path;
-      // @TODO: I dont think you need to go through the exports here
       const match = [...(<Declaration[]>_module.declarations)].some(
         classDoc => {
           return classDoc.name === definition.declaration.name;
