@@ -1,11 +1,11 @@
 {
   "name": "@custom-elements-manifest/analyzer",
-  "version": "0.0.0",
+  "version": "0.0.7",
   "description": "",
   "license": "MIT",
   "bin": {
-    "custom-elements-manifest": "./dist/bin.js",
-    "cem": "./dist/bin.js"
+    "custom-elements-manifest": "./dist/index.js",
+    "cem": "./dist/index.js"
   },
   "repository": {
     "type": "git",
@@ -22,7 +22,7 @@
     "build": "tsc",
     "format:prettier": "node node_modules/prettier/bin-prettier.js \"**/*.{ts,js,mjs,cjs,md}\" \"**/package.json\" --write --ignore-path .eslintignore",
     "lint:eslint": "eslint --ext .ts,.js,.mjs,.cjs .",
-    "start": "nodemon dist/index.js analyze --glob ./fixtures/default_members/package --ignore package.json",
+    "start": "nodemon dist/index.js analyze --ignore package.json",
     "test": "mocha \"test/**/*.test.{ts,js,mjs,cjs}\" --require ts-node/register",
     "test:watch": "mocha \"test/**/*.test.{ts,js,mjs,cjs}\" --watch --require ts-node/register",
     "tsc:watch": "tsc --watch"
@@ -37,24 +37,26 @@
     "customelementsmanifest"
   ],
   "dependencies": {
-    "@custom-elements-json/helpers": "^0.0.1",
-    "comment-parser": "^0.7.6"
+    "@custom-elements-manifest/helpers": "^0.0.2",
+    "command-line-args": "^5.1.1",
+    "comment-parser": "^0.7.6",
+    "globby": "^11.0.1",
+    "typescript": "~4.0.0"
   },
   "devDependencies": {
     "@types/chai": "^4.2.12",
+    "@types/command-line-args": "^5.0.0",
     "@types/mocha": "^8.0.3",
     "@types/node": "^14.11.2",
     "@typescript-eslint/eslint-plugin": "^4.2.0",
     "@typescript-eslint/parser": "^4.2.0",
     "chai": "^4.2.0",
     "eslint": "^7.9.0",
-    "globby": "^11.0.1",
     "mocha": "^8.1.3",
     "nodemon": "^2.0.4",
     "prettier": "^2.1.2",
     "prettier-plugin-package": "^1.0.0",
-    "ts-node": "^9.0.0",
-    "typescript": "~4.0.0"
+    "ts-node": "^9.0.0"
   },
   "contributors": [
     "Pascal Schilp <pascalschilp@gmail.com>"

@@ -1,5 +1,5 @@
 import ts from 'typescript';
-import { CustomElementsJson } from '@custom-elements-json/helpers';
+import { CustomElementsJson } from '@custom-elements-manifest/helpers';
 import { Import } from './utils';
 
 export class ExtendedCustomElementsJson extends CustomElementsJson {

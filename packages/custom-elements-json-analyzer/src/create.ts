@@ -23,6 +23,7 @@ import { handleImport } from './ast/handleImport';
 import { getMixin } from './ast/getMixin';
 
 export async function create(options: commandLineArgs.CommandLineOptions): Promise<Package> {
+  console.log(options);
   const modulePaths = await globby(options.glob);
 
   modulePaths.forEach(modulePath => {
