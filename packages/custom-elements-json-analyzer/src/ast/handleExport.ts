@@ -3,7 +3,7 @@ import {
   Export,
   VariableDeclaration,
   FunctionDeclaration,
-} from 'custom-elements-json/schema';
+} from '../schema';
 import ts from 'typescript';
 import { handleParamsAndReturnType } from './handleFunctionlike';
 import {

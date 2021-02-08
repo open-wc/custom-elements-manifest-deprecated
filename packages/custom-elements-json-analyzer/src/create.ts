@@ -10,7 +10,7 @@ import {
   Attribute,
   ClassMember,
   Event,
-} from 'custom-elements-json/schema';
+} from './schema';
 import { ExportType, isValidArray, pushSafe } from './utils';
 import { Import, isBareModuleSpecifier } from './utils';
 import commandLineArgs from 'command-line-args';

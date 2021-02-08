@@ -1,5 +1,5 @@
 import ts from 'typescript';
-import { Attribute, CustomElement } from 'custom-elements-json/schema';
+import { Attribute, CustomElement } from '../schema';
 import { extractJsDoc, extractJsDocCommentFromText, computeLeadingComment } from '../utils/extractJsDoc';
 import { isValidArray } from '../utils';
 
@@ -40,7 +40,7 @@ export function handleAttributes(node: any, classDoc: CustomElement) {
             const returnStatement = (member as any).body.statements.find(
               (statement: any) => statement.kind === ts.SyntaxKind.ReturnStatement,
             );
-            returnStatement.expression.elements?.forEach((element: any) => {
+            returnStatement.expression.elements?.forEach((element: ts.StringLiteral) => {
               if (
                 element.text !== undefined &&
                 !attributes.some(attr => attr.name === element.text)
@@ -63,7 +63,6 @@ function createAttribute(node: any, element:any): Attribute {
   const attribute: Attribute = {
     name: element.text
   };
-
   /**
    * handle JSDoc
    * In this case, there wont be a `.jsdoc` property on the node, just a `.leadingComments` property
@@ -78,7 +77,7 @@ function createAttribute(node: any, element:any): Attribute {
         attribute.type = { type: doc.type }
       }
       if(doc.description !== '') {
-        attribute.description = doc.description;
+        attribute.description = doc.description.replace('- ', '');
       }
       if(doc.tag === 'property') {
         attribute.fieldName = doc.name;

@@ -1,4 +1,4 @@
-import { CustomElementExport, JavaScriptModule } from 'custom-elements-json/schema';
+import { CustomElementExport, JavaScriptModule } from '../schema';
 import { customElementsJson } from '../customElementsJson';
 import { isValidArray } from '../utils';
 import path from 'path';

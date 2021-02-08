@@ -22,7 +22,7 @@ import {
   JavaScriptModule,
   Package,
   ClassMember,
-} from 'custom-elements-json/schema';
+} from '../src/schema';
 
 describe.skip('helpers', () => {
   describe('PackageDoc', () => {

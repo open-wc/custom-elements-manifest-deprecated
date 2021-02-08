@@ -4,7 +4,7 @@
   "modules": [
     {
       "kind": "javascript-module",
-      "path": "./fixtures/TEST/package/my-element.js",
+      "path": "./fixtures/destructured_parameters/package/my-element.js",
       "declarations": [
         {
           "kind": "class",
@@ -46,7 +46,7 @@
           "name": "my-element",
           "declaration": {
             "name": "MyElement",
-            "module": "./fixtures/TEST/package/my-element.js"
+            "module": "./fixtures/destructured_parameters/package/my-element.js"
           }
         }
       ]

@@ -1,5 +1,5 @@
 import ts from 'typescript';
-import { Event, CustomElement } from 'custom-elements-json/schema';
+import { Event, CustomElement } from '../schema';
 import { customElementsJson } from '../customElementsJson';
 import { extractJsDoc } from '../utils/extractJsDoc';
 import { isValidArray } from '../utils';

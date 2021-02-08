@@ -222,7 +222,12 @@ customElements.define('my-element', MyElement);
           ],
           "attributes": [
             {
-              "name": "disabled"
+              "name": "disabled",
+              "type": {
+                "type": "boolean"
+              },
+              "description": "corresponding property",
+              "fieldName": "disabled"
             }
           ],
           "events": [

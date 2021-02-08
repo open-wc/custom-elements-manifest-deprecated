@@ -6,7 +6,7 @@ import {
   ClassDeclaration,
   JavaScriptModule,
   Export,
-} from 'custom-elements-json/schema';
+} from '../schema';
 import { JSDoc } from './extractJsDoc';
 
 export function isValidArray(array: any) {

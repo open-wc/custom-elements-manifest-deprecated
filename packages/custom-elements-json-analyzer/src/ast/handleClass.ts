@@ -7,7 +7,7 @@ import {
   Reference,
   ClassMethod,
   Attribute,
-} from 'custom-elements-json/schema';
+} from '../schema';
 import { extractJsDoc } from '../utils/extractJsDoc';
 import { handleParamsAndReturnType } from '../ast/handleFunctionlike';
 import {
