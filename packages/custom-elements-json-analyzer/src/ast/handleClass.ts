@@ -219,7 +219,7 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
      */
     node.members.forEach((member: any) => {
       if (ts.isMethodDeclaration(member)) {
-        if (methodDenyList.includes((member.name as ts.Identifier).text) && classDoc.superclass.name === 'LitElement') {
+        if (methodDenyList.includes((member.name as ts.Identifier).text) && classDoc.superclass?.name === 'LitElement') {
           return;
         }
 
@@ -290,7 +290,7 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
 
           if ((member.name as ts.Identifier).text === 'properties') {
             const returnVal = getReturnVal(member);
-            returnVal.properties.forEach((property: ts.PropertyAssignment) => {
+            returnVal.properties?.forEach((property: ts.PropertyAssignment) => {
               if(!property.name) return;
               const classMember: ClassMember = {
                 kind: 'field',
@@ -449,8 +449,7 @@ function visit(source: ts.SourceFile, member: any) {
   function visitNode(node: any) {
     switch (node.kind) {
       case ts.SyntaxKind.Constructor:
-        node.body.statements
-          .filter((statement: any) => statement.kind === ts.SyntaxKind.ExpressionStatement)
+        node.body.statements?.filter((statement: any) => statement.kind === ts.SyntaxKind.ExpressionStatement)
           .filter((statement: any) => statement.expression.kind === ts.SyntaxKind.BinaryExpression)
           .forEach((statement: any) => {
             if (
