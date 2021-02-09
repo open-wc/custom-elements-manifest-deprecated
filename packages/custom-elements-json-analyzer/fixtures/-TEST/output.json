@@ -1,0 +1,12 @@
+{
+  "schemaVersion": "experimental",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "./fixtures/TEST/package/my-element.js",
+      "declarations": [],
+      "exports": []
+    }
+  ]
+}

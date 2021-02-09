@@ -4,7 +4,7 @@ import { create } from './create';
 import commandLineArgs from 'command-line-args';
 import fs from 'fs';
 
-const alwaysIgnore = ['!node_modules/**/*.*', '!bower_components/**/*.*', '!**/*.test.{js,ts}', '!**/*.config.{js,ts}'];
+const alwaysIgnore = ['!node_modules/**/*.*', '!bower_components/**/*.*', '!**/*.test.{js,ts}', '!**/*.suite.{js,ts}', '!**/*.config.{js,ts}'];
   
 const mainDefinitions = [
   { name: 'command', defaultOption: true }

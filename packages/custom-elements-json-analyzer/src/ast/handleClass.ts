@@ -66,7 +66,7 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
   const classDoc: any = {
     kind: kind,
     description: '',
-    name: node.name.getText(),
+    name: node.name?.getText() || 'anonymous class',
     cssProperties: [],
     parts: [],
     slots: [],
@@ -291,6 +291,7 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
           if ((member.name as ts.Identifier).text === 'properties') {
             const returnVal = getReturnVal(member);
             returnVal.properties.forEach((property: ts.PropertyAssignment) => {
+              if(!property.name) return;
               const classMember: ClassMember = {
                 kind: 'field',
                 name: property.name.getText(),

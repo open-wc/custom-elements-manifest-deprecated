@@ -28,7 +28,7 @@ describe('integration tests', () => {
 
       const packagePath = path.join(fixturesDir, `${testCase}/package`);
       const outputPath = path.join(fixturesDir, `${testCase}/output.json`);
-      const result = await create({ glob: packagePath });
+      const result = await create([packagePath]);
 
       fs.writeFileSync(
         outputPath,
