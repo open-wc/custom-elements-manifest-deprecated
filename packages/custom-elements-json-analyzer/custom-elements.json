@@ -8,29 +8,171 @@
       "declarations": [
         {
           "kind": "class",
-          "name": "LionRadioGroup",
+          "name": "FieldLabel",
           "mixins": [
             {
-              "name": "ChoiceGroupMixin",
-              "package": "@lion/form-core"
-            },
-            {
-              "name": "FormGroupMixin",
-              "package": "@lion/form-core"
+              "name": "SizedMixin",
+              "package": "@spectrum-web-components/base"
             }
           ],
           "superclass": {
-            "name": "LitElement",
-            "package": "lit-element"
-          }
+            "name": "SpectrumElement",
+            "package": "@spectrum-web-components/base"
+          },
+          "members": [
+            {
+              "kind": "field",
+              "name": "instanceCount",
+              "type": {
+                "type": "number"
+              },
+              "static": true,
+              "privacy": "public",
+              "default": "0"
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "privacy": "public",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "id",
+              "type": {
+                "type": "string"
+              },
+              "privacy": "public",
+              "default": "''"
+            },
+            {
+              "kind": "field",
+              "name": "for",
+              "type": {
+                "type": "string"
+              },
+              "privacy": "public",
+              "default": "''"
+            },
+            {
+              "kind": "field",
+              "name": "required",
+              "privacy": "public",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "sideAligned",
+              "privacy": "public",
+              "type": {
+                "type": "'start' | 'end'"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "target",
+              "privacy": "private",
+              "type": {
+                "type": "HTMLElement"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "handleClick",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "type": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "manageFor",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "type": "Promise<void>"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "render",
+              "privacy": "protected",
+              "return": {
+                "type": {
+                  "type": "TemplateResult"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "firstUpdated",
+              "privacy": "protected",
+              "return": {
+                "type": {
+                  "type": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "changes",
+                  "type": {
+                    "type": "PropertyValues"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "updated",
+              "privacy": "protected",
+              "return": {
+                "type": {
+                  "type": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "changes",
+                  "type": {
+                    "type": "PropertyValues"
+                  }
+                }
+              ]
+            }
+          ],
+          "attributes": [
+            {
+              "name": "disabled",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "id",
+              "fieldName": "id"
+            },
+            {
+              "name": "for",
+              "fieldName": "for"
+            },
+            {
+              "name": "required",
+              "fieldName": "required"
+            },
+            {
+              "name": "side-aligned",
+              "fieldName": "sideAligned"
+            }
+          ]
         }
       ],
       "exports": [
         {
           "kind": "js",
-          "name": "LionRadioGroup",
+          "name": "FieldLabel",
           "declaration": {
-            "name": "LionRadioGroup",
+            "name": "FieldLabel",
             "module": "./fixtures/-TEST/package/my-element.js"
           }
         }
