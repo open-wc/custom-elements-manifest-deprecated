@@ -22,7 +22,7 @@ import { handleExport } from './ast/handleExport';
 import { handleImport } from './ast/handleImport';
 import { getMixin } from './ast/getMixin';
 
-export async function create(globs: string[]): Promise<Package> {
+export async function create(globs: string[], dev: boolean): Promise<Package> {
   const modulePaths = await globby(globs);
 
   modulePaths.forEach(modulePath => {
@@ -268,7 +268,9 @@ export async function create(globs: string[]): Promise<Package> {
   delete customElementsJson.currentModule;
 
   fs.writeFileSync(`${process.cwd()}/custom-elements.json`, JSON.stringify(customElementsJson, null, 2));
-  console.log(JSON.stringify(customElementsJson, null, 2));
+  if(dev) {
+    console.log(JSON.stringify(customElementsJson, null, 2));
+  }
   return customElementsJson;
 }
 

@@ -18,6 +18,7 @@ const argv = mainOptions._unknown || [];
     const optionDefinitions = [
       { name: 'glob', type: String, multiple: true, defaultValue: [ '**/*.{js,ts}', '!**/.*.{js,ts}'] },
       { name: 'exclude', type: String, multiple: true },
+      { name: 'dev', type: Boolean, defaultValue: false },
     ];
     
     const options = commandLineArgs(optionDefinitions, { argv });
@@ -27,8 +28,8 @@ const argv = mainOptions._unknown || [];
       ...options.exclude || [],
       ...alwaysIgnore,
     ];
-    
-    await create(merged);
+
+    await create(merged, options.dev);
     try {
       const packageJsonPath = `${process.cwd()}/package.json`;
       const packageJson = require(packageJsonPath);

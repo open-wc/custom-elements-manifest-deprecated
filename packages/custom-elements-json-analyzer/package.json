@@ -22,7 +22,7 @@
     "build": "tsc",
     "format:prettier": "node node_modules/prettier/bin-prettier.js \"**/*.{ts,js,mjs,cjs,md}\" \"**/package.json\" --write --ignore-path .eslintignore",
     "lint:eslint": "eslint --ext .ts,.js,.mjs,.cjs .",
-    "start": "node dist/index.js analyze --glob './fixtures/-TEST/package'",
+    "start": "nodemon --ignore '*.json' dist/index.js analyze --dev --glob './fixtures/-TEST/package'",
     "test": "mocha \"test/**/*.test.{ts,js,mjs,cjs}\" --require ts-node/register",
     "test:watch": "mocha \"test/**/*.test.{ts,js,mjs,cjs}\" --watch --require ts-node/register",
     "tsc:watch": "tsc --watch"
