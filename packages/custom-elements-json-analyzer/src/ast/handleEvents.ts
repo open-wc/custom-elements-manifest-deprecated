@@ -8,12 +8,11 @@ export function handleEvents(node: any, classDoc: CustomElement) {
   const events: Event[] = [];
   classDoc.events = [];
 
-  node.members &&
-    node.members.forEach((member: ts.MemberExpression) => {
-      if (ts.isMethodDeclaration(member)) {
-        visit(member, events);
-      }
-    });
+  node.members?.forEach((member: ts.MemberExpression) => {
+    if (ts.isMethodDeclaration(member)) {
+      visit(member, events);
+    }
+  });
 
   /** Extract events from JSdoc, if any */
   const jsDocs = extractJsDoc(node);
@@ -86,7 +85,10 @@ function visit(source: any, events: Event[]) {
               if(eventDoc.type.type === '') {
                 eventDoc.type = { type: arg.expression.text };
               }
-              events.push(eventDoc);
+              const existingEvent = events.find(event => event.name === eventDoc.name);
+              if(!existingEvent) {
+                events.push(eventDoc);
+              }
             }
 
             if (arg.kind === ts.SyntaxKind.Identifier) {
@@ -97,7 +99,10 @@ function visit(source: any, events: Event[]) {
                       if (node.getText() === arg.getText()) {
                         eventDoc.name = node.parent.initializer.arguments[0].text;
                         eventDoc.type = { type: node.parent.initializer.expression.getText() };
-                        events.push(eventDoc);
+                        const existingEvent = events.find(event => event.name === eventDoc.name);
+                        if(!existingEvent) {
+                          events.push(eventDoc);
+                        }
                       }
                     }
                 }

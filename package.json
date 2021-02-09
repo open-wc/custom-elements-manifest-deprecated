@@ -57,20 +57,6 @@
       "@typescript-eslint/no-var-requires": "off"
     }
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.js": [
-      "eslint --fix",
-      "prettier --write --ignore-path .eslintignore"
-    ],
-    "*.md": [
-      "prettier --write --ignore-path .eslintignore"
-    ]
-  },
   "prettier": {
     "singleQuote": true,
     "arrowParens": "avoid",

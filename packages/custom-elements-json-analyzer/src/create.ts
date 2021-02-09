@@ -23,7 +23,6 @@ import { handleImport } from './ast/handleImport';
 import { getMixin } from './ast/getMixin';
 
 export async function create(options: commandLineArgs.CommandLineOptions): Promise<Package> {
-  console.log(options);
   const modulePaths = await globby(options.glob);
 
   modulePaths.forEach(modulePath => {
@@ -268,6 +267,7 @@ export async function create(options: commandLineArgs.CommandLineOptions): Promi
   delete customElementsJson.imports;
   delete customElementsJson.currentModule;
 
+  fs.writeFileSync(`${process.cwd()}/custom-elements.json`, JSON.stringify(customElementsJson, null, 2));
   console.log(JSON.stringify(customElementsJson, null, 2));
   return customElementsJson;
 }
