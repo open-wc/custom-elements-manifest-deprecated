@@ -18,6 +18,14 @@ npm i -D @custom-elements-manifest/analyzer
 custom-elements-manifest analyze
 ```
 
+### Options
+
+| Command/option   | Type       | Description             |
+| ---------------- | ---------- | ----------------------- |
+| analyze          |            | Analyze your components |
+| --glob           | string[]   | Globs to analyze        |
+| --exclude        | string[]   | Globs to exclude        |
+
 ## Demo
 
 `my-element.js`:

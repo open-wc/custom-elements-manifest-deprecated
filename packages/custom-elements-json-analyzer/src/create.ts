@@ -22,8 +22,8 @@ import { handleExport } from './ast/handleExport';
 import { handleImport } from './ast/handleImport';
 import { getMixin } from './ast/getMixin';
 
-export async function create(options: commandLineArgs.CommandLineOptions): Promise<Package> {
-  const modulePaths = await globby(options.glob);
+export async function create(globs: string[]): Promise<Package> {
+  const modulePaths = await globby(globs);
 
   modulePaths.forEach(modulePath => {
     const relativeModulePath = `./${path.relative(process.cwd(), modulePath)}`;
