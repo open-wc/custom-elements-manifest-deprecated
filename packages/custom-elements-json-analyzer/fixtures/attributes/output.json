@@ -12,17 +12,17 @@
           "attributes": [
             {
               "name": "disabled",
+              "description": "disables the element",
               "type": {
                 "type": "boolean"
-              },
-              "description": "disables the element"
+              }
             },
             {
               "name": "foo",
+              "description": "description for foo",
               "type": {
                 "type": "string"
-              },
-              "description": "description for foo"
+              }
             },
             {
               "name": "baz"

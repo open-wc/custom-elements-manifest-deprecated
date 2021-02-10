@@ -33,6 +33,49 @@ interface Mixin {
   module?: string
 }
 
+function mergeAttributes(propertyOptions: any, member: any, classDoc: any) {
+  const attrName = getAttrName(propertyOptions) || member.name.getText();
+            
+  let alreadyExistingAttribute = classDoc?.attributes?.find((attr: Attribute) => attr.name === attrName);
+  if(alreadyExistingAttribute) {
+    alreadyExistingAttribute = {
+      ...alreadyExistingAttribute,
+      ...{
+        name: attrName,
+        fieldName: member.name.getText(),
+      }
+    }
+
+    const type = member?.type?.getText();
+    const hasType = !!type;
+    if(hasType) {
+      alreadyExistingAttribute.type = { type };
+    } else {
+      const type = propertyOptions?.properties?.find((property: any) => {
+        return property?.name?.text === 'type';
+      })?.initializer?.getText()?.toLowerCase();
+
+      alreadyExistingAttribute.type = { type };
+
+    }
+
+    const attrIndex = classDoc?.attributes?.findIndex((attr: Attribute) => attr.name === attrName);
+    classDoc.attributes[attrIndex] = alreadyExistingAttribute;
+
+  } else {
+    const attribute: Attribute = {
+      name: attrName,
+      fieldName: member.name.getText(),
+    };
+
+    if (alreadyHasAttributes(classDoc)) {
+      classDoc.attributes!.push(attribute);
+    } else {
+      classDoc.attributes = [attribute];
+    }
+  }
+}
+
 function createMixin(name: string): Mixin {
   const mixin: Mixin = {
     name
@@ -299,16 +342,8 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
               };
 
               if (isAlsoProperty(property)) {
-                const attribute: Attribute = {
-                  name: getAttrName(property) || property.name.getText(),
-                  fieldName: property.name.getText(),
-                };
-
-                if (alreadyHasAttributes(classDoc)) {
-                  classDoc.attributes!.push(attribute);
-                } else {
-                  classDoc.attributes = [attribute];
-                }
+                const propertyOptions = property.initializer;
+                mergeAttributes(propertyOptions, property, classDoc);
               }
 
               mergeJsDocWithPropAndPush(classDoc, classMember);
@@ -327,21 +362,12 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
           const propertyDecorator = member.decorators!.find(
             (decorator: any) => decorator.expression.expression.text === 'property',
           );
-          const propertyOptions = (propertyDecorator as any).expression.arguments.find(
+          const propertyOptions = (propertyDecorator as any)?.expression?.arguments.find(
             (arg: ts.ObjectLiteralExpression) => ts.isObjectLiteralExpression(arg),
           );
 
           if (isAlsoProperty(propertyOptions)) {
-            const attribute: Attribute = {
-              name: getAttrName(propertyOptions) || member.name.getText(),
-              fieldName: member.name.getText(),
-            };
-
-            if (alreadyHasAttributes(classDoc)) {
-              classDoc.attributes!.push(attribute);
-            } else {
-              classDoc.attributes = [attribute];
-            }
+            mergeAttributes(propertyOptions, member, classDoc);
           }
         }
 

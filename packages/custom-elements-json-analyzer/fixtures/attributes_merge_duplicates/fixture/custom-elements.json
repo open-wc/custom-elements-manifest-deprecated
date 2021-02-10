@@ -1,0 +1,78 @@
+{
+  "schemaVersion": "experimental",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "./fixtures/attributes_merge_duplicates/package/my-element.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "Banner",
+          "attributes": [
+            {
+              "name": "type",
+              "description": "Determines the style, can be \"info\", \"warning\", or \"error\". Default is \"info\"",
+              "fieldName": "type",
+              "type": {
+                "type": "'info' | 'warning' | 'error'"
+              }
+            },
+            {
+              "name": "corner",
+              "description": "Determines if banner sets position at upper right corner or not.",
+              "fieldName": "corner",
+              "type": {
+                "type": "boolean"
+              }
+            },
+            {
+              "name": "foo",
+              "description": "Determines if foo",
+              "fieldName": "foo",
+              "type": {
+                "type": "boolean"
+              }
+            }
+          ],
+          "superclass": {
+            "name": "SpectrumElement",
+            "module": "./fixtures/attributes_merge_duplicates/package/my-element.ts"
+          },
+          "members": [
+            {
+              "kind": "field",
+              "name": "type",
+              "type": {
+                "type": "'info' | 'warning' | 'error'"
+              },
+              "privacy": "public",
+              "default": "'info'"
+            },
+            {
+              "kind": "field",
+              "name": "corner",
+              "privacy": "public",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "foo",
+              "privacy": "public"
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "Banner",
+          "declaration": {
+            "name": "Banner",
+            "module": "./fixtures/attributes_merge_duplicates/package/my-element.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

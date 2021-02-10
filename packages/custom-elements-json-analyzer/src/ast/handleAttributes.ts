@@ -12,11 +12,16 @@ export function handleAttributes(node: any, classDoc: CustomElement) {
     jsDocs
       .filter(jsDoc => jsDoc.tag === 'attr' || jsDoc.tag === 'attribute')
       .forEach(jsDoc => {
-        attributes.push({
+        const attribute: Attribute = {
           name: jsDoc.name,
-          type: { type: jsDoc.type },
-          description: jsDoc.description.replace('- ', ''),
-        });
+          description: jsDoc.description.replace('- ', '')
+        }
+
+        if(jsDoc.type) {
+          attribute.type = { type: jsDoc.type }
+        }
+
+        attributes.push(attribute);
       });
   }
 

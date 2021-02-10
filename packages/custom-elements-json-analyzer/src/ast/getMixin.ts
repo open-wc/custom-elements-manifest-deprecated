@@ -25,7 +25,7 @@ export function getMixin(
           const returnStatement = body.statements.find(statement =>
             ts.isReturnStatement(statement),
           );
-          if (returnStatement && ts.isClassExpression((returnStatement as any).expression)) {
+          if (returnStatement && (returnStatement as any)?.expression?.kind && ts.isClassExpression((returnStatement as any).expression)) {
             return (returnStatement as any).expression;
           }
         }

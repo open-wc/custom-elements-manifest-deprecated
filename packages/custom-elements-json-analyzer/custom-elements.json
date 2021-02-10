@@ -4,165 +4,85 @@
   "modules": [
     {
       "kind": "javascript-module",
-      "path": "./fixtures/-TEST/package/my-element.js",
+      "path": "./fixtures/types_propertylike/package/my-element.js",
       "declarations": [
         {
           "kind": "class",
-          "name": "FieldLabel",
-          "mixins": [
-            {
-              "name": "SizedMixin",
-              "package": "@spectrum-web-components/base"
-            }
-          ],
+          "name": "MyElement",
           "superclass": {
-            "name": "SpectrumElement",
-            "package": "@spectrum-web-components/base"
+            "name": "HTMLElement"
           },
           "members": [
             {
               "kind": "field",
-              "name": "instanceCount",
-              "type": {
-                "type": "number"
-              },
-              "static": true,
+              "name": "foo",
               "privacy": "public",
-              "default": "0"
-            },
-            {
-              "kind": "field",
-              "name": "disabled",
-              "privacy": "public",
-              "default": "false"
-            },
-            {
-              "kind": "field",
-              "name": "id",
               "type": {
                 "type": "string"
               },
+              "default": "'foo'"
+            },
+            {
+              "kind": "field",
+              "name": "bar",
               "privacy": "public",
+              "type": {
+                "type": "{a:'a',b:'b'}"
+              },
+              "default": "{a:'a',b:'b'}"
+            },
+            {
+              "kind": "field",
+              "name": "baz",
+              "privacy": "public",
+              "type": {
+                "type": "Array<Foo|Bar>"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "jsdoc1",
+              "privacy": "public",
+              "type": {
+                "type": "string"
+              },
+              "description": "description",
               "default": "''"
             },
             {
               "kind": "field",
-              "name": "for",
+              "name": "jsdoc2",
+              "privacy": "public",
               "type": {
-                "type": "string"
+                "type": "boolean"
               },
-              "privacy": "public",
-              "default": "''"
-            },
-            {
-              "kind": "field",
-              "name": "required",
-              "privacy": "public",
+              "description": "description2",
               "default": "false"
             },
             {
               "kind": "field",
-              "name": "sideAligned",
+              "name": "jsdoc3",
               "privacy": "public",
               "type": {
-                "type": "'start' | 'end'"
-              }
+                "type": "boolean"
+              },
+              "default": "true"
             },
             {
               "kind": "field",
-              "name": "target",
-              "privacy": "private",
+              "name": "jsdoc4",
+              "privacy": "public",
+              "description": "only description",
+              "default": "1"
+            },
+            {
+              "kind": "field",
+              "name": "jsdoc5",
+              "privacy": "public",
               "type": {
-                "type": "HTMLElement"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "handleClick",
-              "privacy": "private",
-              "return": {
-                "type": {
-                  "type": "void"
-                }
-              }
-            },
-            {
-              "kind": "method",
-              "name": "manageFor",
-              "privacy": "private",
-              "return": {
-                "type": {
-                  "type": "Promise<void>"
-                }
-              }
-            },
-            {
-              "kind": "method",
-              "name": "render",
-              "privacy": "protected",
-              "return": {
-                "type": {
-                  "type": "TemplateResult"
-                }
-              }
-            },
-            {
-              "kind": "method",
-              "name": "firstUpdated",
-              "privacy": "protected",
-              "return": {
-                "type": {
-                  "type": "void"
-                }
+                "type": "ImportedType"
               },
-              "parameters": [
-                {
-                  "name": "changes",
-                  "type": {
-                    "type": "PropertyValues"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "updated",
-              "privacy": "protected",
-              "return": {
-                "type": {
-                  "type": "void"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "changes",
-                  "type": {
-                    "type": "PropertyValues"
-                  }
-                }
-              ]
-            }
-          ],
-          "attributes": [
-            {
-              "name": "disabled",
-              "fieldName": "disabled"
-            },
-            {
-              "name": "id",
-              "fieldName": "id"
-            },
-            {
-              "name": "for",
-              "fieldName": "for"
-            },
-            {
-              "name": "required",
-              "fieldName": "required"
-            },
-            {
-              "name": "side-aligned",
-              "fieldName": "sideAligned"
+              "default": "1"
             }
           ]
         }
@@ -170,10 +90,10 @@
       "exports": [
         {
           "kind": "js",
-          "name": "FieldLabel",
+          "name": "MyElement",
           "declaration": {
-            "name": "FieldLabel",
-            "module": "./fixtures/-TEST/package/my-element.js"
+            "name": "MyElement",
+            "module": "./fixtures/types_propertylike/package/my-element.js"
           }
         }
       ]

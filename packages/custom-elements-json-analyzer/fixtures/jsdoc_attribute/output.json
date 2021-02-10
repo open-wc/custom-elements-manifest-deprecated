@@ -12,10 +12,10 @@
           "attributes": [
             {
               "name": "typed-js-doc",
+              "description": "THIS WILL OVERRIDE",
               "type": {
                 "type": "boolean"
-              },
-              "description": "THIS WILL OVERRIDE"
+              }
             }
           ],
           "superclass": {
