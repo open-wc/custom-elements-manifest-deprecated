@@ -4,25 +4,85 @@
   "modules": [
     {
       "kind": "javascript-module",
-      "path": "./fixtures/-TEST/package/my-element.js",
+      "path": "./fixtures/types_propertylike/package/my-element.js",
       "declarations": [
         {
           "kind": "class",
-          "name": "foo",
+          "name": "MyElement",
           "superclass": {
-            "name": "LitElement",
-            "module": "./fixtures/-TEST/package/my-element.js"
+            "name": "HTMLElement"
           },
           "members": [
             {
-              "kind": "method",
-              "name": "onTriggerMouseEnter",
+              "kind": "field",
+              "name": "foo",
               "privacy": "public",
-              "return": {
-                "type": {
-                  "type": "Promise<void>"
-                }
+              "type": {
+                "type": "string"
+              },
+              "default": "'foo'"
+            },
+            {
+              "kind": "field",
+              "name": "bar",
+              "privacy": "public",
+              "type": {
+                "type": "{a:'a',b:'b'}"
+              },
+              "default": "{a:'a',b:'b'}"
+            },
+            {
+              "kind": "field",
+              "name": "baz",
+              "privacy": "public",
+              "type": {
+                "type": "Array<Foo|Bar>"
               }
+            },
+            {
+              "kind": "field",
+              "name": "jsdoc1",
+              "privacy": "public",
+              "type": {
+                "type": "string"
+              },
+              "description": "description",
+              "default": "''"
+            },
+            {
+              "kind": "field",
+              "name": "jsdoc2",
+              "privacy": "public",
+              "type": {
+                "type": "boolean"
+              },
+              "description": "description2",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "jsdoc3",
+              "privacy": "public",
+              "type": {
+                "type": "boolean"
+              },
+              "default": "true"
+            },
+            {
+              "kind": "field",
+              "name": "jsdoc4",
+              "privacy": "public",
+              "description": "only description",
+              "default": "1"
+            },
+            {
+              "kind": "field",
+              "name": "jsdoc5",
+              "privacy": "public",
+              "type": {
+                "type": "ImportedType"
+              },
+              "default": "1"
             }
           ]
         }
@@ -30,10 +90,10 @@
       "exports": [
         {
           "kind": "js",
-          "name": "foo",
+          "name": "MyElement",
           "declaration": {
-            "name": "foo",
-            "module": "./fixtures/-TEST/package/my-element.js"
+            "name": "MyElement",
+            "module": "./fixtures/types_propertylike/package/my-element.js"
           }
         }
       ]

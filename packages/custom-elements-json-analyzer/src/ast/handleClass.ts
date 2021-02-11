@@ -435,6 +435,30 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
           });
         }
 
+        const jsDoc = extractJsDoc(member);
+        jsDoc?.forEach((jsDoc: any) => {
+
+          if(jsDoc.tag === 'type') {
+            classMember.type = { type: jsDoc.type }
+            if(jsDoc.description) {
+              classMember.description = jsDoc.description.replace('- ', '');
+            }
+          }
+
+          if(jsDoc.tag === 'public')
+          switch(jsDoc.tag) {
+            case 'public':
+              classMember.privacy = 'public';
+              break;
+            case 'private':
+              classMember.privacy = 'private';
+              break;
+            case 'protected':
+              classMember.privacy = 'protected';
+              break;
+          }
+        });
+
         if (ts.isPrivateIdentifier(member.name)) {
           classMember.privacy = 'private';
         }

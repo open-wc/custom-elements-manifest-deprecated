@@ -1,8 +1,9 @@
-export class foo extends LitElement {
-  public async onTriggerMouseEnter(): Promise<void> {
+export class MyElement extends LitElement {
+  /**
+   * @type {string} foo - some description
+   */
+  foo = 'bar';
 
-        let overlayReady: () => void = () => {
-            return;
-        };
-  }
+  /** @public */
+  prop7;
 }
