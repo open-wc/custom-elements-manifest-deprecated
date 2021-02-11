@@ -479,7 +479,7 @@ function visit(source: ts.SourceFile, member: any) {
           .filter((statement: any) => statement.expression.kind === ts.SyntaxKind.BinaryExpression)
           .forEach((statement: any) => {
             if (
-              statement.expression.left.name.getText() === member.name &&
+              statement.expression?.left?.name?.getText() === member.name &&
               member.kind === 'field'
             ) {
               /** If a assignment in the constructor has jsdoc types or descriptions, get them and add them */

@@ -42,10 +42,10 @@ export function handleAttributes(node: any, classDoc: CustomElement) {
           }
 
           if (ts.isGetAccessor(member)) {
-            const returnStatement = (member as any).body.statements.find(
+            const returnStatement = (member as any)?.body?.statements?.find(
               (statement: any) => statement.kind === ts.SyntaxKind.ReturnStatement,
             );
-            returnStatement.expression.elements?.forEach((element: ts.StringLiteral) => {
+            returnStatement?.expression?.elements?.forEach((element: ts.StringLiteral) => {
               if (
                 element.text !== undefined &&
                 !attributes.some(attr => attr.name === element.text)
