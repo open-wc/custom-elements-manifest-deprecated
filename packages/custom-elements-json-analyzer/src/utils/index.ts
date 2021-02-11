@@ -74,9 +74,9 @@ export function getAttrName(node: any): string | undefined {
 
 export function getReturnVal(node: any) {
   if (ts.isGetAccessor(node)) {
-    return (node.body!.statements.find(
+    return (node.body?.statements?.find(
       (statement: any) => statement.kind === ts.SyntaxKind.ReturnStatement,
-    ) as ts.ReturnStatement).expression;
+    ) as ts.ReturnStatement)?.expression;
   } else {
     return node.initializer;
   }
