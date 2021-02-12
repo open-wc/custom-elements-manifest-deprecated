@@ -8,6 +8,6 @@ This implementation is at a very early stage of development, and there will prob
 
 ## Packages
 
-- [`@custom-elements-json/analyzer`](./packages/custom-elements-json-analyzer)
-- [`@custom-elements-json/helpers`](./packages/custom-elements-json-helpers)
-- [`@custom-elements-json/to-markdown`](./packages/custom-elements-json-to-markdown)
+- [`@custom-elements-manifest/analyzer`](./packages/custom-elements-json-analyzer)
+- [`@custom-elements-manifest/helpers`](./packages/custom-elements-json-helpers)
+- [`@custom-elements-manifest/to-markdown`](./packages/custom-elements-json-to-markdown)
