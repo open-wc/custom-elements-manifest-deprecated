@@ -4,11 +4,10 @@
   "modules": [
     {
       "kind": "javascript-module",
-      "path": "./SuperClass.js",
+      "path": "./fixtures/inheritance_superclass_events/package/SuperClass.js",
       "declarations": [
         {
           "kind": "class",
-          "description": "",
           "name": "SuperClass",
           "events": [
             {
@@ -24,7 +23,8 @@
           "members": [
             {
               "kind": "method",
-              "name": "superfire"
+              "name": "superfire",
+              "privacy": "public"
             }
           ]
         }
@@ -35,18 +35,17 @@
           "name": "SuperClass",
           "declaration": {
             "name": "SuperClass",
-            "module": "./SuperClass.js"
+            "module": "./fixtures/inheritance_superclass_events/package/SuperClass.js"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "./my-element.js",
+      "path": "./fixtures/inheritance_superclass_events/package/my-element.js",
       "declarations": [
         {
           "kind": "class",
-          "description": "",
           "name": "MyElement",
           "events": [
             {
@@ -62,25 +61,27 @@
               },
               "inheritedFrom": {
                 "name": "SuperClass",
-                "module": "./SuperClass.js"
+                "module": "./fixtures/inheritance_superclass_events/package/SuperClass.js"
               }
             }
           ],
           "superclass": {
             "name": "SuperClass",
-            "module": "./SuperClass.js"
+            "module": "/fixtures/inheritance_superclass_events/package/SuperClass.js"
           },
           "members": [
             {
               "kind": "method",
-              "name": "fire"
+              "name": "fire",
+              "privacy": "public"
             },
             {
               "kind": "method",
               "name": "superfire",
+              "privacy": "public",
               "inheritedFrom": {
                 "name": "SuperClass",
-                "module": "./SuperClass.js"
+                "module": "./fixtures/inheritance_superclass_events/package/SuperClass.js"
               }
             }
           ],
@@ -93,7 +94,7 @@
           "name": "my-element",
           "declaration": {
             "name": "MyElement",
-            "module": "./my-element.js"
+            "module": "./fixtures/inheritance_superclass_events/package/my-element.js"
           }
         }
       ]

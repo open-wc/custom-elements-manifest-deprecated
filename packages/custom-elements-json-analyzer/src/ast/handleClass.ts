@@ -7,7 +7,7 @@ import {
   Reference,
   ClassMethod,
   Attribute,
-} from 'custom-elements-json/schema';
+} from '../schema';
 import { extractJsDoc } from '../utils/extractJsDoc';
 import { handleParamsAndReturnType } from '../ast/handleFunctionlike';
 import {
@@ -23,17 +23,105 @@ import {
   isValidArray,
   pushSafe,
 } from '../utils';
+import { customElementsJson } from '../customElementsJson';
+import path from 'path';
+import { handleCustomElementsDefine } from './handleCustomElementsDefine';
+
+interface Mixin {
+  name: string,
+  package?: string,
+  module?: string
+}
+
+function mergeAttributes(propertyOptions: any, member: any, classDoc: any) {
+  const attrName = getAttrName(propertyOptions) || member.name.getText();
+            
+  let alreadyExistingAttribute = classDoc?.attributes?.find((attr: Attribute) => attr.name === attrName);
+  if(alreadyExistingAttribute) {
+    alreadyExistingAttribute = {
+      ...alreadyExistingAttribute,
+      ...{
+        name: attrName,
+        fieldName: member.name.getText(),
+      }
+    }
+
+    const type = member?.type?.getText();
+    const hasType = !!type;
+    if(hasType) {
+      alreadyExistingAttribute.type = { type };
+    } else {
+      const type = propertyOptions?.properties?.find((property: any) => {
+        return property?.name?.text === 'type';
+      })?.initializer?.getText()?.toLowerCase();
+
+      alreadyExistingAttribute.type = { type };
+
+    }
+
+    const attrIndex = classDoc?.attributes?.findIndex((attr: Attribute) => attr.name === attrName);
+    classDoc.attributes[attrIndex] = alreadyExistingAttribute;
+
+  } else {
+    const attribute: Attribute = {
+      name: attrName,
+      fieldName: member.name.getText(),
+    };
+
+    if (alreadyHasAttributes(classDoc)) {
+      classDoc.attributes!.push(attribute);
+    } else {
+      classDoc.attributes = [attribute];
+    }
+  }
+}
+
+function createMixin(name: string): Mixin {
+  const mixin: Mixin = {
+    name
+  };
+  const currentModulePath = customElementsJson.currentModule.fileName;
+
+  const foundMixin = isValidArray(customElementsJson.imports) && customElementsJson.imports.find((_import: any) => {
+    return _import.name === name;
+  });
+
+  if(foundMixin) {
+    // Mixin is imported from bare module specifier
+    if (foundMixin.importPath && foundMixin.isBareModuleSpecifier) {
+      mixin.package = foundMixin.importPath;
+    }
+  
+    // Mixin is imported from a different local module
+    if (foundMixin.importPath && !foundMixin.isBareModuleSpecifier) {
+      mixin.module = path.resolve(path.dirname(currentModulePath), foundMixin.importPath).replace(process.cwd(), '');
+    }
+  
+    // Mixin was found in the current modules declarations, so defined locally
+    if (!foundMixin.importPath) {
+      mixin.module = currentModulePath;
+    }
+  }
+  return mixin;
+}
 
 export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class' | 'mixin') {
   const classDoc: any = {
     kind: kind,
     description: '',
-    name: node.name.getText(),
+    name: node.name?.getText() || 'anonymous class',
     cssProperties: [],
     parts: [],
     slots: [],
     members: [],
   };
+
+  if(isValidArray(node.decorators)) {
+    const customElementDecorator = node.decorators?.find((decorator: ts.Decorator) => {
+      return (decorator.expression as any).expression.getText() === 'customElement';
+    }).expression;
+    handleCustomElementsDefine(customElementDecorator, moduleDoc);
+  }
 
   /** Extract cssProperties, cssParts and slots from JSdoc, if any */
   const jsDocs = extractJsDoc(node);
@@ -41,7 +129,7 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
     jsDocs
       .filter(jsDoc => jsDoc.tag === 'cssprop' || jsDoc.tag === 'cssproperty')
       .forEach(jsDoc => {
-        classDoc.cssProperties!.push({
+        classDoc.cssProperties.push({
           name: jsDoc.name,
           description: jsDoc.description.replace('- ', ''),
         });
@@ -50,7 +138,7 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
     jsDocs
       .filter(jsDoc => jsDoc.tag === 'prop' || jsDoc.tag === 'property')
       .forEach(jsDoc => {
-        classDoc.members!.push({
+        classDoc.members.push({
           name: jsDoc.name,
           type: { type: jsDoc.type },
           description: jsDoc.description.replace('- ', ''),
@@ -60,7 +148,7 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
     jsDocs
       .filter(jsDoc => jsDoc.tag === 'csspart')
       .forEach(jsDoc => {
-        classDoc.parts!.push({
+        classDoc.parts.push({
           name: jsDoc.name,
           description: jsDoc.description.replace('- ', ''),
         });
@@ -69,7 +157,7 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
     jsDocs
       .filter(jsDoc => jsDoc.tag === 'slot')
       .forEach(jsDoc => {
-        classDoc.slots!.push({
+        classDoc.slots.push({
           name: jsDoc.name === '-' ? '' : jsDoc.name,
           description: jsDoc.description.replace('- ', ''),
         });
@@ -92,6 +180,10 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
     delete classDoc.members;
   }
 
+  if(!classDoc.description) {
+    delete classDoc.description;
+  }
+
   handleAttributes(node, classDoc);
   handleEvents(node, classDoc);
 
@@ -100,14 +192,16 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
       clause.types.forEach((type: any) => {
         const mixins: Reference[] = [];
         let node = type.expression;
-        let superClass;
+        let superClass: string;
 
         // gather mixin calls
         if (ts.isCallExpression(node)) {
-          mixins.push({ name: node.expression.getText() });
+          const mixinName = node.expression.getText();
+          mixins.push(createMixin(mixinName))
           while (ts.isCallExpression(node.arguments[0])) {
-            mixins.push({ name: node.arguments[0].expression.getText() });
             node = node.arguments[0];
+            const mixinName = node.expression.getText();
+            mixins.push(createMixin(mixinName));
           }
           superClass = node.arguments[0].text;
         } else {
@@ -121,6 +215,27 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
         classDoc.superclass = {
           name: superClass,
         };
+
+        const foundSuperClass = isValidArray(customElementsJson.imports) && customElementsJson.imports.find((_import: any) => {
+          return _import.name === superClass;
+        });
+    
+        // superclass is imported from another file
+        if(foundSuperClass) {
+          // superclass is from 3rd party package
+          if(foundSuperClass.isBareModuleSpecifier) {
+            classDoc.superclass.package = foundSuperClass.importPath;
+          } else {
+            // superclass is imported from a local module
+            classDoc.superclass.module = path.resolve(path.dirname(moduleDoc.path), foundSuperClass.importPath).replace(process.cwd(), '');
+          }
+        } else {
+          classDoc.superclass.module = moduleDoc.path;
+        }
+
+        if(superClass === 'HTMLElement') {
+          delete classDoc.superclass.module;
+        }
       });
     });
   }
@@ -147,13 +262,14 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
      */
     node.members.forEach((member: any) => {
       if (ts.isMethodDeclaration(member)) {
-        if (methodDenyList.includes((member.name as ts.Identifier).text)) {
+        if (methodDenyList.includes((member.name as ts.Identifier).text) && classDoc.superclass?.name === 'LitElement') {
           return;
         }
 
         let method: ClassMethod = {
           kind: 'method',
           name: '',
+          privacy: 'public'
         };
 
         if (hasModifiers(member)) {
@@ -217,7 +333,8 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
 
           if ((member.name as ts.Identifier).text === 'properties') {
             const returnVal = getReturnVal(member);
-            returnVal.properties.forEach((property: ts.PropertyAssignment) => {
+            returnVal?.properties?.forEach((property: ts.PropertyAssignment) => {
+              if(!property.name) return;
               const classMember: ClassMember = {
                 kind: 'field',
                 name: property.name.getText(),
@@ -225,16 +342,8 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
               };
 
               if (isAlsoProperty(property)) {
-                const attribute: Attribute = {
-                  name: getAttrName(property) || property.name.getText(),
-                  fieldName: property.name.getText(),
-                };
-
-                if (alreadyHasAttributes(classDoc)) {
-                  classDoc.attributes!.push(attribute);
-                } else {
-                  classDoc.attributes = [attribute];
-                }
+                const propertyOptions = property.initializer;
+                mergeAttributes(propertyOptions, property, classDoc);
               }
 
               mergeJsDocWithPropAndPush(classDoc, classMember);
@@ -253,21 +362,12 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
           const propertyDecorator = member.decorators!.find(
             (decorator: any) => decorator.expression.expression.text === 'property',
           );
-          const propertyOptions = (propertyDecorator as any).expression.arguments.find(
+          const propertyOptions = (propertyDecorator as any)?.expression?.arguments.find(
             (arg: ts.ObjectLiteralExpression) => ts.isObjectLiteralExpression(arg),
           );
 
           if (isAlsoProperty(propertyOptions)) {
-            const attribute: Attribute = {
-              name: getAttrName(propertyOptions) || member.name.getText(),
-              fieldName: member.name.getText(),
-            };
-
-            if (alreadyHasAttributes(classDoc)) {
-              classDoc.attributes!.push(attribute);
-            } else {
-              classDoc.attributes = [attribute];
-            }
+            mergeAttributes(propertyOptions, member, classDoc);
           }
         }
 
@@ -335,6 +435,30 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
           });
         }
 
+        const jsDoc = extractJsDoc(member);
+        jsDoc?.forEach((jsDoc: any) => {
+
+          if(jsDoc.tag === 'type') {
+            classMember.type = { type: jsDoc.type }
+            if(jsDoc.description) {
+              classMember.description = jsDoc.description.replace('- ', '');
+            }
+          }
+
+          if(jsDoc.tag === 'public')
+          switch(jsDoc.tag) {
+            case 'public':
+              classMember.privacy = 'public';
+              break;
+            case 'private':
+              classMember.privacy = 'private';
+              break;
+            case 'protected':
+              classMember.privacy = 'protected';
+              break;
+          }
+        });
+
         if (ts.isPrivateIdentifier(member.name)) {
           classMember.privacy = 'private';
         }
@@ -344,7 +468,11 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
           classMember.type = { type: member.type.getText() }
         }
 
-        if (typeof (member as any).initializer !== 'undefined') {
+        if (
+          typeof (member as any).initializer !== 'undefined' && 
+          !ts.isCallExpression((member as any).initializer) && 
+          !ts.isArrowFunction((member as any).initializer)
+        ) {
           classMember.default = (member as any).initializer.getText();
         }
 
@@ -353,10 +481,9 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
       }
     });
 
-    classDoc.members &&
-      classDoc.members.forEach((member: any) => {
-        visit(node, member);
-      });
+    classDoc.members?.forEach((member: any) => {
+      visit(node, member);
+    });
   }
 
   if (classDoc.members && classDoc.members!.length === 0) {
@@ -372,12 +499,11 @@ function visit(source: ts.SourceFile, member: any) {
   function visitNode(node: any) {
     switch (node.kind) {
       case ts.SyntaxKind.Constructor:
-        node.body.statements
-          .filter((statement: any) => statement.kind === ts.SyntaxKind.ExpressionStatement)
+        node.body?.statements?.filter((statement: any) => statement.kind === ts.SyntaxKind.ExpressionStatement)
           .filter((statement: any) => statement.expression.kind === ts.SyntaxKind.BinaryExpression)
           .forEach((statement: any) => {
             if (
-              statement.expression.left.name.getText() === member.name &&
+              statement.expression?.left?.name?.getText() === member.name &&
               member.kind === 'field'
             ) {
               /** If a assignment in the constructor has jsdoc types or descriptions, get them and add them */
@@ -393,7 +519,12 @@ function visit(source: ts.SourceFile, member: any) {
                   });
               }
 
-              member.default = statement.expression.right.getText();
+              if(
+                !ts.isCallExpression(statement.expression.right) && 
+                !ts.isArrowFunction(statement.expression.right)
+              ) {
+                member.default = statement.expression.right.getText();
+              }
             }
           });
         break;

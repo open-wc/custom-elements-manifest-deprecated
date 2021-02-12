@@ -4,7 +4,7 @@
   "modules": [
     {
       "kind": "javascript-module",
-      "path": "./my-element.js",
+      "path": "./fixtures/exports/package/my-element.js",
       "declarations": [
         {
           "kind": "variable",
@@ -40,7 +40,6 @@
         },
         {
           "kind": "class",
-          "description": "",
           "name": "Class1"
         }
       ],
@@ -50,7 +49,7 @@
           "name": "var1",
           "declaration": {
             "name": "var1",
-            "module": "./my-element.js"
+            "module": "./fixtures/exports/package/my-element.js"
           }
         },
         {
@@ -58,7 +57,7 @@
           "name": "var2",
           "declaration": {
             "name": "var2",
-            "module": "./my-element.js"
+            "module": "./fixtures/exports/package/my-element.js"
           }
         },
         {
@@ -66,7 +65,7 @@
           "name": "var3B",
           "declaration": {
             "name": "var3A",
-            "module": "./my-element.js"
+            "module": "./fixtures/exports/package/my-element.js"
           }
         },
         {
@@ -74,7 +73,7 @@
           "name": "var4",
           "declaration": {
             "name": "var4",
-            "module": "./my-element.js"
+            "module": "./fixtures/exports/package/my-element.js"
           }
         },
         {
@@ -82,7 +81,7 @@
           "name": "var5",
           "declaration": {
             "name": "var5",
-            "module": "./my-element.js"
+            "module": "./fixtures/exports/package/my-element.js"
           }
         },
         {
@@ -90,7 +89,7 @@
           "name": "var6",
           "declaration": {
             "name": "var6",
-            "module": "./my-element.js"
+            "module": "./fixtures/exports/package/my-element.js"
           }
         },
         {
@@ -98,7 +97,7 @@
           "name": "var7",
           "declaration": {
             "name": "var7",
-            "module": "./my-element.js"
+            "module": "./fixtures/exports/package/my-element.js"
           }
         },
         {
@@ -106,7 +105,7 @@
           "name": "function1",
           "declaration": {
             "name": "function1",
-            "module": "./my-element.js"
+            "module": "./fixtures/exports/package/my-element.js"
           }
         },
         {
@@ -114,7 +113,7 @@
           "name": "Class1",
           "declaration": {
             "name": "Class1",
-            "module": "./my-element.js"
+            "module": "./fixtures/exports/package/my-element.js"
           }
         }
       ]

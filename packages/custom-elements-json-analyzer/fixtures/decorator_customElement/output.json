@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "experimental",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "./fixtures/decorator_customElement/package/my-element.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "MyElement",
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit-element"
+          },
+          "tagName": "my-element"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "my-element",
+          "declaration": {
+            "name": "MyElement",
+            "module": "./fixtures/decorator_customElement/package/my-element.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

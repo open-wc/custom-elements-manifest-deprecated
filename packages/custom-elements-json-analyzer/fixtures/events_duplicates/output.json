@@ -1,0 +1,50 @@
+{
+  "schemaVersion": "experimental",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "./fixtures/events_duplicates/package/my-element.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "MyElement",
+          "events": [
+            {
+              "name": "my-event",
+              "type": {
+                "type": "Event"
+              }
+            }
+          ],
+          "superclass": {
+            "name": "HTMLElement"
+          },
+          "members": [
+            {
+              "kind": "method",
+              "name": "foo",
+              "privacy": "public"
+            },
+            {
+              "kind": "method",
+              "name": "bar",
+              "privacy": "public"
+            }
+          ],
+          "tagName": "my-element"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "my-element",
+          "declaration": {
+            "name": "MyElement",
+            "module": "./fixtures/events_duplicates/package/my-element.js"
+          }
+        }
+      ]
+    }
+  ]
+}

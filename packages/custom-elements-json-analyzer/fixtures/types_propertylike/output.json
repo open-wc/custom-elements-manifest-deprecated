@@ -4,11 +4,10 @@
   "modules": [
     {
       "kind": "javascript-module",
-      "path": "./my-element.js",
+      "path": "./fixtures/types_propertylike/package/my-element.js",
       "declarations": [
         {
           "kind": "class",
-          "description": "",
           "name": "MyElement",
           "superclass": {
             "name": "HTMLElement"
@@ -94,7 +93,7 @@
           "name": "MyElement",
           "declaration": {
             "name": "MyElement",
-            "module": "./my-element.js"
+            "module": "./fixtures/types_propertylike/package/my-element.js"
           }
         }
       ]

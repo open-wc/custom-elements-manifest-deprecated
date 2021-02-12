@@ -4,11 +4,10 @@
   "modules": [
     {
       "kind": "javascript-module",
-      "path": "./my-element.js",
+      "path": "./fixtures/events/package/my-element.js",
       "declarations": [
         {
           "kind": "class",
-          "description": "",
           "name": "MyElement",
           "events": [
             {
@@ -70,31 +69,43 @@
           "members": [
             {
               "kind": "method",
-              "name": "normalEvent"
+              "name": "normalEvent",
+              "privacy": "public"
             },
             {
               "kind": "method",
-              "name": "jsDocEvent"
+              "name": "jsDocEvent",
+              "privacy": "public"
             },
             {
               "kind": "method",
-              "name": "jsDocEventOnlyDescription"
+              "name": "jsDocEventOnlyDescription",
+              "privacy": "public"
             },
             {
               "kind": "method",
-              "name": "customEvent"
+              "name": "customEvent",
+              "privacy": "public"
             },
             {
               "kind": "method",
-              "name": "customEvent2"
+              "name": "customEvent2",
+              "privacy": "public"
             },
             {
               "kind": "method",
-              "name": "customEvent3"
+              "name": "customEvent3",
+              "privacy": "public"
             },
             {
               "kind": "method",
-              "name": "extendedEvent"
+              "name": "extendedEvent",
+              "privacy": "public"
+            },
+            {
+              "kind": "method",
+              "name": "notIncluded",
+              "privacy": "public"
             }
           ],
           "tagName": "my-element"
@@ -106,7 +117,7 @@
           "name": "my-element",
           "declaration": {
             "name": "MyElement",
-            "module": "./my-element.js"
+            "module": "./fixtures/events/package/my-element.js"
           }
         }
       ]

@@ -4,19 +4,20 @@
   "modules": [
     {
       "kind": "javascript-module",
-      "path": "./my-element.js",
+      "path": "./fixtures/methods/package/my-element.js",
       "declarations": [
         {
           "kind": "class",
-          "description": "",
           "name": "MyElement",
           "superclass": {
-            "name": "HTMLElement"
+            "name": "LitElement",
+            "package": "lit-element"
           },
           "members": [
             {
               "kind": "method",
-              "name": "regular"
+              "name": "regular",
+              "privacy": "public"
             },
             {
               "kind": "method",
@@ -26,8 +27,8 @@
             {
               "kind": "method",
               "name": "staticMethod",
-              "static": true,
-              "privacy": "public"
+              "privacy": "public",
+              "static": true
             },
             {
               "kind": "method",
@@ -75,7 +76,7 @@
           "name": "my-element",
           "declaration": {
             "name": "MyElement",
-            "module": "./my-element.js"
+            "module": "./fixtures/methods/package/my-element.js"
           }
         }
       ]

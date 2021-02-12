@@ -4,11 +4,10 @@
   "modules": [
     {
       "kind": "javascript-module",
-      "path": "./MyMixin.js",
+      "path": "./fixtures/inheritance_mixin_events/package/MyMixin.js",
       "declarations": [
         {
           "kind": "mixin",
-          "description": "",
           "name": "MyMixin",
           "events": [
             {
@@ -19,12 +18,14 @@
             }
           ],
           "superclass": {
-            "name": "superclass"
+            "name": "superclass",
+            "module": "./fixtures/inheritance_mixin_events/package/MyMixin.js"
           },
           "members": [
             {
               "kind": "method",
-              "name": "superfire"
+              "name": "superfire",
+              "privacy": "public"
             }
           ]
         }
@@ -35,18 +36,17 @@
           "name": "MyMixin",
           "declaration": {
             "name": "MyMixin",
-            "module": "./MyMixin.js"
+            "module": "./fixtures/inheritance_mixin_events/package/MyMixin.js"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "./my-element.js",
+      "path": "./fixtures/inheritance_mixin_events/package/my-element.js",
       "declarations": [
         {
           "kind": "class",
-          "description": "",
           "name": "MyElement",
           "events": [
             {
@@ -62,14 +62,14 @@
               },
               "inheritedFrom": {
                 "name": "MyMixin",
-                "module": "./MyMixin.js"
+                "module": "./fixtures/inheritance_mixin_events/package/MyMixin.js"
               }
             }
           ],
           "mixins": [
             {
               "name": "MyMixin",
-              "module": "./MyMixin.js"
+              "module": "/fixtures/inheritance_mixin_events/package/MyMixin.js"
             }
           ],
           "superclass": {
@@ -78,14 +78,16 @@
           "members": [
             {
               "kind": "method",
-              "name": "fire"
+              "name": "fire",
+              "privacy": "public"
             },
             {
               "kind": "method",
               "name": "superfire",
+              "privacy": "public",
               "inheritedFrom": {
                 "name": "MyMixin",
-                "module": "./MyMixin.js"
+                "module": "./fixtures/inheritance_mixin_events/package/MyMixin.js"
               }
             }
           ],
@@ -98,7 +100,7 @@
           "name": "my-element",
           "declaration": {
             "name": "MyElement",
-            "module": "./my-element.js"
+            "module": "./fixtures/inheritance_mixin_events/package/my-element.js"
           }
         }
       ]

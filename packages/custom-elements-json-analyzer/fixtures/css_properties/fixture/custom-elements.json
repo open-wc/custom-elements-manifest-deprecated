@@ -3,14 +3,12 @@
   "readme": "",
   "modules": [
     {
-      "path": "./my-element.js",
       "kind": "javascript-module",
+      "path": "./fixtures/css_properties/package/my-element.js",
       "declarations": [
         {
           "kind": "class",
-          "description": "",
           "name": "MyElement",
-          "superclass": { "name": "HTMLElement" },
           "cssProperties": [
             {
               "name": "--foo-color",
@@ -21,6 +19,9 @@
               "description": "Controls the color of bar"
             }
           ],
+          "superclass": {
+            "name": "HTMLElement"
+          },
           "tagName": "my-element"
         }
       ],
@@ -30,7 +31,7 @@
           "name": "my-element",
           "declaration": {
             "name": "MyElement",
-            "module": "./my-element.js"
+            "module": "./fixtures/css_properties/package/my-element.js"
           }
         }
       ]

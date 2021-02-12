@@ -1,0 +1,124 @@
+{
+  "schemaVersion": "experimental",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "./fixtures/mixin_reference/package/my-element.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "PackageElement",
+          "mixins": [
+            {
+              "name": "PackageModuleMixin",
+              "package": "package-mixin"
+            }
+          ],
+          "superclass": {
+            "name": "HTMLElement"
+          }
+        },
+        {
+          "kind": "class",
+          "name": "LocalElement",
+          "mixins": [
+            {
+              "name": "LocalModuleMixin",
+              "module": "/fixtures/mixin_reference/package/local.js"
+            }
+          ],
+          "superclass": {
+            "name": "HTMLElement"
+          }
+        },
+        {
+          "kind": "class",
+          "name": "CurrentElement",
+          "mixins": [
+            {
+              "name": "CurrentModuleMixin",
+              "module": "./fixtures/mixin_reference/package/my-element.js"
+            }
+          ],
+          "superclass": {
+            "name": "HTMLElement"
+          }
+        },
+        {
+          "kind": "class",
+          "name": "NestedElement",
+          "mixins": [
+            {
+              "name": "NestedMixin",
+              "module": "./fixtures/mixin_reference/package/my-element.js"
+            },
+            {
+              "name": "LocalModuleMixin",
+              "module": "/fixtures/mixin_reference/package/local.js"
+            }
+          ],
+          "superclass": {
+            "name": "HTMLElement"
+          }
+        },
+        {
+          "kind": "mixin",
+          "name": "CurrentModuleMixin",
+          "superclass": {
+            "name": "klass",
+            "module": "./fixtures/mixin_reference/package/my-element.js"
+          }
+        },
+        {
+          "kind": "mixin",
+          "name": "NestedMixin",
+          "mixins": [
+            {
+              "name": "LocalModuleMixin",
+              "module": "/fixtures/mixin_reference/package/local.js"
+            }
+          ],
+          "superclass": {
+            "name": "klass",
+            "module": "./fixtures/mixin_reference/package/my-element.js"
+          }
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "PackageElement",
+          "declaration": {
+            "name": "PackageElement",
+            "module": "./fixtures/mixin_reference/package/my-element.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LocalElement",
+          "declaration": {
+            "name": "LocalElement",
+            "module": "./fixtures/mixin_reference/package/my-element.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "CurrentElement",
+          "declaration": {
+            "name": "CurrentElement",
+            "module": "./fixtures/mixin_reference/package/my-element.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NestedElement",
+          "declaration": {
+            "name": "NestedElement",
+            "module": "./fixtures/mixin_reference/package/my-element.js"
+          }
+        }
+      ]
+    }
+  ]
+}

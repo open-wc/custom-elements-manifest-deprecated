@@ -8,7 +8,7 @@ import {
   CustomElement,
   VariableDeclaration,
   ClassDeclaration,
-} from 'custom-elements-json/schema';
+} from './schema';
 import * as h from './helpers';
 
 export class CustomElementsJson {

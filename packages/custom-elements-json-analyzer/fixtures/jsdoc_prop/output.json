@@ -4,11 +4,10 @@
   "modules": [
     {
       "kind": "javascript-module",
-      "path": "./my-element.js",
+      "path": "./fixtures/jsdoc_prop/package/my-element.js",
       "declarations": [
         {
           "kind": "class",
-          "description": "",
           "name": "MyElement",
           "members": [
             {
@@ -87,7 +86,7 @@
           "name": "MyElement",
           "declaration": {
             "name": "MyElement",
-            "module": "./my-element.js"
+            "module": "./fixtures/jsdoc_prop/package/my-element.js"
           }
         }
       ]

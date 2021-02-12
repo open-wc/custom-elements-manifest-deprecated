@@ -3,14 +3,12 @@
   "readme": "",
   "modules": [
     {
-      "path": "./my-element.js",
       "kind": "javascript-module",
+      "path": "./fixtures/attributes/package/my-element.js",
       "declarations": [
         {
           "kind": "class",
-          "description": "",
           "name": "MyElement",
-          "superclass": { "name": "HTMLElement" },
           "attributes": [
             {
               "name": "disabled",
@@ -33,6 +31,9 @@
               "name": "bar"
             }
           ],
+          "superclass": {
+            "name": "HTMLElement"
+          },
           "tagName": "my-element"
         }
       ],
@@ -42,7 +43,7 @@
           "name": "my-element",
           "declaration": {
             "name": "MyElement",
-            "module": "./my-element.js"
+            "module": "./fixtures/attributes/package/my-element.js"
           }
         }
       ]

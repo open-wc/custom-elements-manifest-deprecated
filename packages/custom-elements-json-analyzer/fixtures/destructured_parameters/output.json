@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "experimental",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "./fixtures/destructured_parameters/package/my-element.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "MyElement",
+          "superclass": {
+            "name": "HTMLElement"
+          },
+          "members": [
+            {
+              "kind": "method",
+              "name": "foo",
+              "privacy": "public",
+              "parameters": [
+                {
+                  "name": "{bar, baz}"
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "bar",
+              "privacy": "public",
+              "parameters": [
+                {
+                  "name": "obj",
+                  "type": {
+                    "type": "{ a: string, b: Number }"
+                  }
+                }
+              ]
+            }
+          ],
+          "tagName": "my-element"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "my-element",
+          "declaration": {
+            "name": "MyElement",
+            "module": "./fixtures/destructured_parameters/package/my-element.js"
+          }
+        }
+      ]
+    }
+  ]
+}

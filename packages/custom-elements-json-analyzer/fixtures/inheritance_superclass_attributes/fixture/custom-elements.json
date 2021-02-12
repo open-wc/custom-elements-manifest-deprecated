@@ -4,11 +4,10 @@
   "modules": [
     {
       "kind": "javascript-module",
-      "path": "./SuperClass.js",
+      "path": "./fixtures/inheritance_superclass_attributes/package/SuperClass.js",
       "declarations": [
         {
           "kind": "class",
-          "description": "",
           "name": "SuperClass",
           "attributes": [
             {
@@ -26,18 +25,17 @@
           "name": "SuperClass",
           "declaration": {
             "name": "SuperClass",
-            "module": "./SuperClass.js"
+            "module": "./fixtures/inheritance_superclass_attributes/package/SuperClass.js"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "./my-element.js",
+      "path": "./fixtures/inheritance_superclass_attributes/package/my-element.js",
       "declarations": [
         {
           "kind": "class",
-          "description": "",
           "name": "MyElement",
           "attributes": [
             {
@@ -47,13 +45,13 @@
               "name": "vertical",
               "inheritedFrom": {
                 "name": "SuperClass",
-                "module": "./SuperClass.js"
+                "module": "./fixtures/inheritance_superclass_attributes/package/SuperClass.js"
               }
             }
           ],
           "superclass": {
             "name": "SuperClass",
-            "module": "./SuperClass.js"
+            "module": "/fixtures/inheritance_superclass_attributes/package/SuperClass.js"
           },
           "tagName": "my-element"
         }
@@ -64,7 +62,7 @@
           "name": "my-element",
           "declaration": {
             "name": "MyElement",
-            "module": "./my-element.js"
+            "module": "./fixtures/inheritance_superclass_attributes/package/my-element.js"
           }
         }
       ]

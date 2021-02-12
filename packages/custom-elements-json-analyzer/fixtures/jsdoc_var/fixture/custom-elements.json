@@ -4,7 +4,7 @@
   "modules": [
     {
       "kind": "javascript-module",
-      "path": "./my-element.js",
+      "path": "./fixtures/jsdoc_var/package/my-element.js",
       "declarations": [
         {
           "kind": "variable",
@@ -48,7 +48,7 @@
           "name": "var1",
           "declaration": {
             "name": "var1",
-            "module": "./my-element.js"
+            "module": "./fixtures/jsdoc_var/package/my-element.js"
           }
         },
         {
@@ -56,7 +56,7 @@
           "name": "var2",
           "declaration": {
             "name": "var2",
-            "module": "./my-element.js"
+            "module": "./fixtures/jsdoc_var/package/my-element.js"
           }
         },
         {
@@ -64,7 +64,7 @@
           "name": "var3",
           "declaration": {
             "name": "var3",
-            "module": "./my-element.js"
+            "module": "./fixtures/jsdoc_var/package/my-element.js"
           }
         },
         {
@@ -72,7 +72,7 @@
           "name": "var4",
           "declaration": {
             "name": "var4",
-            "module": "./my-element.js"
+            "module": "./fixtures/jsdoc_var/package/my-element.js"
           }
         },
         {
@@ -80,7 +80,7 @@
           "name": "var5",
           "declaration": {
             "name": "var5",
-            "module": "./my-element.js"
+            "module": "./fixtures/jsdoc_var/package/my-element.js"
           }
         }
       ]

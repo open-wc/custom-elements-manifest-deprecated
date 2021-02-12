@@ -4,14 +4,14 @@
   "modules": [
     {
       "kind": "javascript-module",
-      "path": "./MyMixin.js",
+      "path": "./fixtures/inheritance_mixin_properties/package/MyMixin.js",
       "declarations": [
         {
           "kind": "mixin",
-          "description": "",
           "name": "MyMixin",
           "superclass": {
-            "name": "superklass"
+            "name": "superklass",
+            "module": "./fixtures/inheritance_mixin_properties/package/MyMixin.js"
           },
           "members": [
             {
@@ -25,7 +25,8 @@
             },
             {
               "kind": "method",
-              "name": "overRideableMethod"
+              "name": "overRideableMethod",
+              "privacy": "public"
             }
           ]
         }
@@ -36,23 +37,22 @@
           "name": "MyMixin",
           "declaration": {
             "name": "MyMixin",
-            "module": "./MyMixin.js"
+            "module": "./fixtures/inheritance_mixin_properties/package/MyMixin.js"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "./my-element.js",
+      "path": "./fixtures/inheritance_mixin_properties/package/my-element.js",
       "declarations": [
         {
           "kind": "class",
-          "description": "",
           "name": "MyElement",
           "mixins": [
             {
               "name": "MyMixin",
-              "module": "./MyMixin.js"
+              "module": "/fixtures/inheritance_mixin_properties/package/MyMixin.js"
             }
           ],
           "superclass": {
@@ -70,7 +70,8 @@
             },
             {
               "kind": "method",
-              "name": "overRideableMethod"
+              "name": "overRideableMethod",
+              "privacy": "public"
             },
             {
               "kind": "field",
@@ -82,7 +83,7 @@
               "default": "'bar'",
               "inheritedFrom": {
                 "name": "MyMixin",
-                "module": "./MyMixin.js"
+                "module": "./fixtures/inheritance_mixin_properties/package/MyMixin.js"
               }
             }
           ],
@@ -95,7 +96,7 @@
           "name": "my-element",
           "declaration": {
             "name": "MyElement",
-            "module": "./my-element.js"
+            "module": "./fixtures/inheritance_mixin_properties/package/my-element.js"
           }
         }
       ]

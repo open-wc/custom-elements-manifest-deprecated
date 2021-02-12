@@ -1,24 +1,34 @@
-# @custom-elements-json/analyzer
+# @custom-elements-manifest/analyzer
 
-> ⚠️ Very experimental and very unfinished
+> ⚠️ This project is still experimental, please try it out in your projects and create issues if you run into any problems
 
-Custom-elements.json is a file format that describes custom elements. This format will allow tooling and IDEs to give rich information about the custom elements in a given project. It is, however, very experimental and things are subject to change. Follow the discussion [here](https://github.com/webcomponents/custom-elements-json).
+Custom Elements Manifest is a file format that describes custom elements. This format will allow tooling and IDEs to give rich information about the custom elements in a given project. It is, however, very experimental and things are subject to change. Follow the discussion [here](https://github.com/webcomponents/custom-elements-manifest).
 
 This implementation is at a very early stage of development, and there will probably be bugs or things missing from the output `custom-elements.json`. You can help this project by trying it out in your project, and creating an issue if you find anything weird.
 
 ## Install
 
 ```bash
-npm i -D @custom-elements-json/analyzer
+npm i -D @custom-elements-manifest/analyzer
 ```
 
 ## Usage
 
 ```bash
-custom-elements-json create
+custom-elements-manifest analyze
 ```
 
+### Options
+
+| Command/option   | Type       | Description             |
+| ---------------- | ---------- | ----------------------- |
+| analyze          |            | Analyze your components |
+| --glob           | string[]   | Globs to analyze        |
+| --exclude        | string[]   | Globs to exclude        |
+
 ## Demo
+
+`my-element.js`:
 
 ```js
 class MyElement extends HTMLElement {
@@ -39,13 +49,69 @@ class MyElement extends HTMLElement {
 }
 ```
 
+`custom-elements.json`:
+
 ```JSON
-// TODO example custom-elements.json
+{
+  "schemaVersion": "experimental",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "./my-element.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "MyElement",
+          "attributes": [
+            {
+              "name": "disabled"
+            }
+          ],
+          "events": [
+            {
+              "name": "disabled-changed",
+              "type": {
+                "type": "Event"
+              }
+            }
+          ],
+          "superclass": {
+            "name": "HTMLElement"
+          },
+          "members": [
+            {
+              "kind": "field",
+              "name": "disabled",
+              "privacy": "public"
+            },
+            {
+              "kind": "method",
+              "name": "fire",
+              "privacy": "public"
+            }
+          ],
+          "tagName": "my-element"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "my-element",
+          "declaration": {
+            "name": "MyElement",
+            "module": "./my-element.js"
+          }
+        }
+      ]
+    }
+  ]
+}
 ```
 
 ### Support
 
-`@custom-elements-json/analyzer` currently supports:
+`@custom-elements-manifest/analyzer` currently supports:
 
 - Vanilla web components
 - LitElement
@@ -58,7 +124,7 @@ TypeScript is also supported.
 
 For all supported syntax, please check the [fixtures](./fixtures) folder.
 
-`@custom-elements-json/analyzer` is able to figure out most of your components API by itself, but for some things it needs a little help, including the following: CSS Shadow Parts, CSS Custom Properties and Slots. You can document these using JSDoc.
+`@custom-elements-manifest/analyzer` is able to figure out most of your components API by itself, but for some things it needs a little help, including the following: CSS Shadow Parts, CSS Custom Properties and Slots. You can document these using JSDoc.
 
 ```js
 import { LitElement, html, css } from 'lit-element';
@@ -123,6 +189,121 @@ export const someVariable = true;
 customElements.define('my-element', MyElement);
 ```
 
+<details>
+  <summary>
+    <code>custom-elements.json</code>:
+  </summary>
+
+```json
+{
+  "schemaVersion": "experimental",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "./fixtures/TEST/package/my-el.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "MyElement",
+          "cssProperties": [
+            {
+              "name": "--text-color",
+              "description": "Controls the color of foo"
+            },
+            {
+              "name": "--background-color",
+              "description": "Controls the color of bar"
+            }
+          ],
+          "parts": [
+            {
+              "name": "bar",
+              "description": "Styles the color of bar"
+            }
+          ],
+          "slots": [
+            {
+              "name": "container",
+              "description": "You can put some elements here"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "disabled",
+              "type": {
+                "type": "boolean"
+              },
+              "description": "corresponding property",
+              "fieldName": "disabled"
+            }
+          ],
+          "events": [
+            {
+              "name": "foo-changed",
+              "type": {
+                "type": "FooEvent"
+              },
+              "description": "description"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit-element"
+          },
+          "members": [
+            {
+              "kind": "field",
+              "name": "disabled",
+              "privacy": "public",
+              "type": {
+                "type": "boolean"
+              },
+              "description": "disabled state",
+              "default": "true"
+            },
+            {
+              "kind": "method",
+              "name": "fire",
+              "privacy": "public"
+            }
+          ],
+          "tagName": "my-element"
+        },
+        {
+          "kind": "variable",
+          "name": "someVariable",
+          "description": "This will show up in the custom-elements.json too",
+          "type": {
+            "type": "boolean"
+          }
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "someVariable",
+          "declaration": {
+            "name": "someVariable",
+            "module": "./fixtures/TEST/package/my-el.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "my-element",
+          "declaration": {
+            "name": "MyElement",
+            "module": "./fixtures/TEST/package/my-el.js"
+          }
+        }
+      ]
+    }
+  ]
+}
+```
+
+</details>
+
 ### Supported JSDoc
 
 | JSDoc                         | Description                                        |
@@ -142,13 +323,13 @@ customElements.define('my-element', MyElement);
  * @csspart bar - Styles the color of bar
  *
  * @slot container - You can put some elements here
-
+ *
  * @cssprop --text-color - Controls the color of foo
  * @cssproperty --background-color - Controls the color of bar
- * 
+ *
  * @prop {boolean} prop1 - some description
  * @property {number} prop2 - some description
- * 
+ *
  * @fires custom-event - some description for custom-event
  * @fires {Event} typed-event - some description for typed-event
  * @event {CustomEvent} typed-custom-event - some description for typed-custom-event
@@ -158,11 +339,11 @@ class MyElement extends HTMLElement {}
 
 ## How it works
 
-`@custom-elements-json/analyzer` will scan the source files in your project, and run them through the TypeScript compiler to gather information about your package. Construction of the `custom-elements.json` happens in two phases:
+`@custom-elements-manifest/analyzer` will scan the source files in your project, and run them through the TypeScript compiler to gather information about your package. Construction of the `custom-elements.json` happens in two phases:
 
 ### Analyze phase
 
-During the analyze phase, `@custom-elements-json/analyzer` goes through the AST of every module in your package, and gathers as much information about them as possible, like for example a class and all its members, events, attributes, etc. During this phase it also gathers a modules imports, imports are not specified in `custom-elements.json`, but are required for the second phase, and then deleted once processed.
+During the analyze phase, `@custom-elements-manifest/analyzer` goes through the AST of every module in your package, and gathers as much information about them as possible, like for example a class and all its members, events, attributes, etc. During this phase it also gathers a modules imports, imports are not specified in `custom-elements.json`, but are required for the second phase, and then deleted once processed.
 
 ### Link phase
 

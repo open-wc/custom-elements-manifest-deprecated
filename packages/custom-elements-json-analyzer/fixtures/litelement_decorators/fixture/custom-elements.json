@@ -4,16 +4,25 @@
   "modules": [
     {
       "kind": "javascript-module",
-      "path": "./my-element.js",
+      "path": "./fixtures/litelement_decorators/package/my-element.js",
       "declarations": [
         {
           "kind": "class",
-          "description": "",
           "name": "MyElement",
           "superclass": {
             "name": "LitElement",
             "package": "lit-element"
           },
+          "attributes": [
+            {
+              "name": "decoratedProperty",
+              "fieldName": "decoratedProperty"
+            },
+            {
+              "name": "my-attr",
+              "fieldName": "decoratedPropertyAlsoAttr"
+            }
+          ],
           "members": [
             {
               "kind": "field",
@@ -43,16 +52,6 @@
               "default": "[]"
             }
           ],
-          "attributes": [
-            {
-              "name": "decoratedProperty",
-              "fieldName": "decoratedProperty"
-            },
-            {
-              "name": "my-attr",
-              "fieldName": "decoratedPropertyAlsoAttr"
-            }
-          ],
           "tagName": "my-element"
         }
       ],
@@ -62,7 +61,7 @@
           "name": "my-element",
           "declaration": {
             "name": "MyElement",
-            "module": "./my-element.js"
+            "module": "./fixtures/litelement_decorators/package/my-element.js"
           }
         }
       ]

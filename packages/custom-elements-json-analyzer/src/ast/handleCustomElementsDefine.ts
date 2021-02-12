@@ -1,16 +1,59 @@
-import { CustomElementExport, JavaScriptModule } from 'custom-elements-json/schema';
+import { CustomElementExport, JavaScriptModule } from '../schema';
+import { customElementsJson } from '../customElementsJson';
+import { isValidArray } from '../utils';
+import path from 'path';
 
 export function handleCustomElementsDefine(node: any, moduleDoc: JavaScriptModule) {
-  if (node.expression.getText() === 'customElements' && node.name.getText() === 'define') {
-    // @TODO: figure out where the class comes from, can be from a package or a local module
-    const definitionDoc: CustomElementExport = {
+  let definitionDoc: CustomElementExport = {
+    kind: 'custom-element-definition',
+    name: '',
+    declaration: {
+      name: '',
+    },
+  };
+  let elementClass = '';
+  let elementTag = '';
+  
+  const isCustomElementDecorator = node.expression.getText() === 'customElement';
+  const isCustomElementsDefineCall = (node.expression.getText() === 'customElements' || node.expression.getText() === 'window.customElements') && node.name.getText() === 'define'
+
+  /* @customElement('my-el') */
+  if(isCustomElementDecorator) {
+    elementTag = node.arguments[0].text;
+    elementClass = node.parent.parent.name.getText();
+  }
+
+  /* customElements.define('my-el', MyEl); */
+  if (isCustomElementsDefineCall) {
+    elementClass = node.parent.arguments[1].text;
+    elementTag = node.parent.arguments[0].text;
+  }
+
+  if(isCustomElementDecorator || isCustomElementsDefineCall) {
+    definitionDoc = {
       kind: 'custom-element-definition',
-      name: node.parent.arguments[0].text,
+      name: elementTag,
       declaration: {
-        name: node.parent.arguments[1].text,
-        module: '',
+        name: elementClass,
       },
     };
+  
+    // Loop through imports in file to see where the to be defined class comes from, package or local module?
+    const foundImport = isValidArray(customElementsJson.imports) && customElementsJson.imports.find((_import: any) => {
+      return _import.name === elementClass;
+    });
+  
+    if(foundImport) {
+      if(foundImport.isBareModuleSpecifier) {
+        definitionDoc.declaration.package = foundImport.importPath;
+      } else {
+        definitionDoc.declaration.module = path.resolve(path.dirname(moduleDoc.path), foundImport.importPath).replace(process.cwd(), '');
+      }
+    } else {
+      definitionDoc.declaration.module = moduleDoc.path;
+    }
+  
     moduleDoc.exports!.push(definitionDoc);
   }
 }
+

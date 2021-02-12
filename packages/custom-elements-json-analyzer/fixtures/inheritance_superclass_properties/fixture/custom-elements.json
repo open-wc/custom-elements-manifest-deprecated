@@ -4,11 +4,10 @@
   "modules": [
     {
       "kind": "javascript-module",
-      "path": "./SuperClass.js",
+      "path": "./fixtures/inheritance_superclass_properties/package/SuperClass.js",
       "declarations": [
         {
           "kind": "class",
-          "description": "",
           "name": "SuperClass",
           "superclass": {
             "name": "HTMLElement"
@@ -25,6 +24,7 @@
             },
             {
               "kind": "method",
+              "privacy": "public",
               "name": "overRideableMethod"
             }
           ]
@@ -36,22 +36,21 @@
           "name": "SuperClass",
           "declaration": {
             "name": "SuperClass",
-            "module": "./SuperClass.js"
+            "module": "./fixtures/inheritance_superclass_properties/package/SuperClass.js"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "./my-element.js",
+      "path": "./fixtures/inheritance_superclass_properties/package/my-element.js",
       "declarations": [
         {
           "kind": "class",
-          "description": "",
           "name": "MyElement",
           "superclass": {
             "name": "SuperClass",
-            "module": "./SuperClass.js"
+            "module": "/fixtures/inheritance_superclass_properties/package/SuperClass.js"
           },
           "members": [
             {
@@ -65,6 +64,7 @@
             },
             {
               "kind": "method",
+              "privacy": "public",
               "name": "overRideableMethod"
             },
             {
@@ -77,7 +77,7 @@
               "default": "'bar'",
               "inheritedFrom": {
                 "name": "SuperClass",
-                "module": "./SuperClass.js"
+                "module": "./fixtures/inheritance_superclass_properties/package/SuperClass.js"
               }
             }
           ],
@@ -90,7 +90,7 @@
           "name": "my-element",
           "declaration": {
             "name": "MyElement",
-            "module": "./my-element.js"
+            "module": "./fixtures/inheritance_superclass_properties/package/my-element.js"
           }
         }
       ]

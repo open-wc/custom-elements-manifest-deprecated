@@ -4,11 +4,10 @@
   "modules": [
     {
       "kind": "javascript-module",
-      "path": "./my-element.js",
+      "path": "./fixtures/getters_and_setters/package/my-element.js",
       "declarations": [
         {
           "kind": "class",
-          "description": "",
           "name": "MyElement",
           "superclass": {
             "name": "HTMLElement"
@@ -59,7 +58,8 @@
             },
             {
               "kind": "method",
-              "name": "__onClick"
+              "name": "__onClick",
+              "privacy": "public"
             }
           ],
           "tagName": "my-element"
@@ -71,7 +71,7 @@
           "name": "my-element",
           "declaration": {
             "name": "MyElement",
-            "module": "./my-element.js"
+            "module": "./fixtures/getters_and_setters/package/my-element.js"
           }
         }
       ]

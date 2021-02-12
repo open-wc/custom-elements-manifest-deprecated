@@ -1,16 +1,16 @@
 {
-  "name": "@custom-elements-json/helpers",
-  "version": "0.0.1",
+  "name": "@custom-elements-manifest/helpers",
+  "version": "0.0.2",
   "description": "",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/open-wc/custom-elements-json.git"
+    "url": "https://github.com/open-wc/custom-elements-manifest.git"
   },
   "author": "open-wc",
-  "homepage": "https://github.com/open-wc/custom-elements-json",
+  "homepage": "https://github.com/open-wc/custom-elements-manifest",
   "bugs": {
-    "url": "https://github.com/open-wc/custom-elements-json"
+    "url": "https://github.com/open-wc/custom-elements-manifest"
   },
   "main": "dist/index.js",
   "module": "index.mjs",
@@ -24,16 +24,22 @@
     "test:watch": "mocha \"test/**/*.test.{ts,js,mjs,cjs}\" --watch --require ts-node/register",
     "tsc:watch": "tsc --watch"
   },
+  "files": [
+    "*.d.ts",
+    "*.js",
+    "*.mjs",
+    "dist",
+    "src"
+  ],
   "keywords": [
     "custom-elements",
     "custom-elements-json",
+    "custom-elements-manifest",
     "customelements",
     "webcomponents",
-    "customelementsjson"
+    "customelementsjson",
+    "customelementsmanifest"
   ],
-  "dependencies": {
-    "custom-elements-json": "^0.0.0"
-  },
   "devDependencies": {
     "@types/chai": "^4.2.12",
     "@types/mocha": "^8.0.3",

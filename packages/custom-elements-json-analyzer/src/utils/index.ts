@@ -6,7 +6,7 @@ import {
   ClassDeclaration,
   JavaScriptModule,
   Export,
-} from 'custom-elements-json/schema';
+} from '../schema';
 import { JSDoc } from './extractJsDoc';
 
 export function isValidArray(array: any) {
@@ -48,7 +48,7 @@ export function hasStaticKeyword(node: any): boolean {
 
 export function isAlsoProperty(node: any) {
   let result = true;
-  ((node.initializer as ts.ObjectLiteralExpression) || node).properties.forEach((property: any) => {
+  ((node?.initializer as ts.ObjectLiteralExpression) || node)?.properties?.forEach((property: any) => {
     if (
       (property.name as ts.Identifier).text === 'attribute' &&
       property.initializer.kind === ts.SyntaxKind.FalseKeyword
@@ -61,7 +61,7 @@ export function isAlsoProperty(node: any) {
 
 export function getAttrName(node: any): string | undefined {
   let result = undefined;
-  ((node.initializer as ts.ObjectLiteralExpression) || node).properties.forEach((property: any) => {
+  ((node?.initializer as ts.ObjectLiteralExpression) || node)?.properties?.forEach((property: any) => {
     if (
       (property.name as ts.Identifier).text === 'attribute' &&
       property.initializer.kind !== ts.SyntaxKind.FalseKeyword
@@ -74,9 +74,9 @@ export function getAttrName(node: any): string | undefined {
 
 export function getReturnVal(node: any) {
   if (ts.isGetAccessor(node)) {
-    return (node.body!.statements.find(
+    return (node.body?.statements?.find(
       (statement: any) => statement.kind === ts.SyntaxKind.ReturnStatement,
-    ) as ts.ReturnStatement).expression;
+    ) as ts.ReturnStatement)?.expression;
   } else {
     return node.initializer;
   }
@@ -91,7 +91,9 @@ export function hasPropertyDecorator(
 ): boolean {
   return (
     isValidArray(node.decorators) &&
-    node.decorators!.some((decorator: ts.Decorator) => ts.isDecorator(decorator))
+    node.decorators!.some((decorator: any) => { 
+      return ts.isDecorator(decorator) && (decorator.expression as any).expression.getText() === 'property'
+    })
   );
 }
 
@@ -205,7 +207,7 @@ export function hasAggregatingImport(node: any): boolean {
 }
 
 export function isBareModuleSpecifier(specifier: string): boolean {
-  return !!specifier.replace(/'/g, '')[0].match(/[a-zA-Z]/g);
+  return !!specifier.replace(/'/g, '')[0].match(/[@a-zA-Z]/g);
 }
 
 export interface Import {
