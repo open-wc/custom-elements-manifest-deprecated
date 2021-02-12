@@ -10,3 +10,4 @@ This implementation is at a very early stage of development, and there will prob
 
 - [`@custom-elements-json/analyzer`](./packages/custom-elements-json-analyzer)
 - [`@custom-elements-json/helpers`](./packages/custom-elements-json-helpers)
+- [`@custom-elements-json/to-markdown`](./packages/custom-elements-json-to-markdown)
