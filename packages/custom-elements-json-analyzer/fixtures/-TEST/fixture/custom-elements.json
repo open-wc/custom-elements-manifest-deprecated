@@ -17,7 +17,7 @@
               "kind": "field",
               "name": "foo",
               "type": {
-                "type": "string"
+                "text": "string"
               },
               "privacy": "public",
               "default": "'bar'"

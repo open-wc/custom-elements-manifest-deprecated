@@ -2,19 +2,19 @@ import ts from 'typescript';
 import { extractJsDoc } from '../utils/extractJsDoc';
 import { hasJsDoc, isValidArray } from '../utils';
 
-function hasParameters(node: any) {
+export function hasParameters(node: any) {
   return isValidArray(node.parameters);
 }
 
-function hasDefaultValue(node: any) {
+export function hasDefaultValue(node: any) {
   return node.initializer !== undefined;
 }
 
-function hasType(node: any) {
+export function hasType(node: any) {
   return node.type !== undefined;
 }
 
-function hasOnlyDescription(jsDoc: any) {
+export function hasOnlyDescription(jsDoc: any) {
   return Object.keys(jsDoc).length === 1 && jsDoc.description && jsDoc.description !== '';
 }
 
@@ -43,7 +43,7 @@ export function handleParamsAndReturnType(functionlike: any, node: any): any {
             parameter.name = doc.name;
           }
           if(doc.type && doc.type !== '') {
-            parameter.type = { type: doc.type.replace(/import(.*)\./, '').replace(/(\r\n|\n|\r)/gm, ' ') };
+            parameter.type = { text: doc.type.replace(/import(.*)\./, '').replace(/(\r\n|\n|\r)/gm, ' ') };
           }
           if(doc.description && doc.description !== '') {
             parameter.description = doc.description.replace('- ', '')
@@ -59,7 +59,7 @@ export function handleParamsAndReturnType(functionlike: any, node: any): any {
     if(hasReturn) {
       functionlike.return = {
         type: { 
-          type: returnType.type.replace(/import(.*)\./, '') 
+          text: returnType.type.replace(/import(.*)\./, '') 
         }
       }
     }
@@ -68,7 +68,7 @@ export function handleParamsAndReturnType(functionlike: any, node: any): any {
   // TS return type of functionlike
   if(hasType(node)) {
     functionlike.return = {
-      type: { type: node.type.getText() }
+      type: { text: node.type.getText() }
     }
   }
 
@@ -88,7 +88,7 @@ export function handleParamsAndReturnType(functionlike: any, node: any): any {
       }
 
       if(hasType(param)) {
-        parameter.type = {type: param.type.getText() }
+        parameter.type = {text: param.type.getText() }
       }
 
       if(!parameterAlreadyExists && !(ts.isObjectBindingPattern(param.name) && hasJsDoc(node))) {

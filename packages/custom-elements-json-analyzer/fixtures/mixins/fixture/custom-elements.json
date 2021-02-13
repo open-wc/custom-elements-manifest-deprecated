@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "experimental",
+  "schemaVersion": "0.1.0",
   "readme": "",
   "modules": [
     {
@@ -9,22 +9,23 @@
         {
           "kind": "mixin",
           "name": "MyMixin1",
+          "parameters": [
+            {
+              "name": "klass"
+            }
+          ],
           "mixins": [
             {
               "name": "MyMixin2",
               "package": "foo"
             }
           ],
-          "superclass": {
-            "name": "klass",
-            "module": "./fixtures/mixins/package/MyMixin1.js"
-          },
           "members": [
             {
               "kind": "field",
               "name": "bar",
               "type": {
-                "type": "string"
+                "text": "string"
               },
               "privacy": "public",
               "default": "'bar'"
@@ -64,7 +65,7 @@
               "kind": "field",
               "name": "foo",
               "type": {
-                "type": "string"
+                "text": "string"
               },
               "privacy": "public",
               "default": "'foo'"
@@ -73,7 +74,7 @@
               "kind": "field",
               "name": "bar",
               "type": {
-                "type": "string"
+                "text": "string"
               },
               "privacy": "public",
               "default": "'bar'",

@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "experimental",
+  "schemaVersion": "0.1.0",
   "readme": "",
   "modules": [
     {
@@ -28,7 +28,7 @@
               "kind": "field",
               "name": "decoratedProperty",
               "type": {
-                "type": "array"
+                "text": "array"
               },
               "privacy": "public",
               "default": "[]"
@@ -37,7 +37,7 @@
               "kind": "field",
               "name": "decoratedPropertyAlsoAttr",
               "type": {
-                "type": "array"
+                "text": "array"
               },
               "privacy": "public",
               "default": "[]"
@@ -46,7 +46,7 @@
               "kind": "field",
               "name": "decoratedPropertyNoAttr",
               "type": {
-                "type": "array"
+                "text": "array"
               },
               "privacy": "public",
               "default": "[]"

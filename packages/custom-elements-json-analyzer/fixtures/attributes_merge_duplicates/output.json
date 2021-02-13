@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "experimental",
+  "schemaVersion": "0.1.0",
   "readme": "",
   "modules": [
     {
@@ -15,7 +15,7 @@
               "description": "Determines the style, can be \"info\", \"warning\", or \"error\". Default is \"info\"",
               "fieldName": "type",
               "type": {
-                "type": "'info' | 'warning' | 'error'"
+                "text": "'info' | 'warning' | 'error'"
               }
             },
             {
@@ -23,7 +23,7 @@
               "description": "Determines if banner sets position at upper right corner or not.",
               "fieldName": "corner",
               "type": {
-                "type": "boolean"
+                "text": "boolean"
               }
             },
             {
@@ -31,7 +31,7 @@
               "description": "Determines if foo",
               "fieldName": "foo",
               "type": {
-                "type": "boolean"
+                "text": "boolean"
               }
             }
           ],
@@ -44,7 +44,7 @@
               "kind": "field",
               "name": "type",
               "type": {
-                "type": "'info' | 'warning' | 'error'"
+                "text": "'info' | 'warning' | 'error'"
               },
               "privacy": "public",
               "default": "'info'"

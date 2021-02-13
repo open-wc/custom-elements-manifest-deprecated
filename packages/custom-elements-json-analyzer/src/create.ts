@@ -10,10 +10,9 @@ import {
   Attribute,
   ClassMember,
   Event,
-} from './schema';
+} from 'custom-elements-manifest/schema';
 import { ExportType, isValidArray, pushSafe } from './utils';
 import { Import, isBareModuleSpecifier } from './utils';
-import commandLineArgs from 'command-line-args';
 import { customElementsJson } from './customElementsJson';
 
 import { handleClass } from './ast/handleClass';
@@ -294,8 +293,8 @@ function visit(source: ts.SourceFile, moduleDoc: JavaScriptModule) {
       case ts.SyntaxKind.FunctionDeclaration:
       case ts.SyntaxKind.ExportAssignment:
         if (isMixin) {
-          handleClass(mixin, moduleDoc, 'mixin');
-          handleExport(node as ExportType, moduleDoc, mixin.name?.text);
+          handleClass(mixin.node, moduleDoc, 'mixin', mixin.classDoc);
+          handleExport(node as ExportType, moduleDoc, mixin.node?.name?.text);
           break;
         }
         handleExport(node as ExportType, moduleDoc);

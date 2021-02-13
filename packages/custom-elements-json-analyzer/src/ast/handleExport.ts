@@ -3,7 +3,7 @@ import {
   Export,
   VariableDeclaration,
   FunctionDeclaration,
-} from '../schema';
+} from 'custom-elements-manifest/schema';
 import ts from 'typescript';
 import { handleParamsAndReturnType } from './handleFunctionlike';
 import {
@@ -43,13 +43,13 @@ export function handleExport(
         _declaration.description = jsDoc.description;
       }
       if('type' in jsDoc){
-        _declaration.type = { type: jsDoc.type };
+        _declaration.type = { text: jsDoc.type };
       }
     }
 
     node.declarationList.declarations.forEach(declaration => {
       if(declaration.type) {
-        _declaration.type = {type: declaration.type.getText()}
+        _declaration.type = {text: declaration.type.getText()}
       }
     });
 

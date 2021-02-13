@@ -5,7 +5,7 @@ import {
   Export,
   CustomElement,
   ClassMember,
-} from './schema';
+} from 'custom-elements-manifest/schema';
 
 /** Package */
 export function hasModules(_package: Package): boolean {

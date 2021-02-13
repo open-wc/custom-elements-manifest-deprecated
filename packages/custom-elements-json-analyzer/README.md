@@ -216,7 +216,7 @@ customElements.define('my-element', MyElement);
               "description": "Controls the color of bar"
             }
           ],
-          "parts": [
+          "cssParts": [
             {
               "name": "bar",
               "description": "Styles the color of bar"

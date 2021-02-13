@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "experimental",
+  "schemaVersion": "0.1.0",
   "readme": "",
   "modules": [
     {
@@ -13,52 +13,52 @@
             {
               "name": "normal-event",
               "type": {
-                "type": "Event"
+                "text": "Event"
               }
             },
             {
               "name": "jsdoc-event",
               "type": {
-                "type": "JsDocEvent"
+                "text": "JsDocEvent"
               },
               "description": "some description for jsdoc-event"
             },
             {
               "name": "jsdoc-event-2",
               "type": {
-                "type": "jsDocEventOnlyDescription"
+                "text": "jsDocEventOnlyDescription"
               },
               "description": "only description"
             },
             {
               "name": "custom-event",
               "type": {
-                "type": "CustomEvent"
+                "text": "CustomEvent"
               },
               "description": "some description for custom-event"
             },
             {
               "name": "custom-event2",
               "type": {
-                "type": "CustomEvent"
+                "text": "CustomEvent"
               }
             },
             {
               "name": "custom-event3",
               "type": {
-                "type": "CustomEvent"
+                "text": "CustomEvent"
               }
             },
             {
               "name": "extended-event",
               "type": {
-                "type": "ExtendedEvent"
+                "text": "ExtendedEvent"
               }
             },
             {
               "name": "event-event",
               "type": {
-                "type": "CustomEvent"
+                "text": "CustomEvent"
               },
               "description": "some description for event-event"
             }

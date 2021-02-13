@@ -4,7 +4,7 @@
   "modules": [
     {
       "kind": "javascript-module",
-      "path": "./fixtures/-TEST/package/my-element.js",
+      "path": "./fixtures/mixin_parameters/package/my-element.js",
       "declarations": [
         {
           "kind": "mixin",
@@ -52,7 +52,7 @@
           "mixins": [
             {
               "name": "MyMixin",
-              "module": "./fixtures/-TEST/package/my-element.js"
+              "module": "./fixtures/mixin_parameters/package/my-element.js"
             }
           ],
           "superclass": {
@@ -65,7 +65,7 @@
           "mixins": [
             {
               "name": "MyMixin1",
-              "module": "./fixtures/-TEST/package/my-element.js"
+              "module": "./fixtures/mixin_parameters/package/my-element.js"
             }
           ],
           "superclass": {
@@ -78,7 +78,7 @@
           "mixins": [
             {
               "name": "MyMixin2",
-              "module": "./fixtures/-TEST/package/my-element.js"
+              "module": "./fixtures/mixin_parameters/package/my-element.js"
             }
           ],
           "superclass": {
@@ -91,7 +91,7 @@
           "mixins": [
             {
               "name": "MyMixin3",
-              "module": "./fixtures/-TEST/package/my-element.js"
+              "module": "./fixtures/mixin_parameters/package/my-element.js"
             }
           ],
           "superclass": {
@@ -104,7 +104,7 @@
           "mixins": [
             {
               "name": "MyMixin4",
-              "module": "./fixtures/-TEST/package/my-element.js"
+              "module": "./fixtures/mixin_parameters/package/my-element.js"
             }
           ],
           "superclass": {
@@ -192,7 +192,7 @@
           "name": "MyMixin3",
           "declaration": {
             "name": "MyMixin3",
-            "module": "./fixtures/-TEST/package/my-element.js"
+            "module": "./fixtures/mixin_parameters/package/my-element.js"
           }
         },
         {
@@ -200,7 +200,7 @@
           "name": "MyMixin4",
           "declaration": {
             "name": "MyMixin4",
-            "module": "./fixtures/-TEST/package/my-element.js"
+            "module": "./fixtures/mixin_parameters/package/my-element.js"
           }
         },
         {
@@ -208,7 +208,7 @@
           "name": "MyElement",
           "declaration": {
             "name": "MyElement",
-            "module": "./fixtures/-TEST/package/my-element.js"
+            "module": "./fixtures/mixin_parameters/package/my-element.js"
           }
         },
         {
@@ -216,7 +216,7 @@
           "name": "MyElement1",
           "declaration": {
             "name": "MyElement1",
-            "module": "./fixtures/-TEST/package/my-element.js"
+            "module": "./fixtures/mixin_parameters/package/my-element.js"
           }
         },
         {
@@ -224,7 +224,7 @@
           "name": "MyElement2",
           "declaration": {
             "name": "MyElement2",
-            "module": "./fixtures/-TEST/package/my-element.js"
+            "module": "./fixtures/mixin_parameters/package/my-element.js"
           }
         },
         {
@@ -232,7 +232,7 @@
           "name": "MyElement3",
           "declaration": {
             "name": "MyElement3",
-            "module": "./fixtures/-TEST/package/my-element.js"
+            "module": "./fixtures/mixin_parameters/package/my-element.js"
           }
         },
         {
@@ -240,7 +240,7 @@
           "name": "MyElement4",
           "declaration": {
             "name": "MyElement4",
-            "module": "./fixtures/-TEST/package/my-element.js"
+            "module": "./fixtures/mixin_parameters/package/my-element.js"
           }
         }
       ]
