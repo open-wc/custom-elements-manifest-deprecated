@@ -1,0 +1,249 @@
+{
+  "schemaVersion": "0.1.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "./fixtures/mixin_parameters/package/my-element.js",
+      "declarations": [
+        {
+          "kind": "mixin",
+          "name": "MyMixin3",
+          "parameters": [
+            {
+              "name": "klass",
+              "type": {
+                "text": "*"
+              },
+              "description": ""
+            },
+            {
+              "name": "foo",
+              "type": {
+                "text": "string"
+              },
+              "description": ""
+            }
+          ]
+        },
+        {
+          "kind": "mixin",
+          "name": "MyMixin4",
+          "parameters": [
+            {
+              "name": "klass",
+              "type": {
+                "text": "*"
+              },
+              "description": ""
+            },
+            {
+              "name": "foo",
+              "type": {
+                "text": "string"
+              },
+              "description": ""
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "MyElement",
+          "mixins": [
+            {
+              "name": "MyMixin",
+              "module": "./fixtures/mixin_parameters/package/my-element.js"
+            }
+          ],
+          "superclass": {
+            "name": "HTMLElement"
+          }
+        },
+        {
+          "kind": "class",
+          "name": "MyElement1",
+          "mixins": [
+            {
+              "name": "MyMixin1",
+              "module": "./fixtures/mixin_parameters/package/my-element.js"
+            }
+          ],
+          "superclass": {
+            "name": "HTMLElement"
+          }
+        },
+        {
+          "kind": "class",
+          "name": "MyElement2",
+          "mixins": [
+            {
+              "name": "MyMixin2",
+              "module": "./fixtures/mixin_parameters/package/my-element.js"
+            }
+          ],
+          "superclass": {
+            "name": "HTMLElement"
+          }
+        },
+        {
+          "kind": "class",
+          "name": "MyElement3",
+          "mixins": [
+            {
+              "name": "MyMixin3",
+              "module": "./fixtures/mixin_parameters/package/my-element.js"
+            }
+          ],
+          "superclass": {
+            "name": "HTMLElement"
+          }
+        },
+        {
+          "kind": "class",
+          "name": "MyElement4",
+          "mixins": [
+            {
+              "name": "MyMixin4",
+              "module": "./fixtures/mixin_parameters/package/my-element.js"
+            }
+          ],
+          "superclass": {
+            "name": "HTMLElement"
+          }
+        },
+        {
+          "kind": "mixin",
+          "name": "MyMixin",
+          "parameters": [
+            {
+              "name": "klass"
+            }
+          ]
+        },
+        {
+          "kind": "mixin",
+          "name": "MyMixin1",
+          "parameters": [
+            {
+              "name": "klass"
+            }
+          ]
+        },
+        {
+          "kind": "mixin",
+          "name": "MyMixin2",
+          "parameters": [
+            {
+              "name": "klass"
+            },
+            {
+              "name": "foo",
+              "default": "'1'",
+              "type": {
+                "text": "string"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "mixin",
+          "name": "MyMixin3",
+          "parameters": [
+            {
+              "name": "klass",
+              "type": {
+                "text": "*"
+              },
+              "description": ""
+            },
+            {
+              "name": "foo",
+              "type": {
+                "text": "string"
+              },
+              "description": ""
+            }
+          ]
+        },
+        {
+          "kind": "mixin",
+          "name": "MyMixin4",
+          "parameters": [
+            {
+              "name": "klass",
+              "type": {
+                "text": "*"
+              },
+              "description": ""
+            },
+            {
+              "name": "foo",
+              "type": {
+                "text": "string"
+              },
+              "description": ""
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "MyMixin3",
+          "declaration": {
+            "name": "MyMixin3",
+            "module": "./fixtures/mixin_parameters/package/my-element.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "MyMixin4",
+          "declaration": {
+            "name": "MyMixin4",
+            "module": "./fixtures/mixin_parameters/package/my-element.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "MyElement",
+          "declaration": {
+            "name": "MyElement",
+            "module": "./fixtures/mixin_parameters/package/my-element.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "MyElement1",
+          "declaration": {
+            "name": "MyElement1",
+            "module": "./fixtures/mixin_parameters/package/my-element.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "MyElement2",
+          "declaration": {
+            "name": "MyElement2",
+            "module": "./fixtures/mixin_parameters/package/my-element.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "MyElement3",
+          "declaration": {
+            "name": "MyElement3",
+            "module": "./fixtures/mixin_parameters/package/my-element.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "MyElement4",
+          "declaration": {
+            "name": "MyElement4",
+            "module": "./fixtures/mixin_parameters/package/my-element.js"
+          }
+        }
+      ]
+    }
+  ]
+}

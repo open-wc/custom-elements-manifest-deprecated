@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "experimental",
+  "schemaVersion": "0.1.0",
   "readme": "",
   "modules": [
     {
@@ -18,7 +18,7 @@
               "name": "foo",
               "privacy": "public",
               "type": {
-                "type": "string"
+                "text": "string"
               },
               "default": "'foo'"
             },
@@ -27,7 +27,7 @@
               "name": "bar",
               "privacy": "public",
               "type": {
-                "type": "{a:'a',b:'b'}"
+                "text": "{a:'a',b:'b'}"
               },
               "default": "{a:'a',b:'b'}"
             },
@@ -36,7 +36,7 @@
               "name": "baz",
               "privacy": "public",
               "type": {
-                "type": "Array<Foo|Bar>"
+                "text": "Array<Foo|Bar>"
               }
             },
             {
@@ -44,7 +44,7 @@
               "name": "jsdoc1",
               "privacy": "public",
               "type": {
-                "type": "string"
+                "text": "string"
               },
               "description": "description",
               "default": "''"
@@ -54,7 +54,7 @@
               "name": "jsdoc2",
               "privacy": "public",
               "type": {
-                "type": "boolean"
+                "text": "boolean"
               },
               "description": "description2",
               "default": "false"
@@ -64,7 +64,7 @@
               "name": "jsdoc3",
               "privacy": "public",
               "type": {
-                "type": "boolean"
+                "text": "boolean"
               },
               "default": "true"
             },
@@ -80,7 +80,7 @@
               "name": "jsdoc5",
               "privacy": "public",
               "type": {
-                "type": "ImportedType"
+                "text": "ImportedType"
               },
               "default": "1"
             }

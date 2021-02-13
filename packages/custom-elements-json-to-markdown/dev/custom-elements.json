@@ -13,7 +13,7 @@
             {
               "name": "custom-event",
               "type": {
-                "type": "SuperCustomEvent"
+                "text": "SuperCustomEvent"
               },
               "description": "this is custom"
             }
@@ -39,7 +39,7 @@
               "description": "Controls the color of bar"
             }
           ],
-          "parts": [
+          "cssParts": [
             {
               "name": "bar",
               "description": "Styles the color of bar"
@@ -55,13 +55,13 @@
             {
               "name": "my-event",
               "type": {
-                "type": "Event"
+                "text": "Event"
               }
             },
             {
               "name": "custom-event",
               "type": {
-                "type": "SuperCustomEvent"
+                "text": "SuperCustomEvent"
               },
               "description": "this is custom",
               "inheritedFrom": {
@@ -110,7 +110,7 @@
               "name": "prop3",
               "privacy": "public",
               "type": {
-                "type": "boolean"
+                "text": "boolean"
               },
               "default": "true"
             },
@@ -118,7 +118,7 @@
               "kind": "field",
               "name": "foo",
               "type": {
-                "type": "string"
+                "text": "string"
               },
               "privacy": "private",
               "description": "description goes here",
@@ -131,20 +131,20 @@
               "description": "Some description of the method here",
               "return": {
                 "type": {
-                  "type": ""
+                  "text": ""
                 }
               },
               "parameters": [
                 {
                   "name": "e",
                   "type": {
-                    "type": "Event"
+                    "text": "Event"
                   }
                 },
                 {
                   "name": "a",
                   "type": {
-                    "type": "String"
+                    "text": "String"
                   },
                   "description": "some description"
                 }
@@ -154,7 +154,7 @@
               "kind": "field",
               "name": "mixinProp",
               "type": {
-                "type": "number"
+                "text": "number"
               },
               "privacy": "protected",
               "default": "1",
@@ -180,7 +180,7 @@
           "name": "variableExport",
           "description": "this is a var export",
           "type": {
-            "type": "boolean"
+            "text": "boolean"
           }
         },
         {
@@ -188,7 +188,7 @@
           "name": "stringVariableExport",
           "description": "this is a string var export",
           "type": {
-            "type": "string"
+            "text": "string"
           }
         },
         {
@@ -197,21 +197,41 @@
           "description": "This is a function export",
           "return": {
             "type": {
-              "type": "boolean"
+              "text": "boolean"
             }
           },
           "parameters": [
             {
               "name": "a",
               "type": {
-                "type": "string"
+                "text": "string"
               }
             },
             {
               "name": "b",
               "type": {
-                "type": "boolean"
+                "text": "boolean"
               }
+            }
+          ]
+        },
+        {
+          "kind": "mixin",
+          "name": "MyMixin4",
+          "parameters": [
+            {
+              "name": "klass",
+              "type": {
+                "text": "*"
+              },
+              "description": "This is the description"
+            },
+            {
+              "name": "foo",
+              "type": {
+                "text": "string"
+              },
+              "description": "Description goes here"
             }
           ]
         },
@@ -222,12 +242,21 @@
             "name": "klass",
             "module": "./fixtures/-TEST/package/my-element.js"
           },
+          "parameters": [
+            {
+              "name": "klass",
+              "type": {
+                "text": "*"
+              },
+              "description": "This is the description"
+            }
+          ],
           "members": [
             {
               "kind": "field",
               "name": "mixinProp",
               "type": {
-                "type": "number"
+                "text": "number"
               },
               "privacy": "protected",
               "default": "1"

@@ -4,38 +4,85 @@
   "modules": [
     {
       "kind": "javascript-module",
-      "path": "./fixtures/-TEST/package/my-element.js",
+      "path": "./fixtures/types_propertylike/package/my-element.js",
       "declarations": [
         {
-          "kind": "mixin",
-          "name": "MyMixin",
-          "cssParts": [],
+          "kind": "class",
+          "name": "MyElement",
           "superclass": {
-            "name": "klass",
-            "module": "./fixtures/-TEST/package/my-element.js"
-          }
-        },
-        {
-          "kind": "function",
-          "name": "functionExport",
-          "description": "This is a function export",
-          "return": {
-            "type": {
-              "type": "boolean"
-            }
+            "name": "HTMLElement"
           },
-          "parameters": [
+          "members": [
             {
-              "name": "a",
+              "kind": "field",
+              "name": "foo",
+              "privacy": "public",
               "type": {
-                "type": "string"
+                "text": "string"
+              },
+              "default": "'foo'"
+            },
+            {
+              "kind": "field",
+              "name": "bar",
+              "privacy": "public",
+              "type": {
+                "text": "{a:'a',b:'b'}"
+              },
+              "default": "{a:'a',b:'b'}"
+            },
+            {
+              "kind": "field",
+              "name": "baz",
+              "privacy": "public",
+              "type": {
+                "text": "Array<Foo|Bar>"
               }
             },
             {
-              "name": "b",
+              "kind": "field",
+              "name": "jsdoc1",
+              "privacy": "public",
               "type": {
-                "type": "boolean"
-              }
+                "text": "string"
+              },
+              "description": "description",
+              "default": "''"
+            },
+            {
+              "kind": "field",
+              "name": "jsdoc2",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "description2",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "jsdoc3",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true"
+            },
+            {
+              "kind": "field",
+              "name": "jsdoc4",
+              "privacy": "public",
+              "description": "only description",
+              "default": "1"
+            },
+            {
+              "kind": "field",
+              "name": "jsdoc5",
+              "privacy": "public",
+              "type": {
+                "text": "ImportedType"
+              },
+              "default": "1"
             }
           ]
         }
@@ -43,18 +90,10 @@
       "exports": [
         {
           "kind": "js",
-          "name": "MyMixin",
+          "name": "MyElement",
           "declaration": {
-            "name": "MyMixin",
-            "module": "./fixtures/-TEST/package/my-element.js"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "functionExport",
-          "declaration": {
-            "name": "functionExport",
-            "module": "./fixtures/-TEST/package/my-element.js"
+            "name": "MyElement",
+            "module": "./fixtures/types_propertylike/package/my-element.js"
           }
         }
       ]

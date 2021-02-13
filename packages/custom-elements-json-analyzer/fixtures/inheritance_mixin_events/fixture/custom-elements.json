@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "experimental",
+  "schemaVersion": "0.1.0",
   "readme": "",
   "modules": [
     {
@@ -9,18 +9,19 @@
         {
           "kind": "mixin",
           "name": "MyMixin",
+          "parameters": [
+            {
+              "name": "superclass"
+            }
+          ],
           "events": [
             {
               "name": "super",
               "type": {
-                "type": "Event"
+                "text": "Event"
               }
             }
           ],
-          "superclass": {
-            "name": "superclass",
-            "module": "./fixtures/inheritance_mixin_events/package/MyMixin.js"
-          },
           "members": [
             {
               "kind": "method",
@@ -52,13 +53,13 @@
             {
               "name": "base",
               "type": {
-                "type": "Event"
+                "text": "Event"
               }
             },
             {
               "name": "super",
               "type": {
-                "type": "Event"
+                "text": "Event"
               },
               "inheritedFrom": {
                 "name": "MyMixin",

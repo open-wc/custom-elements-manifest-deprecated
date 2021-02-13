@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "experimental",
+  "schemaVersion": "0.1.0",
   "readme": "",
   "modules": [
     {
@@ -31,7 +31,7 @@
                 {
                   "name": "obj",
                   "type": {
-                    "type": "{ a: string, b: Number }"
+                    "text": "{ a: string, b: Number }"
                   }
                 }
               ]

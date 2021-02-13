@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "experimental",
+  "schemaVersion": "0.1.0",
   "readme": "",
   "modules": [
     {
@@ -65,24 +65,26 @@
         {
           "kind": "mixin",
           "name": "CurrentModuleMixin",
-          "superclass": {
-            "name": "klass",
-            "module": "./fixtures/mixin_reference/package/my-element.js"
-          }
+          "parameters": [
+            {
+              "name": "klass"
+            }
+          ]
         },
         {
           "kind": "mixin",
           "name": "NestedMixin",
+          "parameters": [
+            {
+              "name": "klass"
+            }
+          ],
           "mixins": [
             {
               "name": "LocalModuleMixin",
               "module": "/fixtures/mixin_reference/package/local.js"
             }
-          ],
-          "superclass": {
-            "name": "klass",
-            "module": "./fixtures/mixin_reference/package/my-element.js"
-          }
+          ]
         }
       ],
       "exports": [

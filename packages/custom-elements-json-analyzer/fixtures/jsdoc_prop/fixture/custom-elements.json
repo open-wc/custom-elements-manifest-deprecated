@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "experimental",
+  "schemaVersion": "0.1.0",
   "readme": "",
   "modules": [
     {
@@ -13,7 +13,7 @@
             {
               "name": "prop1",
               "type": {
-                "type": "boolean"
+                "text": "boolean"
               },
               "description": "some description",
               "kind": "field",
@@ -23,7 +23,7 @@
             {
               "name": "prop2",
               "type": {
-                "type": "number"
+                "text": "number"
               },
               "description": "some description",
               "kind": "field",
@@ -32,7 +32,7 @@
             {
               "name": "prop3",
               "type": {
-                "type": "string"
+                "text": "string"
               },
               "description": "some description",
               "kind": "field",
@@ -41,7 +41,7 @@
             {
               "name": "prop4",
               "type": {
-                "type": "Array"
+                "text": "Array"
               },
               "description": "some description",
               "kind": "field",
@@ -50,7 +50,7 @@
             {
               "name": "prop5",
               "type": {
-                "type": "Object"
+                "text": "Object"
               },
               "description": "some description",
               "kind": "field",
@@ -60,7 +60,7 @@
             {
               "name": "prop6",
               "type": {
-                "type": "Object"
+                "text": "Object"
               },
               "description": "jsdoc only"
             }

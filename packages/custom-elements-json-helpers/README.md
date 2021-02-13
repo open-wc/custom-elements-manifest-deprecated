@@ -48,7 +48,7 @@ customElementsJson.getByTagName('my-element');
         {
           "kind": "variable",
           "name": "MyMixinB",
-          "type": "(klass: any) => typeof MyMixinB"
+          "text": "(klass: any) => typeof MyMixinB"
         }
       ]
     },

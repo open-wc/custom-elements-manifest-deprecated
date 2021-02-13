@@ -1,5 +1,5 @@
 import ts from 'typescript';
-import { Attribute, CustomElement } from '../schema';
+import { Attribute, CustomElement } from 'custom-elements-manifest/schema';
 import { extractJsDoc, extractJsDocCommentFromText, computeLeadingComment } from '../utils/extractJsDoc';
 import { isValidArray } from '../utils';
 
@@ -18,7 +18,7 @@ export function handleAttributes(node: any, classDoc: CustomElement) {
         }
 
         if(jsDoc.type) {
-          attribute.type = { type: jsDoc.type }
+          attribute.type = { text: jsDoc.type }
         }
 
         attributes.push(attribute);
@@ -79,7 +79,7 @@ function createAttribute(node: any, element:any): Attribute {
   if(isValidArray(jsDoc)) {
     jsDoc.forEach((doc: any) => {
       if(doc.tag === 'type') {
-        attribute.type = { type: doc.type }
+        attribute.type = { text: doc.type }
       }
       if(doc.description !== '') {
         attribute.description = doc.description.replace('- ', '');

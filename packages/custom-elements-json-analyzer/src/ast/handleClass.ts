@@ -7,7 +7,7 @@ import {
   Reference,
   ClassMethod,
   Attribute,
-} from '../schema';
+} from 'custom-elements-manifest/schema';
 import { extractJsDoc } from '../utils/extractJsDoc';
 import { handleParamsAndReturnType } from '../ast/handleFunctionlike';
 import {
@@ -46,16 +46,16 @@ function mergeAttributes(propertyOptions: any, member: any, classDoc: any) {
       }
     }
 
-    const type = member?.type?.getText();
-    const hasType = !!type;
+    const text = member?.type?.getText();
+    const hasType = !!text;
     if(hasType) {
-      alreadyExistingAttribute.type = { type };
+      alreadyExistingAttribute.type = { text };
     } else {
-      const type = propertyOptions?.properties?.find((property: any) => {
+      const text = propertyOptions?.properties?.find((property: any) => {
         return property?.name?.text === 'type';
       })?.initializer?.getText()?.toLowerCase();
 
-      alreadyExistingAttribute.type = { type };
+      alreadyExistingAttribute.type = { text };
 
     }
 
@@ -143,7 +143,7 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
       .forEach(jsDoc => {
         classDoc.members.push({
           name: jsDoc.name,
-          type: { type: jsDoc.type },
+          type: { text: jsDoc.type },
           description: jsDoc.description.replace('- ', ''),
         });
       });
@@ -151,7 +151,7 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
     jsDocs
       .filter(jsDoc => jsDoc.tag === 'csspart')
       .forEach(jsDoc => {
-        classDoc.parts.push({
+        classDoc.cssParts.push({
           name: jsDoc.name,
           description: jsDoc.description.replace('- ', ''),
         });
@@ -171,8 +171,8 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
     delete classDoc.cssProperties;
   }
 
-  if (classDoc.parts && classDoc.parts.length === 0) {
-    delete classDoc.parts;
+  if (classDoc.cssParts && classDoc.cssParts.length === 0) {
+    delete classDoc.cssParts;
   }
 
   if (classDoc.slots && classDoc.slots.length === 0) {
@@ -383,19 +383,19 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
         if (typeof (member as any).initializer !== 'undefined') {
           switch ((member as any).initializer.kind) {
             case ts.SyntaxKind.NumericLiteral:
-              classMember.type = { type: 'number' };
+              classMember.type = { text: 'number' };
               break;
             case ts.SyntaxKind.StringLiteral:
-              classMember.type = { type: 'string' };
+              classMember.type = { text: 'string' };
               break;
             case ts.SyntaxKind.ArrayLiteralExpression:
-              classMember.type = { type: 'array' };
+              classMember.type = { text: 'array' };
               break;
             case ts.SyntaxKind.ObjectLiteralExpression:
-              classMember.type = { type: 'object' };
+              classMember.type = { text: 'object' };
               break;
             case ts.SyntaxKind.FunctionExpression:
-              classMember.type = { type: 'function' };
+              classMember.type = { text: 'function' };
               break;
           }
         }
@@ -442,7 +442,7 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
         jsDoc?.forEach((jsDoc: any) => {
 
           if(jsDoc.tag === 'type') {
-            classMember.type = { type: jsDoc.type }
+            classMember.type = { text: jsDoc.type }
             if(jsDoc.description) {
               classMember.description = jsDoc.description.replace('- ', '');
             }
@@ -468,7 +468,7 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
 
         /** Add TS type to field, if present */
         if(member.type) {
-          classMember.type = { type: member.type.getText() }
+          classMember.type = { text: member.type.getText() }
         }
 
         if (
@@ -493,6 +493,10 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
     delete classDoc.members;
   }
 
+  if(kind === 'mixin') {
+    delete classDoc.superclass;
+  }
+
   moduleDoc.declarations.push(classDoc);
 }
 
@@ -514,7 +518,7 @@ function visit(source: ts.SourceFile, member: any) {
               if (isValidArray(jsDocs)) {
                 jsDocs.forEach((doc: any) => {
                     if(doc.tag === 'type' && !member.type) {
-                      member.type = { type: doc.type.replace(/import(.*)\./, '') };
+                      member.type = { text: doc.type.replace(/import(.*)\./, '') };
                     }
                     if('description' in doc && doc.description !== '') {
                       member.description = doc.description;

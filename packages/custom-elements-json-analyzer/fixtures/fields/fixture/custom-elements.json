@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "experimental",
+  "schemaVersion": "0.1.0",
   "readme": "",
   "modules": [
     {
@@ -22,7 +22,7 @@
               "kind": "field",
               "name": "prop2",
               "type": {
-                "type": "string"
+                "text": "string"
               },
               "privacy": "public",
               "default": "'bar'"
@@ -31,7 +31,7 @@
               "kind": "field",
               "name": "prop3",
               "type": {
-                "type": "number"
+                "text": "number"
               },
               "privacy": "public",
               "default": "1"
@@ -40,7 +40,7 @@
               "kind": "field",
               "name": "prop4",
               "type": {
-                "type": "array"
+                "text": "array"
               },
               "privacy": "public",
               "default": "[]"
@@ -49,7 +49,7 @@
               "kind": "field",
               "name": "prop5",
               "type": {
-                "type": "object"
+                "text": "object"
               },
               "privacy": "public",
               "default": "{}"
@@ -58,7 +58,7 @@
               "kind": "field",
               "name": "#prop6",
               "type": {
-                "type": "string"
+                "text": "string"
               },
               "privacy": "private",
               "default": "'bar'"

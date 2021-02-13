@@ -22,7 +22,7 @@ import {
   JavaScriptModule,
   Package,
   ClassMember,
-} from '../src/schema';
+} from 'custom-elements-manifest/schema';
 
 describe.skip('helpers', () => {
   describe('PackageDoc', () => {
@@ -110,10 +110,9 @@ describe.skip('helpers', () => {
   describe('CustomElementDoc', () => {
     const fixture: CustomElement = {
       tagName: '',
-      kind: 'class',
       name: '',
       attributes: [{ name: 'foo' }],
-      events: [{ name: 'foo', description: '', type: { type: '' } }],
+      events: [{ name: 'foo', description: '', type: { text: '' } }],
       slots: [{ name: '' }],
       members: [
         { kind: 'field', name: '' },
