@@ -15,10 +15,6 @@
               "package": "foo"
             }
           ],
-          "superclass": {
-            "name": "klass",
-            "module": "./fixtures/mixins/package/MyMixin1.js"
-          },
           "members": [
             {
               "kind": "field",

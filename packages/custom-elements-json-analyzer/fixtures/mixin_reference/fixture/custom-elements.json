@@ -64,11 +64,7 @@
         },
         {
           "kind": "mixin",
-          "name": "CurrentModuleMixin",
-          "superclass": {
-            "name": "klass",
-            "module": "./fixtures/mixin_reference/package/my-element.js"
-          }
+          "name": "CurrentModuleMixin"
         },
         {
           "kind": "mixin",
@@ -78,11 +74,7 @@
               "name": "LocalModuleMixin",
               "module": "/fixtures/mixin_reference/package/local.js"
             }
-          ],
-          "superclass": {
-            "name": "klass",
-            "module": "./fixtures/mixin_reference/package/my-element.js"
-          }
+          ]
         }
       ],
       "exports": [

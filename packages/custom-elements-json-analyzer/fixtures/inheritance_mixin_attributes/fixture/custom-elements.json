@@ -13,11 +13,7 @@
             {
               "name": "vertical"
             }
-          ],
-          "superclass": {
-            "name": "superklass",
-            "module": "./fixtures/inheritance_mixin_attributes/package/MyMixin.js"
-          }
+          ]
         }
       ],
       "exports": [

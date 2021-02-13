@@ -490,6 +490,10 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
     delete classDoc.members;
   }
 
+  if(kind === 'mixin') {
+    delete classDoc.superclass;
+  }
+
   moduleDoc.declarations.push(classDoc);
 }
 

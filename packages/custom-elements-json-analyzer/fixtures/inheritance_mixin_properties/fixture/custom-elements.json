@@ -9,10 +9,6 @@
         {
           "kind": "mixin",
           "name": "MyMixin",
-          "superclass": {
-            "name": "superklass",
-            "module": "./fixtures/inheritance_mixin_properties/package/MyMixin.js"
-          },
           "members": [
             {
               "kind": "field",

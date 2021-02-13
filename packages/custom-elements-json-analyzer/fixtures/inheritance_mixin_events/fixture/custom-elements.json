@@ -17,10 +17,6 @@
               }
             }
           ],
-          "superclass": {
-            "name": "superclass",
-            "module": "./fixtures/inheritance_mixin_events/package/MyMixin.js"
-          },
           "members": [
             {
               "kind": "method",
