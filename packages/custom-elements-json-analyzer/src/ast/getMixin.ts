@@ -12,10 +12,8 @@ interface Parameter {
 const has = (items: any): boolean => Array.isArray(items) && items?.length > 0;
 
 function createParams(node: any): Parameter[] {
-  // console.log(node.parent.parent.parent)
-
-
   let parameters: Parameter[] = [];
+
   node?.parameters?.forEach((param: any) => {
     const parameter: Parameter = {
       name: param.name.getText(),
@@ -44,7 +42,7 @@ function createParams(node: any): Parameter[] {
       }
 
       if('type' in jsDoc) {
-        parameter.type = { text: jsDoc?.type }
+        parameter.type = { text: jsDoc?.type?.replace(/import(.*)\./, '') }
       }
 
       if('description' in jsDoc) {
@@ -63,7 +61,7 @@ function createParams(node: any): Parameter[] {
       }
 
       if('type' in jsDoc) {
-        parameter.type = { text: jsDoc?.type }
+        parameter.type = { text: jsDoc?.type?.replace(/import(.*)\./, '') }
       }
 
       if('description' in jsDoc) {
