@@ -15,17 +15,17 @@ const render = (item, properties) => {
     }
 
     if(prop === 'parameters') {
-      md += `${item?.parameters?.map(param => `${param.name}: ${param?.type?.type}`).join(', ') || ''} |`
+      md += `${item?.parameters?.map(param => `${param.name}: ${param?.type?.text}`).join(', ') || ''} |`
       return `${md}\n`;
     }
 
     if(prop === 'type') {
-      md += `${item?.type?.type || ''} |`
+      md += `${item?.type?.text || ''} |`
       return `${md}\n`;
     }
     
     if(prop === 'return') {
-      md += `${item?.return?.type?.type || ''} |`
+      md += `${item?.return?.type?.text || ''} |`
       return `${md}\n`;
     }
 

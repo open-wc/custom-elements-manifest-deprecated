@@ -8,7 +8,7 @@ import {
   CustomElement,
   VariableDeclaration,
   ClassDeclaration,
-} from './schema';
+} from 'custom-elements-manifest/schema';
 import * as h from './helpers';
 
 export class CustomElementsJson {
@@ -24,7 +24,7 @@ export class CustomElementsJson {
 
   constructor(
     { schemaVersion, readme, modules }: Package = {
-      schemaVersion: 'experimental',
+      schemaVersion: '0.1.0',
       readme: '',
       modules: [],
     },
