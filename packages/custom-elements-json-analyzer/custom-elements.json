@@ -4,184 +4,85 @@
   "modules": [
     {
       "kind": "javascript-module",
-      "path": "./fixtures/-TEST/package/my-element.js",
+      "path": "./fixtures/types_propertylike/package/my-element.js",
       "declarations": [
-        {
-          "kind": "mixin",
-          "name": "MyMixin3",
-          "parameters": [
-            {
-              "name": "klass",
-              "type": {
-                "text": "*"
-              },
-              "description": ""
-            },
-            {
-              "name": "foo",
-              "type": {
-                "text": "string"
-              },
-              "description": ""
-            }
-          ]
-        },
-        {
-          "kind": "mixin",
-          "name": "MyMixin4",
-          "parameters": [
-            {
-              "name": "klass",
-              "type": {
-                "text": "*"
-              },
-              "description": ""
-            },
-            {
-              "name": "foo",
-              "type": {
-                "text": "string"
-              },
-              "description": ""
-            }
-          ]
-        },
         {
           "kind": "class",
           "name": "MyElement",
-          "mixins": [
-            {
-              "name": "MyMixin",
-              "module": "./fixtures/-TEST/package/my-element.js"
-            }
-          ],
           "superclass": {
             "name": "HTMLElement"
-          }
-        },
-        {
-          "kind": "class",
-          "name": "MyElement1",
-          "mixins": [
+          },
+          "members": [
             {
-              "name": "MyMixin1",
-              "module": "./fixtures/-TEST/package/my-element.js"
-            }
-          ],
-          "superclass": {
-            "name": "HTMLElement"
-          }
-        },
-        {
-          "kind": "class",
-          "name": "MyElement2",
-          "mixins": [
-            {
-              "name": "MyMixin2",
-              "module": "./fixtures/-TEST/package/my-element.js"
-            }
-          ],
-          "superclass": {
-            "name": "HTMLElement"
-          }
-        },
-        {
-          "kind": "class",
-          "name": "MyElement3",
-          "mixins": [
-            {
-              "name": "MyMixin3",
-              "module": "./fixtures/-TEST/package/my-element.js"
-            }
-          ],
-          "superclass": {
-            "name": "HTMLElement"
-          }
-        },
-        {
-          "kind": "class",
-          "name": "MyElement4",
-          "mixins": [
-            {
-              "name": "MyMixin4",
-              "module": "./fixtures/-TEST/package/my-element.js"
-            }
-          ],
-          "superclass": {
-            "name": "HTMLElement"
-          }
-        },
-        {
-          "kind": "mixin",
-          "name": "MyMixin",
-          "parameters": [
-            {
-              "name": "klass"
-            }
-          ]
-        },
-        {
-          "kind": "mixin",
-          "name": "MyMixin1",
-          "parameters": [
-            {
-              "name": "klass"
-            }
-          ]
-        },
-        {
-          "kind": "mixin",
-          "name": "MyMixin2",
-          "parameters": [
-            {
-              "name": "klass"
-            },
-            {
+              "kind": "field",
               "name": "foo",
-              "default": "'1'",
+              "privacy": "public",
               "type": {
                 "text": "string"
+              },
+              "default": "'foo'"
+            },
+            {
+              "kind": "field",
+              "name": "bar",
+              "privacy": "public",
+              "type": {
+                "text": "{a:'a',b:'b'}"
+              },
+              "default": "{a:'a',b:'b'}"
+            },
+            {
+              "kind": "field",
+              "name": "baz",
+              "privacy": "public",
+              "type": {
+                "text": "Array<Foo|Bar>"
               }
-            }
-          ]
-        },
-        {
-          "kind": "mixin",
-          "name": "MyMixin3",
-          "parameters": [
-            {
-              "name": "klass",
-              "type": {
-                "text": "*"
-              },
-              "description": ""
             },
             {
-              "name": "foo",
+              "kind": "field",
+              "name": "jsdoc1",
+              "privacy": "public",
               "type": {
                 "text": "string"
               },
-              "description": ""
-            }
-          ]
-        },
-        {
-          "kind": "mixin",
-          "name": "MyMixin4",
-          "parameters": [
-            {
-              "name": "klass",
-              "type": {
-                "text": "*"
-              },
-              "description": ""
+              "description": "description",
+              "default": "''"
             },
             {
-              "name": "foo",
+              "kind": "field",
+              "name": "jsdoc2",
+              "privacy": "public",
               "type": {
-                "text": "string"
+                "text": "boolean"
               },
-              "description": ""
+              "description": "description2",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "jsdoc3",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true"
+            },
+            {
+              "kind": "field",
+              "name": "jsdoc4",
+              "privacy": "public",
+              "description": "only description",
+              "default": "1"
+            },
+            {
+              "kind": "field",
+              "name": "jsdoc5",
+              "privacy": "public",
+              "type": {
+                "text": "ImportedType"
+              },
+              "default": "1"
             }
           ]
         }
@@ -189,58 +90,10 @@
       "exports": [
         {
           "kind": "js",
-          "name": "MyMixin3",
-          "declaration": {
-            "name": "MyMixin3",
-            "module": "./fixtures/-TEST/package/my-element.js"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "MyMixin4",
-          "declaration": {
-            "name": "MyMixin4",
-            "module": "./fixtures/-TEST/package/my-element.js"
-          }
-        },
-        {
-          "kind": "js",
           "name": "MyElement",
           "declaration": {
             "name": "MyElement",
-            "module": "./fixtures/-TEST/package/my-element.js"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "MyElement1",
-          "declaration": {
-            "name": "MyElement1",
-            "module": "./fixtures/-TEST/package/my-element.js"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "MyElement2",
-          "declaration": {
-            "name": "MyElement2",
-            "module": "./fixtures/-TEST/package/my-element.js"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "MyElement3",
-          "declaration": {
-            "name": "MyElement3",
-            "module": "./fixtures/-TEST/package/my-element.js"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "MyElement4",
-          "declaration": {
-            "name": "MyElement4",
-            "module": "./fixtures/-TEST/package/my-element.js"
+            "module": "./fixtures/types_propertylike/package/my-element.js"
           }
         }
       ]

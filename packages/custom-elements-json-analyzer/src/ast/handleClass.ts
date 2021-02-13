@@ -117,7 +117,7 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
 
   const classDoc = _classDoc;
   classDoc.kind = kind;
-  classDoc.name = node.name?.getText() || 'anonymous class';
+  classDoc.name = node.name?.getText() || node?.parent?.parent?.name?.getText() || 'anonymous class';
 
   if(isValidArray(node.decorators)) {
     const customElementDecorator = node.decorators?.find((decorator: ts.Decorator) => {
