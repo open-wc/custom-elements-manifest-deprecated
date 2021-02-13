@@ -138,6 +138,9 @@ export function safePush(
   }
 
   if (_declaration) {
+    const alreadyExists = !!moduleDoc.declarations?.find((declaration: any) => declaration?.name !== 'default' && declaration?.name === _declaration?.name);
+    
+    if(alreadyExists) return;
     if (ignore !== undefined && _declaration.name === ignore) return;
     if (isValidArray(moduleDoc.declarations)) {
       moduleDoc.declarations.push(_declaration);

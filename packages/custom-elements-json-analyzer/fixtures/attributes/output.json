@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "experimental",
+  "schemaVersion": "0.1.0",
   "readme": "",
   "modules": [
     {
@@ -14,14 +14,14 @@
               "name": "disabled",
               "description": "disables the element",
               "type": {
-                "type": "boolean"
+                "text": "boolean"
               }
             },
             {
               "name": "foo",
               "description": "description for foo",
               "type": {
-                "type": "string"
+                "text": "string"
               }
             },
             {

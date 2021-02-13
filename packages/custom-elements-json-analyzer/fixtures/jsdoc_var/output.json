@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "experimental",
+  "schemaVersion": "0.1.0",
   "readme": "",
   "modules": [
     {
@@ -11,7 +11,7 @@
           "name": "var1",
           "description": "description",
           "type": {
-            "type": "SomeType"
+            "text": "SomeType"
           }
         },
         {
@@ -19,7 +19,7 @@
           "name": "var2",
           "description": "description",
           "type": {
-            "type": "string"
+            "text": "string"
           }
         },
         {
@@ -31,14 +31,14 @@
           "kind": "variable",
           "name": "var4",
           "type": {
-            "type": "string"
+            "text": "string"
           }
         },
         {
           "kind": "variable",
           "name": "var5",
           "type": {
-            "type": "{a:'a',b:'b'}"
+            "text": "{a:'a',b:'b'}"
           }
         }
       ],

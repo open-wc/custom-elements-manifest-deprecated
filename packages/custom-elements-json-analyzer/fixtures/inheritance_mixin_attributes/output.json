@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "experimental",
+  "schemaVersion": "0.1.0",
   "readme": "",
   "modules": [
     {
@@ -9,15 +9,16 @@
         {
           "kind": "mixin",
           "name": "MyMixin",
+          "parameters": [
+            {
+              "name": "superklass"
+            }
+          ],
           "attributes": [
             {
               "name": "vertical"
             }
-          ],
-          "superclass": {
-            "name": "superklass",
-            "module": "./fixtures/inheritance_mixin_attributes/package/MyMixin.js"
-          }
+          ]
         }
       ],
       "exports": [
