@@ -217,11 +217,40 @@
         },
         {
           "kind": "mixin",
+          "name": "MyMixin4",
+          "parameters": [
+            {
+              "name": "klass",
+              "type": {
+                "text": "*"
+              },
+              "description": "This is the description"
+            },
+            {
+              "name": "foo",
+              "type": {
+                "text": "string"
+              },
+              "description": "Description goes here"
+            }
+          ]
+        },
+        {
+          "kind": "mixin",
           "name": "Mixin",
           "superclass": {
             "name": "klass",
             "module": "./fixtures/-TEST/package/my-element.js"
           },
+          "parameters": [
+            {
+              "name": "klass",
+              "type": {
+                "text": "*"
+              },
+              "description": "This is the description"
+            }
+          ],
           "members": [
             {
               "kind": "field",

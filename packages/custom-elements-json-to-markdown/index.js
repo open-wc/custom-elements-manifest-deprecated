@@ -64,20 +64,23 @@ function customElementsManifestToMarkdown(cem) {
         parts,
         kind,
         name,
+        parameters
       } = declaration;
       
       if(declaration.kind === 'mixin' || declaration.kind === 'class') {
 
         md += `\n\n## ${kind}: \`${name}\`${tagName ? `, \`${tagName}\`` : ''} `;
 
-        if(superclass) {
-          md += `
-
-### Superclass
-
-| name | module | package |
-|------|--------|---------|
-${render(superclass, ['name', 'module', 'package'])}`
+        if(declaration.kind === 'class') {
+          if(superclass) {
+            md += `
+  
+  ### Superclass
+  
+  | name | module | package |
+  |------|--------|---------|
+  ${render(superclass, ['name', 'module', 'package'])}`
+          }
         }
 
         if(has(mixins)) {
@@ -96,6 +99,18 @@ ${render(superclass, ['name', 'module', 'package'])}`
         const fields = members?.filter(({kind}) => kind === 'field');
         const methods = members?.filter(({kind}) => kind === 'method');
         
+        if(has(parameters)) {
+          md += `
+### Parameters
+
+| name | type | default | description |
+|------|------|---------|-------------|
+`
+          parameters?.forEach(param => {
+            md += render(param, ['name', 'type', 'default', 'description']);
+          })
+        }
+
         if(has(fields)) {
           md+= `
 

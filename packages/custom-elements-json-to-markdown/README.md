@@ -28,16 +28,16 @@ fs.writeFileSync('./custom-elements.md', markdown);
   <summary>
     Demo
   </summary>
-
+  
 # `./fixtures/-TEST/package/my-element.js`:
 
 ## class: `SuperClass` 
-
-### Superclass
-
-| name | module | package |
-|------|--------|---------|
-|LitElement | |lit-element |
+  
+  ### Superclass
+  
+  | name | module | package |
+  |------|--------|---------|
+  |LitElement | |lit-element |
 
 
 ### Methods
@@ -57,12 +57,12 @@ fs.writeFileSync('./custom-elements.md', markdown);
 <hr></hr>
 
 ## class: `MyElement`, `my-element` 
-
-### Superclass
-
-| name | module | package |
-|------|--------|---------|
-|SuperClass |./fixtures/-TEST/package/my-element.js | |
+  
+  ### Superclass
+  
+  | name | module | package |
+  |------|--------|---------|
+  |SuperClass |./fixtures/-TEST/package/my-element.js | |
 
 
 ### Mixins
@@ -115,13 +115,6 @@ fs.writeFileSync('./custom-elements.md', markdown);
 |--background-color |Controls the color of bar |
 
 
-### CSS Parts
-
-| name | description |
-|------|-----------|
-|bar |Styles the color of bar |
-
-
 ### Slots
 
 | name | description |
@@ -131,13 +124,23 @@ fs.writeFileSync('./custom-elements.md', markdown);
 
 <hr></hr>
 
+## mixin: `MyMixin4` 
+### Parameters
+
+| name | type | default | description |
+|------|------|---------|-------------|
+|klass |* | |This is the description |
+|foo |string | |Description goes here |
+
+
+<hr></hr>
+
 ## mixin: `Mixin` 
+### Parameters
 
-### Superclass
-
-| name | module | package |
-|------|--------|---------|
-|klass |./fixtures/-TEST/package/my-element.js | |
+| name | type | default | description |
+|------|------|---------|-------------|
+|klass |* | |This is the description |
 
 
 ### Fields
