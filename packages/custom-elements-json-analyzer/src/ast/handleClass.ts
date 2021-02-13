@@ -158,6 +158,12 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
       });
 
     jsDocs
+      .filter(jsDoc => jsDoc.tag === 'tag' || jsDoc?.tag?.toLowerCase() === 'tagname')
+      .forEach(jsDoc => {
+        classDoc.tagName = jsDoc.name;
+      });
+
+    jsDocs
       .filter(jsDoc => jsDoc.tag === 'slot')
       .forEach(jsDoc => {
         classDoc.slots.push({

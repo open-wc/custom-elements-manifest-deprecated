@@ -181,7 +181,7 @@ export async function create(globs: string[], dev: boolean): Promise<Package> {
     const tagName = definitions.find(
       def => def && def.declaration && def.declaration.name === customElement.name,
     )?.name;
-    if (tagName) {
+    if (tagName && !customElement.tagName) {
       customElement.tagName = tagName;
     }
 

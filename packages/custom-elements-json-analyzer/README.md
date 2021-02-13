@@ -314,6 +314,7 @@ customElements.define('my-element', MyElement);
 | `@slot`                       | Documents the Slots used in your components        |
 | `@cssprop`,<br>`@cssproperty` | Documents CSS Custom Properties for your component |
 | `@fires`,<br>`@event`         | Documents events that your component might fire    |
+| `@tag`,<br>`@tagname`         | Documents the name of your custom element          |
 
 ```js
 /**
@@ -333,6 +334,9 @@ customElements.define('my-element', MyElement);
  * @fires custom-event - some description for custom-event
  * @fires {Event} typed-event - some description for typed-event
  * @event {CustomEvent} typed-custom-event - some description for typed-custom-event
+ * 
+ * @tag my-element
+ * @tagname my-element
  */
 class MyElement extends HTMLElement {}
 ```
