@@ -64,11 +64,21 @@
         },
         {
           "kind": "mixin",
-          "name": "CurrentModuleMixin"
+          "name": "CurrentModuleMixin",
+          "parameters": [
+            {
+              "name": "klass"
+            }
+          ]
         },
         {
           "kind": "mixin",
           "name": "NestedMixin",
+          "parameters": [
+            {
+              "name": "klass"
+            }
+          ],
           "mixins": [
             {
               "name": "LocalModuleMixin",

@@ -9,6 +9,11 @@
         {
           "kind": "mixin",
           "name": "MyMixin",
+          "parameters": [
+            {
+              "name": "superclass"
+            }
+          ],
           "events": [
             {
               "name": "super",

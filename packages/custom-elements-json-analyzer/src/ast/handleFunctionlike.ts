@@ -2,19 +2,19 @@ import ts from 'typescript';
 import { extractJsDoc } from '../utils/extractJsDoc';
 import { hasJsDoc, isValidArray } from '../utils';
 
-function hasParameters(node: any) {
+export function hasParameters(node: any) {
   return isValidArray(node.parameters);
 }
 
-function hasDefaultValue(node: any) {
+export function hasDefaultValue(node: any) {
   return node.initializer !== undefined;
 }
 
-function hasType(node: any) {
+export function hasType(node: any) {
   return node.type !== undefined;
 }
 
-function hasOnlyDescription(jsDoc: any) {
+export function hasOnlyDescription(jsDoc: any) {
   return Object.keys(jsDoc).length === 1 && jsDoc.description && jsDoc.description !== '';
 }
 

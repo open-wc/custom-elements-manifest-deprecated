@@ -9,6 +9,11 @@
         {
           "kind": "mixin",
           "name": "MyMixin1",
+          "parameters": [
+            {
+              "name": "klass"
+            }
+          ],
           "mixins": [
             {
               "name": "MyMixin2",

@@ -293,8 +293,8 @@ function visit(source: ts.SourceFile, moduleDoc: JavaScriptModule) {
       case ts.SyntaxKind.FunctionDeclaration:
       case ts.SyntaxKind.ExportAssignment:
         if (isMixin) {
-          handleClass(mixin, moduleDoc, 'mixin');
-          handleExport(node as ExportType, moduleDoc, mixin.name?.text);
+          handleClass(mixin.node, moduleDoc, 'mixin', mixin.classDoc);
+          handleExport(node as ExportType, moduleDoc, mixin.node?.name?.text);
           break;
         }
         handleExport(node as ExportType, moduleDoc);

@@ -1,8 +1,94 @@
 import ts from 'typescript';
+import { hasDefaultValue, hasType } from './handleFunctionlike';
+import { extractJsDoc } from '../utils/extractJsDoc';
+
+interface Parameter {
+  default?: string,
+  type?: { text: string },
+  name: string,
+  description?: string
+}
+
+const has = (items: any): boolean => Array.isArray(items) && items?.length > 0;
+
+function createParams(node: any): Parameter[] {
+  // console.log(node.parent.parent.parent)
+
+
+  let parameters: Parameter[] = [];
+  node?.parameters?.forEach((param: any) => {
+    const parameter: Parameter = {
+      name: param.name.getText(),
+    }
+
+    if(hasDefaultValue(param)) {
+      parameter.default = param.initializer.getText();
+    }
+
+    if(hasType(param)) {
+      parameter.type = {text: param.type.getText() }
+    }
+
+    parameters.push(parameter);
+  });
+
+  const isArrowFunctionMixinAndHasJsDoc = !!node?.parent?.parent?.parent?.jsDoc;
+  const isFunctionMixinAndHasJsDoc = !!node?.jsDoc;
+
+  if(isArrowFunctionMixinAndHasJsDoc) {
+    parameters = [];
+    const jsDoc = extractJsDoc(node?.parent?.parent?.parent).filter((jsDoc: any) => jsDoc.tag === 'param');
+    jsDoc.forEach((jsDoc: any) => {
+      const parameter: Parameter = {
+        name: jsDoc.name,
+      }
+
+      if('type' in jsDoc) {
+        parameter.type = { text: jsDoc?.type }
+      }
+
+      if('description' in jsDoc) {
+        parameter.description = jsDoc?.description
+      }
+      parameters.push(parameter)
+    });
+  }
+
+  if(isFunctionMixinAndHasJsDoc) {
+    parameters = [];
+    const jsDoc = extractJsDoc(node).filter((jsDoc: any) => jsDoc.tag === 'param');
+    jsDoc.forEach((jsDoc: any) => {
+      const parameter: Parameter = {
+        name: jsDoc.name,
+      }
+
+      if('type' in jsDoc) {
+        parameter.type = { text: jsDoc?.type }
+      }
+
+      if('description' in jsDoc) {
+        parameter.description = jsDoc?.description
+      }
+      parameters.push(parameter)
+    });
+  }
+
+  return parameters;
+}
 
 export function getMixin(
   node: ts.VariableStatement | ts.FunctionDeclaration,
-): boolean | ts.ClassExpression {
+): any {
+  const classDoc: any = {
+    kind: 'mixin',
+    description: '',
+    name:'',
+    cssProperties: [],
+    cssParts: [],
+    slots: [],
+    members: [],
+  };
+
   if (ts.isVariableStatement(node) || ts.isFunctionDeclaration(node)) {
     if (ts.isVariableStatement(node)) {
       /**
@@ -14,8 +100,13 @@ export function getMixin(
       );
       if (variableDeclaration) {
         const body = (variableDeclaration?.initializer as ts.ArrowFunction)?.body;
+        const params = createParams(variableDeclaration?.initializer);
+        if(has(params)) {
+          classDoc.parameters = params;
+        }
+
         if (body && ts.isClassExpression(body)) {
-          return body;
+          return { node: body, classDoc };
         }
 
         /**
@@ -26,7 +117,7 @@ export function getMixin(
             ts.isReturnStatement(statement),
           );
           if (returnStatement && (returnStatement as any)?.expression?.kind && ts.isClassExpression((returnStatement as any).expression)) {
-            return (returnStatement as any).expression;
+            return { node: (returnStatement as any).expression, classDoc };
           }
         }
       }
@@ -38,9 +129,14 @@ export function getMixin(
     if (ts.isFunctionDeclaration(node)) {
       const { body } = node;
       if (body && ts.isBlock(body)) {
+        const params = createParams(node);
+        if(has(params)) {
+          classDoc.parameters = params;
+        }
+
         const returnStatement = body.statements.find(statement => ts.isReturnStatement(statement));
         if (returnStatement && ts.isClassExpression((returnStatement as any).expression)) {
-          return (returnStatement as any).expression;
+          return { node: (returnStatement as any).expression, classDoc };
         }
       }
     }

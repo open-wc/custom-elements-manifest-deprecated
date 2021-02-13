@@ -105,16 +105,19 @@ function createMixin(name: string): Mixin {
   return mixin;
 }
 
-export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class' | 'mixin') {
-  const classDoc: any = {
-    kind: kind,
-    description: '',
-    name: node.name?.getText() || 'anonymous class',
-    cssProperties: [],
-    cssParts: [],
-    slots: [],
-    members: [],
-  };
+export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class' | 'mixin', _classDoc: any = {
+  kind: '',
+  description: '',
+  name: '',
+  cssProperties: [],
+  cssParts: [],
+  slots: [],
+  members: []
+}) {
+
+  const classDoc = _classDoc;
+  classDoc.kind = kind;
+  classDoc.name = node.name?.getText() || 'anonymous class';
 
   if(isValidArray(node.decorators)) {
     const customElementDecorator = node.decorators?.find((decorator: ts.Decorator) => {

@@ -9,6 +9,11 @@
         {
           "kind": "mixin",
           "name": "MyMixin",
+          "parameters": [
+            {
+              "name": "superklass"
+            }
+          ],
           "attributes": [
             {
               "name": "vertical"
