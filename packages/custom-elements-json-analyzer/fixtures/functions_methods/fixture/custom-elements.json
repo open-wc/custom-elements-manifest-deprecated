@@ -61,7 +61,9 @@
               "name": "tsMethod1",
               "description": "only description",
               "return": {
-                "type": { "text": "boolean" }
+                "type": {
+                  "text": "boolean"
+                }
               },
               "parameters": [
                 {
@@ -78,12 +80,16 @@
               "name": "jsDocMethod1",
               "description": "Method description",
               "return": {
-                "type": { "text": "boolean" }
+                "type": {
+                  "text": "boolean"
+                }
               },
               "parameters": [
                 {
                   "name": "foo",
-                  "type": { "text": "string" },
+                  "type": {
+                    "text": "string"
+                  },
                   "description": "description"
                 }
               ]
@@ -93,16 +99,22 @@
               "privacy": "public",
               "name": "jsDocMethod2",
               "return": {
-                "type": { "text": "boolean" }
+                "type": {
+                  "text": "boolean"
+                }
               },
               "parameters": [
                 {
                   "name": "foo",
-                  "type": { "text": "string" }
+                  "type": {
+                    "text": "string"
+                  }
                 },
                 {
                   "name": "bar",
-                  "type": { "text": "string" },
+                  "type": {
+                    "text": "string"
+                  },
                   "optional": true
                 }
               ]
@@ -112,7 +124,9 @@
               "privacy": "public",
               "name": "jsDocMethod3",
               "return": {
-                "type": { "text": "boolean" }
+                "type": {
+                  "text": "boolean"
+                }
               },
               "parameters": [
                 {
@@ -175,7 +189,9 @@
           "kind": "function",
           "name": "tsFunction1",
           "return": {
-            "type": { "text": "boolean" }
+            "type": {
+              "text": "boolean"
+            }
           },
           "parameters": [
             {
@@ -190,12 +206,16 @@
           "kind": "function",
           "name": "jsDocFunction1",
           "return": {
-            "type": { "text": "boolean" }
+            "type": {
+              "text": "boolean"
+            }
           },
           "parameters": [
             {
               "name": "foo",
-              "type": { "text": "string" }
+              "type": {
+                "text": "string"
+              }
             }
           ]
         },
@@ -203,16 +223,22 @@
           "kind": "function",
           "name": "jsDocFunction2",
           "return": {
-            "type": { "text": "boolean" }
+            "type": {
+              "text": "boolean"
+            }
           },
           "parameters": [
             {
               "name": "foo",
-              "type": { "text": "string" }
+              "type": {
+                "text": "string"
+              }
             },
             {
               "name": "bar",
-              "type": { "text": "string" },
+              "type": {
+                "text": "string"
+              },
               "optional": true
             }
           ]
@@ -221,7 +247,9 @@
           "kind": "function",
           "name": "jsDocFunction3",
           "return": {
-            "type": { "text": "boolean" }
+            "type": {
+              "text": "boolean"
+            }
           },
           "parameters": [
             {

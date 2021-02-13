@@ -25,7 +25,8 @@
     "start": "nodemon --ignore '*.json' dist/index.js analyze --dev --glob './fixtures/-TEST/package'",
     "test": "mocha \"test/**/*.test.{ts,js,mjs,cjs}\" --require ts-node/register",
     "test:watch": "mocha \"test/**/*.test.{ts,js,mjs,cjs}\" --watch --require ts-node/register",
-    "tsc:watch": "tsc --watch"
+    "tsc:watch": "tsc --watch",
+    "update-fixtures": "node scripts/update-version.mjs --version 0.1.0"
   },
   "keywords": [
     "custom-elements",

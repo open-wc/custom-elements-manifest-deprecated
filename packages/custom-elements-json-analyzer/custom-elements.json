@@ -4,87 +4,39 @@
   "modules": [
     {
       "kind": "javascript-module",
-      "path": "./fixtures/types_propertylike/package/my-element.js",
+      "path": "./fixtures/-TEST/package/my-element.js",
       "declarations": [
         {
           "kind": "class",
           "name": "MyElement",
+          "tagName": "my-element",
           "superclass": {
             "name": "HTMLElement"
-          },
-          "members": [
-            {
-              "kind": "field",
-              "name": "foo",
-              "privacy": "public",
-              "type": {
-                "text": "string"
-              },
-              "default": "'foo'"
-            },
-            {
-              "kind": "field",
-              "name": "bar",
-              "privacy": "public",
-              "type": {
-                "text": "{a:'a',b:'b'}"
-              },
-              "default": "{a:'a',b:'b'}"
-            },
-            {
-              "kind": "field",
-              "name": "baz",
-              "privacy": "public",
-              "type": {
-                "text": "Array<Foo|Bar>"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "jsdoc1",
-              "privacy": "public",
-              "type": {
-                "text": "string"
-              },
-              "description": "description",
-              "default": "''"
-            },
-            {
-              "kind": "field",
-              "name": "jsdoc2",
-              "privacy": "public",
-              "type": {
-                "text": "boolean"
-              },
-              "description": "description2",
-              "default": "false"
-            },
-            {
-              "kind": "field",
-              "name": "jsdoc3",
-              "privacy": "public",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "true"
-            },
-            {
-              "kind": "field",
-              "name": "jsdoc4",
-              "privacy": "public",
-              "description": "only description",
-              "default": "1"
-            },
-            {
-              "kind": "field",
-              "name": "jsdoc5",
-              "privacy": "public",
-              "type": {
-                "text": "ImportedType"
-              },
-              "default": "1"
-            }
-          ]
+          }
+        },
+        {
+          "kind": "class",
+          "name": "MyElement2",
+          "tagName": "my-element2",
+          "superclass": {
+            "name": "HTMLElement"
+          }
+        },
+        {
+          "kind": "class",
+          "name": "MyElement3",
+          "tagName": "my-element3",
+          "superclass": {
+            "name": "HTMLElement"
+          }
+        },
+        {
+          "kind": "class",
+          "name": "MyElement4",
+          "tagName": "i-win",
+          "superclass": {
+            "name": "HTMLElement"
+          }
         }
       ],
       "exports": [
@@ -93,7 +45,39 @@
           "name": "MyElement",
           "declaration": {
             "name": "MyElement",
-            "module": "./fixtures/types_propertylike/package/my-element.js"
+            "module": "./fixtures/-TEST/package/my-element.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "MyElement2",
+          "declaration": {
+            "name": "MyElement2",
+            "module": "./fixtures/-TEST/package/my-element.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "MyElement3",
+          "declaration": {
+            "name": "MyElement3",
+            "module": "./fixtures/-TEST/package/my-element.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "MyElement4",
+          "declaration": {
+            "name": "MyElement4",
+            "module": "./fixtures/-TEST/package/my-element.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "i-lose",
+          "declaration": {
+            "name": "MyElement4",
+            "module": "./fixtures/-TEST/package/my-element.js"
           }
         }
       ]
