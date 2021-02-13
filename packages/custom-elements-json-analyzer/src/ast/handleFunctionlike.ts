@@ -43,7 +43,7 @@ export function handleParamsAndReturnType(functionlike: any, node: any): any {
             parameter.name = doc.name;
           }
           if(doc.type && doc.type !== '') {
-            parameter.type = { type: doc.type.replace(/import(.*)\./, '').replace(/(\r\n|\n|\r)/gm, ' ') };
+            parameter.type = { text: doc.type.replace(/import(.*)\./, '').replace(/(\r\n|\n|\r)/gm, ' ') };
           }
           if(doc.description && doc.description !== '') {
             parameter.description = doc.description.replace('- ', '')
@@ -59,7 +59,7 @@ export function handleParamsAndReturnType(functionlike: any, node: any): any {
     if(hasReturn) {
       functionlike.return = {
         type: { 
-          type: returnType.type.replace(/import(.*)\./, '') 
+          text: returnType.type.replace(/import(.*)\./, '') 
         }
       }
     }
@@ -68,7 +68,7 @@ export function handleParamsAndReturnType(functionlike: any, node: any): any {
   // TS return type of functionlike
   if(hasType(node)) {
     functionlike.return = {
-      type: { type: node.type.getText() }
+      type: { text: node.type.getText() }
     }
   }
 
@@ -88,7 +88,7 @@ export function handleParamsAndReturnType(functionlike: any, node: any): any {
       }
 
       if(hasType(param)) {
-        parameter.type = {type: param.type.getText() }
+        parameter.type = {text: param.type.getText() }
       }
 
       if(!parameterAlreadyExists && !(ts.isObjectBindingPattern(param.name) && hasJsDoc(node))) {

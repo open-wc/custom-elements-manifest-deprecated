@@ -10,10 +10,9 @@ import {
   Attribute,
   ClassMember,
   Event,
-} from './schema';
+} from 'custom-elements-manifest/schema';
 import { ExportType, isValidArray, pushSafe } from './utils';
 import { Import, isBareModuleSpecifier } from './utils';
-import commandLineArgs from 'command-line-args';
 import { customElementsJson } from './customElementsJson';
 
 import { handleClass } from './ast/handleClass';

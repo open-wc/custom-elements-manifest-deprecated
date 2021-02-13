@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "experimental",
+  "schemaVersion": "0.1.0",
   "readme": "",
   "modules": [
     {
@@ -13,7 +13,7 @@
             {
               "name": "typed-js-doc",
               "type": {
-                "type": "boolean"
+                "text": "boolean"
               },
               "description": "THIS WILL OVERRIDE"
             }
@@ -49,7 +49,7 @@
               "name": "with-fieldName",
               "fieldName": "fieldName",
               "type": {
-                "type": "boolean"
+                "text": "boolean"
               }
             },
             {
@@ -59,14 +59,14 @@
             {
               "name": "typed-js-doc",
               "type": {
-                "type": "string"
+                "text": "string"
               },
               "description": "some description"
             },
             {
               "name": "disabled",
               "type": {
-                "type": "boolean"
+                "text": "boolean"
               }
             },
             {
@@ -104,7 +104,7 @@
               "name": "with-fieldName",
               "fieldName": "fieldName",
               "type": {
-                "type": "boolean"
+                "text": "boolean"
               }
             },
             {
@@ -114,14 +114,14 @@
             {
               "name": "typed-js-doc",
               "type": {
-                "type": "string"
+                "text": "string"
               },
               "description": "some description"
             },
             {
               "name": "disabled",
               "type": {
-                "type": "boolean"
+                "text": "boolean"
               }
             },
             {

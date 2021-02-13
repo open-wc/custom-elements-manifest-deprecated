@@ -1,5 +1,5 @@
 import ts from 'typescript';
-import { Event, CustomElement } from '../schema';
+import { Event, CustomElement } from 'custom-elements-manifest/schema';
 import { customElementsJson } from '../customElementsJson';
 import { extractJsDoc } from '../utils/extractJsDoc';
 import { isValidArray } from '../utils';
@@ -28,7 +28,7 @@ export function handleEvents(node: any, classDoc: CustomElement) {
           // event doesnt exist, add it
           events.push({
             name: jsDoc.name,
-            type: { type: jsDoc.type || 'Event' },
+            type: { text: jsDoc.type || 'Event' },
             description: jsDoc.description.replace('- ', ''),
           });
         }
@@ -55,7 +55,7 @@ function visit(source: any, events: Event[]) {
           const eventDoc: Event = {
             name: '',
             type: {
-              type: '',
+              text: '',
             },
           };
 
@@ -65,7 +65,7 @@ function visit(source: any, events: Event[]) {
             jsDoc.forEach((doc: any) => {
               if(doc.tag === 'type') {
                 if(doc.type && doc.type !== '') {
-                  eventDoc.type = { type: doc.type.replace(/import(.*)\./, '') };
+                  eventDoc.type = { text: doc.type.replace(/import(.*)\./, '') };
                 }
                 if(doc.name && doc.name !== '') {
                   eventDoc.name = doc.name;
@@ -82,8 +82,8 @@ function visit(source: any, events: Event[]) {
             if (arg.kind === ts.SyntaxKind.NewExpression) {
               eventDoc.name = arg.arguments[0].text;
 
-              if(eventDoc.type.type === '') {
-                eventDoc.type = { type: arg.expression.text };
+              if(eventDoc.type.text === '') {
+                eventDoc.type = { text: arg.expression.text };
               }
               const existingEvent = events.find(event => event.name === eventDoc.name);
               if(!existingEvent) {
@@ -98,7 +98,7 @@ function visit(source: any, events: Event[]) {
                     if (node.parent.kind === ts.SyntaxKind.VariableDeclaration) {
                       if (node.getText() === arg.getText()) {
                         eventDoc.name = node.parent.initializer.arguments[0].text;
-                        eventDoc.type = { type: node.parent.initializer.expression.getText() };
+                        eventDoc.type = { text: node.parent.initializer.expression.getText() };
                         const existingEvent = events.find(event => event.name === eventDoc.name);
                         if(!existingEvent) {
                           events.push(eventDoc);

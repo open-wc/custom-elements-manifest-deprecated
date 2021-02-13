@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "experimental",
+  "schemaVersion": "0.1.0",
   "readme": "",
   "modules": [
     {
@@ -13,7 +13,7 @@
             {
               "name": "my-event",
               "type": {
-                "type": "Event"
+                "text": "Event"
               }
             }
           ],

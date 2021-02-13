@@ -1,16 +1,11 @@
-- [x] Gather imports
-- [ ] Gather types
-- [x] Mixins
-  - [x] Get mixins from handleClass
-  - [x] Mixins for functions that are JSDoc tagged to have mixins
-  - [x] Link a Mixin to its package or modules. A mixin can either be imported, or it can be a declaration if its locally defined, so loop through imports and declarations and match it
-- [x] Superclass - find if its locally declared or imported and add reference to it (similar to mixin implementation)
-- [ ] Inheritance
-  - [x] implement in helpers
-  - [ ] add inherited properties/attrs/events to a class
-  - [ ] if a member already exists, dont add it (because the baseclass will have overriden the superclass)
-- [x] LitElement support
-- [ ] Implement Types for everything that can have a type
-  - [ ] Loop through everything that can have a type and resolve it
-- [x] Class methods
-- [ ] Support @prop and @property jsdoc above class
+# TODO
+
+- fix tests:
+  - ✅ schemaVersion from "experimental" to "0.1.0"
+  - ✅ type.type -> type.text
+  - ✅ parts -> cssParts
+- ✅ fix types (I think I just have to yarn from the root again to link packages... but maybe release helpers first? to be sure?)
+- mixins have parameters
+  - remove superclass from mixins
+  - add parameters to mixins
+- make releases
