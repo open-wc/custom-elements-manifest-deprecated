@@ -1,6 +1,6 @@
 {
   "name": "@custom-elements-manifest/analyzer",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "",
   "license": "MIT",
   "bin": {
@@ -38,7 +38,7 @@
     "customelementsmanifest"
   ],
   "dependencies": {
-    "@custom-elements-manifest/helpers": "^0.0.2",
+    "@custom-elements-manifest/helpers": "^0.0.3",
     "command-line-args": "^5.1.1",
     "comment-parser": "^0.7.6",
     "globby": "^11.0.1",
