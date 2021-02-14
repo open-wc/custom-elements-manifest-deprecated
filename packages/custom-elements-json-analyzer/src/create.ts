@@ -37,7 +37,10 @@ interface Options {
  */
 export async function create(modulePaths: string[], opts: Options = {}): Promise<Package> {
 
-  modulePaths.forEach(modulePath => {
+  const runSingle = opts.path && opts.sourceCode;
+  const modules: any = runSingle ? [opts.path] : [...modulePaths];
+
+  modules!.forEach((modulePath: string) => {
     let relativeModulePath: string;
     let sourceFile;
     
