@@ -1,6 +1,7 @@
 const { expect } = require('chai');
 const path = require('path');
 const fs = require('fs');
+const globby = require('globby');
 
 const { create } = require('../src/create');
 const { customElementsJson } = require('../src/customElementsJson');
@@ -28,7 +29,9 @@ describe('integration tests', () => {
 
       const packagePath = path.join(fixturesDir, `${testCase}/package`);
       const outputPath = path.join(fixturesDir, `${testCase}/output.json`);
-      const result = await create([packagePath]);
+      
+      const modulePaths = await globby(packagePath);
+      const result = await create(modulePaths);
 
       fs.writeFileSync(
         outputPath,

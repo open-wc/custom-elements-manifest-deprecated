@@ -21,25 +21,61 @@ import { handleExport } from './ast/handleExport';
 import { handleImport } from './ast/handleImport';
 import { getMixin } from './ast/getMixin';
 
-export async function create(globs: string[], dev: boolean): Promise<Package> {
-  const modulePaths = await globby(globs);
+interface Options {
+  path?: string,
+  sourceCode?: string
+}
+
+/**
+ * `opts.path` and `opts.sourceCode` can be provided to 'manually' pass some code to analyze
+ * this is useful for example the playground, but also calling the analyzer programmatically
+ * 
+ * @example
+ * ```
+ * create([], {path:'./my-el', sourceCode: 'export class MyEl extends HTMLElement { foo = 1 }'});
+ * ```
+ */
+export async function create(modulePaths: string[], opts: Options = {}): Promise<Package> {
 
   modulePaths.forEach(modulePath => {
-    const relativeModulePath = `./${path.relative(process.cwd(), modulePath)}`;
+    let relativeModulePath: string;
+    let sourceFile;
+    
+    if(opts.path && opts.sourceCode) {
+      /* Analyze code passed down in options as string */
+      relativeModulePath = opts.path;
+  
+      customElementsJson.modules.push({
+        kind: 'javascript-module',
+        path: relativeModulePath,
+        declarations: [],
+        exports: [],
+      });
+  
+      sourceFile = ts.createSourceFile(
+        opts.path,
+        opts.sourceCode,
+        ts.ScriptTarget.ES2015,
+        true,
+      );
+    } else {
+      /* Analyze code inside a project, gathered from the filesystem */
+      relativeModulePath = `./${path.relative(process.cwd(), modulePath)}`;
+  
+      customElementsJson.modules.push({
+        kind: 'javascript-module',
+        path: relativeModulePath,
+        declarations: [],
+        exports: [],
+      });
 
-    customElementsJson.modules.push({
-      kind: 'javascript-module',
-      path: relativeModulePath,
-      declarations: [],
-      exports: [],
-    });
-
-    const sourceFile = ts.createSourceFile(
-      modulePath,
-      fs.readFileSync(modulePath).toString(),
-      ts.ScriptTarget.ES2015,
-      true,
-    );
+      sourceFile = ts.createSourceFile(
+        modulePath,
+        fs.readFileSync(modulePath).toString(),
+        ts.ScriptTarget.ES2015,
+        true,
+      );
+    }
 
     customElementsJson.setCurrentModule(sourceFile);
 
@@ -266,10 +302,6 @@ export async function create(globs: string[], dev: boolean): Promise<Package> {
   delete customElementsJson.imports;
   delete customElementsJson.currentModule;
 
-  fs.writeFileSync(`${process.cwd()}/custom-elements.json`, JSON.stringify(customElementsJson, null, 2));
-  if(dev) {
-    console.log(JSON.stringify(customElementsJson, null, 2));
-  }
   return customElementsJson;
 }
 

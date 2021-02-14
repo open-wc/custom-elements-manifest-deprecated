@@ -3,6 +3,7 @@
 import { create } from './create';
 import commandLineArgs from 'command-line-args';
 import fs from 'fs';
+import globby from 'globby';
 
 const alwaysIgnore = ['!node_modules/**/*.*', '!bower_components/**/*.*', '!**/*.test.{js,ts}', '!**/*.suite.{js,ts}', '!**/*.config.{js,ts}'];
   
@@ -29,7 +30,15 @@ const argv = mainOptions._unknown || [];
       ...alwaysIgnore,
     ];
 
-    await create(merged, options.dev);
+    const modulePaths = await globby(merged);
+
+    const cem = await create(modulePaths);
+
+    fs.writeFileSync(`${process.cwd()}/custom-elements.json`, JSON.stringify(cem, null, 2));
+    if(options.dev) {
+      console.log(JSON.stringify(cem, null, 2));
+    }
+
     try {
       const packageJsonPath = `${process.cwd()}/package.json`;
       const packageJson = require(packageJsonPath);
