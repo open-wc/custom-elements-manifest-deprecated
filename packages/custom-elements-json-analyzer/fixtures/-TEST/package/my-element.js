@@ -1,30 +1,37 @@
 
+export class MyElement extends HTMLElement {
+
+  /**
+   * @type string
+   * @editvia textarea[rows=2]
+   */
+  message = '';
+}
 
 // export const MyMixin = klass => class extends klass {}
 
+// /**
+//  * @tag my-element
+//  */
+// export class MyElement extends HTMLElement {}
 
-/**
- * @tag my-element
- */
-export class MyElement extends HTMLElement {}
+// /**
+//  * @tagname my-element2
+//  */
+// export class MyElement2 extends HTMLElement {}
 
-/**
- * @tagname my-element2
- */
-export class MyElement2 extends HTMLElement {}
+// /**
+//  * @tagName my-element3
+//  */
+// export class MyElement3 extends HTMLElement {}
 
-/**
- * @tagName my-element3
- */
-export class MyElement3 extends HTMLElement {}
+// /**
+//  * Should take precedence over customElements.define call
+//  * @tag i-win
+//  */
+// export class MyElement4 extends HTMLElement {}
 
-/**
- * Should take precedence over customElements.define call
- * @tag i-win
- */
-export class MyElement4 extends HTMLElement {}
-
-customElements.define('i-lose', MyElement4);
+// customElements.define('i-lose', MyElement4);
 
 // const MyMixin1 = klass => { return class MyMixin1 extends Klass{} }
 // function MyMixin2(klass, foo: string = '1') { return class MyMixin2 extends Klass{} }

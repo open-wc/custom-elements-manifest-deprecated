@@ -31,7 +31,7 @@ describe('integration tests', () => {
       const outputPath = path.join(fixturesDir, `${testCase}/output.json`);
       
       const modulePaths = await globby(packagePath);
-      const result = await create(modulePaths);
+      const result = await create({ modulePaths: modulePaths });
 
       fs.writeFileSync(
         outputPath,

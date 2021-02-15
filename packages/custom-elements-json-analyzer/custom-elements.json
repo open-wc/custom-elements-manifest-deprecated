@@ -9,34 +9,21 @@
         {
           "kind": "class",
           "name": "MyElement",
-          "tagName": "my-element",
           "superclass": {
             "name": "HTMLElement"
-          }
-        },
-        {
-          "kind": "class",
-          "name": "MyElement2",
-          "tagName": "my-element2",
-          "superclass": {
-            "name": "HTMLElement"
-          }
-        },
-        {
-          "kind": "class",
-          "name": "MyElement3",
-          "tagName": "my-element3",
-          "superclass": {
-            "name": "HTMLElement"
-          }
-        },
-        {
-          "kind": "class",
-          "name": "MyElement4",
-          "tagName": "i-win",
-          "superclass": {
-            "name": "HTMLElement"
-          }
+          },
+          "members": [
+            {
+              "kind": "field",
+              "name": "message",
+              "type": {
+                "text": ""
+              },
+              "privacy": "public",
+              "default": "''",
+              "editvia": "textarea[rows=2]"
+            }
+          ]
         }
       ],
       "exports": [
@@ -45,38 +32,6 @@
           "name": "MyElement",
           "declaration": {
             "name": "MyElement",
-            "module": "./fixtures/-TEST/package/my-element.js"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "MyElement2",
-          "declaration": {
-            "name": "MyElement2",
-            "module": "./fixtures/-TEST/package/my-element.js"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "MyElement3",
-          "declaration": {
-            "name": "MyElement3",
-            "module": "./fixtures/-TEST/package/my-element.js"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "MyElement4",
-          "declaration": {
-            "name": "MyElement4",
-            "module": "./fixtures/-TEST/package/my-element.js"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "i-lose",
-          "declaration": {
-            "name": "MyElement4",
             "module": "./fixtures/-TEST/package/my-element.js"
           }
         }

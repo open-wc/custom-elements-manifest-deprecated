@@ -1,7 +1,7 @@
 import path from 'path';
 import fs from 'fs';
-import globby from 'globby';
 import ts from 'typescript';
+
 import {
   Package,
   Declaration,
@@ -20,65 +20,97 @@ import { handleCustomElementsDefine } from './ast/handleCustomElementsDefine';
 import { handleExport } from './ast/handleExport';
 import { handleImport } from './ast/handleImport';
 import { getMixin } from './ast/getMixin';
+import { Plugin } from './index';
+
 
 interface Options {
   path?: string,
-  sourceCode?: string
+  sourceCode?: string,
+  modulePaths?: string[],
+  tsTarget?: number,
+  instantiatedPlugins?: Plugin[]
 }
 
 /**
+ * `opts.modulePaths` can be provided to analyze globs from the filesystem
+ * @example
+ * ```
+ * create({modulePaths:[globs]});
+ * ```
+ * 
  * `opts.path` and `opts.sourceCode` can be provided to 'manually' pass some code to analyze
  * this is useful for example the playground, but also calling the analyzer programmatically
  * 
  * @example
  * ```
- * create([], {path:'./my-el', sourceCode: 'export class MyEl extends HTMLElement { foo = 1 }'});
+ * create({path:'./my-el', sourceCode: 'export class MyEl extends HTMLElement { foo = 1 }'});
  * ```
+ * 
+ * `opts.tsTarget` sets the ts target. Default is ES2015. Possible values are:
+ *   ES3 = 0,
+ *   ES5 = 1,
+ *   ES2015 = 2,
+ *   ES2016 = 3,
+ *   ES2017 = 4,
+ *   ES2018 = 5,
+ *   ES2019 = 6,
+ *   ES2020 = 7,
+ *   ESNext = 99,
+ *   JSON = 100,
+ *   Latest = 99
  */
-export async function create(modulePaths: string[], opts: Options = {}): Promise<Package> {
-
+export async function create(opts: Options = {}): Promise<Package> {
+  customElementsJson.reset();
+  
   const runSingle = opts.path && opts.sourceCode;
-  const modules: any = runSingle ? [opts.path] : [...modulePaths];
+  const modules: any = runSingle ? [opts.path] : [...(opts.modulePaths || [])];
 
   modules!.forEach((modulePath: string) => {
-    let relativeModulePath: string;
-    let sourceFile;
+    let relativeModulePath = '';
+    let tsOptions = {
+      module: '',
+      source: ''
+    }
     
     if(opts.path && opts.sourceCode) {
       /* Analyze code passed down in options as string */
       relativeModulePath = opts.path;
-  
-      customElementsJson.modules.push({
-        kind: 'javascript-module',
-        path: relativeModulePath,
-        declarations: [],
-        exports: [],
-      });
-  
-      sourceFile = ts.createSourceFile(
-        opts.path,
-        opts.sourceCode,
-        ts.ScriptTarget.ES2015,
-        true,
-      );
-    } else {
+      tsOptions = {
+        module: opts.path,
+        source: opts.sourceCode,
+      }
+    } 
+    
+    if(opts.modulePaths) {
       /* Analyze code inside a project, gathered from the filesystem */
       relativeModulePath = `./${path.relative(process.cwd(), modulePath)}`;
-  
-      customElementsJson.modules.push({
-        kind: 'javascript-module',
-        path: relativeModulePath,
-        declarations: [],
-        exports: [],
-      });
-
-      sourceFile = ts.createSourceFile(
-        modulePath,
-        fs.readFileSync(modulePath).toString(),
-        ts.ScriptTarget.ES2015,
-        true,
-      );
+      tsOptions = {
+        module: modulePath,
+        source: fs.readFileSync(modulePath).toString(),
+      }
     }
+
+    if(
+      !opts.path &&
+      !opts.sourceCode &&
+      !opts.modulePaths
+    ) {
+      throw new Error('Nothing to analyze. Supply a `path`, `sourceCode`, or `modulePaths`.');
+    }
+
+    customElementsJson.modules.push({
+      kind: 'javascript-module',
+      path: relativeModulePath,
+      declarations: [],
+      exports: [],
+    });
+
+    const sourceFile = ts.createSourceFile(
+      tsOptions.module,
+      tsOptions.source,
+      opts.tsTarget || ts.ScriptTarget.ES2015,
+      true,
+    );
 
     customElementsJson.setCurrentModule(sourceFile);
 
@@ -91,7 +123,7 @@ export async function create(modulePaths: string[], opts: Options = {}): Promise
     const currModule = customElementsJson.modules.find(
       _module => _module.path === relativeModulePath,
     ) as JavaScriptModule;
-    visit(sourceFile, currModule);
+    visit(sourceFile, currModule, opts.instantiatedPlugins);
 
     /**
      * LINK PHASE
@@ -192,6 +224,10 @@ export async function create(modulePaths: string[], opts: Options = {}): Promise
     });
 
     currModule.declarations = [...(currModule.declarations || []), ...(usedMixins || [])];
+
+    opts.instantiatedPlugins?.forEach(({moduleLinkPhase}) => {
+      if(moduleLinkPhase) moduleLinkPhase({moduleDoc: currModule});
+    });
   });
 
   /** POST-PROCESSING, e.g.: linking class to definitions etc */
@@ -302,13 +338,18 @@ export async function create(modulePaths: string[], opts: Options = {}): Promise
     });
   });
 
-  delete customElementsJson.imports;
   delete customElementsJson.currentModule;
+  
+  opts.instantiatedPlugins?.forEach(({packageLinkPhase}) => {
+    if(packageLinkPhase) packageLinkPhase(customElementsJson);
+  });
+
+  delete customElementsJson.imports;
 
   return customElementsJson;
 }
 
-function visit(source: ts.SourceFile, moduleDoc: JavaScriptModule) {
+function visit(source: ts.SourceFile, moduleDoc: JavaScriptModule, plugins: Plugin[] | undefined) {
   visitNode(source);
 
   function visitNode(node: ts.Node) {
@@ -338,6 +379,10 @@ function visit(source: ts.SourceFile, moduleDoc: JavaScriptModule) {
         handleImport(node);
         break;
     }
+
+    plugins?.forEach(({analyzePhase}) => {
+      if(analyzePhase) analyzePhase({node, moduleDoc});
+    });
 
     ts.forEachChild(node, visitNode);
   }

@@ -22,7 +22,7 @@
     "build": "tsc",
     "format:prettier": "node node_modules/prettier/bin-prettier.js \"**/*.{ts,js,mjs,cjs,md}\" \"**/package.json\" --write --ignore-path .eslintignore",
     "lint:eslint": "eslint --ext .ts,.js,.mjs,.cjs .",
-    "start": "nodemon --ignore '*.json' dist/index.js analyze --dev --glob './fixtures/-TEST/package'",
+    "start": "nodemon dist/index.js analyze --dev --globs './fixtures/-TEST/package'",
     "test": "mocha \"test/**/*.test.{ts,js,mjs,cjs}\" --require ts-node/register",
     "test:watch": "mocha \"test/**/*.test.{ts,js,mjs,cjs}\" --watch --require ts-node/register",
     "tsc:watch": "tsc --watch",
@@ -39,6 +39,7 @@
   ],
   "dependencies": {
     "@custom-elements-manifest/helpers": "^0.0.3",
+    "@web/config-loader": "^0.1.3",
     "command-line-args": "^5.1.1",
     "comment-parser": "^0.7.6",
     "globby": "^11.0.1",
