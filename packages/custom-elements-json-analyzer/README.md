@@ -393,7 +393,7 @@ A plugin is a function that returns an object. There are several hooks you can o
 
 Here's an example of a plugin:
 
-`custom-elements-manifest.config.js`:
+`custom-elements-manifest.config.mjs`:
 
 ```js
 import ts from 'typescript';
@@ -401,7 +401,6 @@ import ts from 'typescript';
 export default {
   plugins: [
     function myPlugin() {
-      let state = 0;
       return {
         // Runs for each module
         analyzePhase({node, moduleDoc}){

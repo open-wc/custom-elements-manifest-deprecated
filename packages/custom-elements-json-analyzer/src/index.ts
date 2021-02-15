@@ -94,12 +94,11 @@ const argv = mainOptions._unknown || [];
     if(mergedOptions?.globs) {
       mergedOptions.modulePaths = await globby(merged);
     }
-    console.log(mergedOptions)
     
     const cem = await create(mergedOptions);
 
     fs.writeFileSync(`${process.cwd()}/custom-elements.json`, JSON.stringify(cem, null, 2));
-    if(commandLineOptions.dev) {
+    if(mergedOptions?.dev) {
       console.log(JSON.stringify(cem, null, 2));
     }
 
