@@ -33,13 +33,13 @@ describe('integration tests', () => {
       let modulePaths = await globby(packagePath);
       modulePaths = modulePaths.filter(path => !path.includes('custom-elements-manifest.config.js'))
 
-      let instantiatedPlugins = [];
+      let plugins = [];
       try {
         const config = require(`${packagePath}/custom-elements-manifest.config.js`);
-        instantiatedPlugins = config.default.plugins;
+        plugins = config.default.plugins;
       } catch {}
 
-      const result = await create({ modulePaths: modulePaths, instantiatedPlugins });
+      const result = await create({ modulePaths: modulePaths, plugins });
 
       fs.writeFileSync(
         outputPath,

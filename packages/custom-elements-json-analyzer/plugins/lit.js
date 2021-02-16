@@ -260,7 +260,7 @@ module.exports = function lit() {
             }
           });
 
-          currClass.members?.forEach((member) => {
+          currClass?.members?.forEach((member) => {
             visit(node, member);
           });
           break;

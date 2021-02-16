@@ -4,31 +4,205 @@
   "modules": [
     {
       "kind": "javascript-module",
-      "path": "./fixtures/-TEST/package/my-element.js",
+      "path": "./fixtures/-TEST/package/generic-disclosure/GenericDisclosure.js",
       "declarations": [
         {
           "kind": "class",
-          "name": "Button",
+          "name": "GenericDisclosure",
+          "attributes": [
+            {
+              "name": "expanded"
+            }
+          ],
+          "events": [
+            {
+              "name": "opened-changed",
+              "type": {
+                "text": "CustomEvent"
+              }
+            }
+          ],
+          "superclass": {
+            "name": "HTMLElement"
+          },
           "members": [
             {
-              "kind": "field",
-              "name": "foo",
-              "type": {
-                "text": "string"
-              },
+              "kind": "method",
+              "name": "__open",
               "privacy": "public",
-              "default": "'hi'"
+              "parameters": [
+                {
+                  "name": "dispatch"
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "__close",
+              "privacy": "public"
+            },
+            {
+              "kind": "field",
+              "name": "expanded",
+              "privacy": "public"
             }
-          ]
+          ],
+          "tagName": "generic-disclosure"
         }
       ],
       "exports": [
         {
           "kind": "js",
-          "name": "Button",
+          "name": "GenericDisclosure",
           "declaration": {
-            "name": "Button",
-            "module": "./fixtures/-TEST/package/my-element.js"
+            "name": "GenericDisclosure",
+            "module": "./fixtures/-TEST/package/generic-disclosure/GenericDisclosure.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "./fixtures/-TEST/package/generic-disclosure/README.md",
+      "declarations": [],
+      "exports": []
+    },
+    {
+      "kind": "javascript-module",
+      "path": "./fixtures/-TEST/package/generic-disclosure/generic-disclosure.js",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "generic-disclosure",
+          "declaration": {
+            "name": "GenericDisclosure",
+            "module": "./fixtures/-TEST/package/generic-disclosure/GenericDisclosure.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "./fixtures/-TEST/package/generic-switch/GenericSwitch.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "GenericSwitch",
+          "cssProperties": [
+            {
+              "name": "--generic-switch-focus",
+              "description": "Customizes the focus styles of the thumb"
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "label",
+              "description": ""
+            },
+            {
+              "name": "thumb",
+              "description": ""
+            },
+            {
+              "name": "track",
+              "description": ""
+            },
+            {
+              "name": "button",
+              "description": ""
+            }
+          ],
+          "attributes": [
+            {
+              "name": "disabled"
+            },
+            {
+              "name": "checked"
+            },
+            {
+              "name": "label"
+            }
+          ],
+          "events": [
+            {
+              "name": "checked-changed",
+              "type": {
+                "text": "CustomEvent"
+              }
+            }
+          ],
+          "superclass": {
+            "name": "HTMLElement"
+          },
+          "members": [
+            {
+              "kind": "method",
+              "name": "__handleDisabled",
+              "privacy": "public"
+            },
+            {
+              "kind": "method",
+              "name": "__onClick",
+              "privacy": "public"
+            },
+            {
+              "kind": "method",
+              "name": "__onKeyDown",
+              "privacy": "public",
+              "parameters": [
+                {
+                  "name": "event"
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "__update",
+              "privacy": "public",
+              "parameters": [
+                {
+                  "name": "dispatch"
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "checked",
+              "privacy": "public"
+            }
+          ],
+          "tagName": "generic-switch"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "GenericSwitch",
+          "declaration": {
+            "name": "GenericSwitch",
+            "module": "./fixtures/-TEST/package/generic-switch/GenericSwitch.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "./fixtures/-TEST/package/generic-switch/README.md",
+      "declarations": [],
+      "exports": []
+    },
+    {
+      "kind": "javascript-module",
+      "path": "./fixtures/-TEST/package/generic-switch/generic-switch.js",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "generic-switch",
+          "declaration": {
+            "name": "GenericSwitch",
+            "module": "./fixtures/-TEST/package/generic-switch/GenericSwitch.js"
           }
         }
       ]

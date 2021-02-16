@@ -15,7 +15,7 @@ const render = (item, properties) => {
     }
 
     if(prop === 'parameters') {
-      md += `${item?.parameters?.map(param => `${param.name}: ${param?.type?.text}`).join(', ') || ''} |`
+      md += `${item?.parameters?.map(param => `${param.name}: ${param?.type?.text || ''}`).join(', ') || ''} |`
       return `${md}\n`;
     }
 

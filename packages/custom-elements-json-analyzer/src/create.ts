@@ -28,7 +28,7 @@ interface Options {
   sourceCode?: string,
   modulePaths?: string[],
   tsTarget?: number,
-  instantiatedPlugins?: Plugin[]
+  plugins?: Plugin[]
 }
 
 /**
@@ -122,7 +122,7 @@ export async function create(opts: Options = {}): Promise<Package> {
     const currModule = customElementsJson.modules.find(
       _module => _module.path === relativeModulePath,
     ) as JavaScriptModule;
-    visit(sourceFile, currModule, opts.instantiatedPlugins);
+    visit(sourceFile, currModule, opts.plugins);
 
     /**
      * LINK PHASE
@@ -224,7 +224,7 @@ export async function create(opts: Options = {}): Promise<Package> {
 
     currModule.declarations = [...(currModule.declarations || []), ...(usedMixins || [])];
 
-    opts.instantiatedPlugins?.forEach(({moduleLinkPhase}) => {
+    opts.plugins?.forEach(({moduleLinkPhase}) => {
       if(moduleLinkPhase) moduleLinkPhase({moduleDoc: currModule});
     });
   });
@@ -339,7 +339,7 @@ export async function create(opts: Options = {}): Promise<Package> {
 
   delete customElementsJson.currentModule;
 
-  opts.instantiatedPlugins?.forEach(({packageLinkPhase}) => {
+  opts.plugins?.forEach(({packageLinkPhase}) => {
     if(packageLinkPhase) packageLinkPhase(customElementsJson);
   });
 
