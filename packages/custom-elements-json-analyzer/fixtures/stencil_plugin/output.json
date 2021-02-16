@@ -42,6 +42,11 @@
               },
               "privacy": "public",
               "default": "'Hello'"
+            },
+            {
+              "kind": "method",
+              "name": "someMethod",
+              "privacy": "public"
             }
           ],
           "tagName": "todo-list",

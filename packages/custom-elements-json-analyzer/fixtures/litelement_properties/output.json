@@ -13,20 +13,6 @@
             "name": "LitElement",
             "package": "lit-element"
           },
-          "attributes": [
-            {
-              "name": "prop1",
-              "fieldName": "prop1"
-            },
-            {
-              "name": "prop2",
-              "fieldName": "prop2"
-            },
-            {
-              "name": "my-attr",
-              "fieldName": "attr"
-            }
-          ],
           "members": [
             {
               "kind": "field",
@@ -48,6 +34,20 @@
               "kind": "field",
               "name": "noAttr",
               "privacy": "public"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "prop1",
+              "fieldName": "prop1"
+            },
+            {
+              "name": "prop2",
+              "fieldName": "prop2"
+            },
+            {
+              "name": "my-attr",
+              "fieldName": "attr"
             }
           ],
           "tagName": "my-element"

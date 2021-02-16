@@ -4,82 +4,20 @@
   "modules": [
     {
       "kind": "javascript-module",
-      "path": "./fixtures/-TEST/package/my-element.ts",
+      "path": "./fixtures/-TEST/package/my-element.js",
       "declarations": [
         {
           "kind": "class",
-          "name": "TodoList",
+          "name": "Button",
           "members": [
             {
               "kind": "field",
-              "name": "color",
-              "privacy": "public",
-              "type": {
-                "text": "string"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "isValid",
-              "privacy": "public",
-              "type": {
-                "text": "boolean"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "controller",
-              "privacy": "public",
-              "type": {
-                "text": "MyController"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "message",
+              "name": "foo",
               "type": {
                 "text": "string"
               },
               "privacy": "public",
-              "default": "'Hello'"
-            }
-          ],
-          "tagName": "todo-list",
-          "attributes": [
-            {
-              "name": "color",
-              "fieldName": "color",
-              "type": {
-                "text": "string"
-              }
-            },
-            {
-              "name": "is-valid",
-              "fieldName": "isValid",
-              "type": {
-                "text": "boolean"
-              }
-            },
-            {
-              "name": "valid",
-              "fieldName": "isValid",
-              "type": {
-                "text": "boolean"
-              }
-            }
-          ],
-          "events": [
-            {
-              "name": "todoCompleted",
-              "type": {
-                "text": "EventEmitter<Todo>"
-              }
-            },
-            {
-              "name": "foo",
-              "type": {
-                "text": "EventEmitter<Todo>"
-              }
+              "default": "'hi'"
             }
           ]
         }
@@ -87,18 +25,10 @@
       "exports": [
         {
           "kind": "js",
-          "name": "TodoList",
+          "name": "Button",
           "declaration": {
-            "name": "TodoList",
-            "module": "./fixtures/-TEST/package/my-element.ts"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "todo-list",
-          "declaration": {
-            "name": "TodoList",
-            "module": "./fixtures/-TEST/package/my-element.ts"
+            "name": "Button",
+            "module": "./fixtures/-TEST/package/my-element.js"
           }
         }
       ]

@@ -14,14 +14,7 @@ export function handleCustomElementsDefine(node: any, moduleDoc: JavaScriptModul
   let elementClass = '';
   let elementTag = '';
 
-  const isCustomElementDecorator = node?.expression?.expression?.getText() === 'customElement';
   const isCustomElementsDefineCall = (node?.expression?.getText() === 'customElements' || node?.expression?.getText() === 'window.customElements') && node?.name?.getText() === 'define'
-
-  /* @customElement('my-el') */
-  if(isCustomElementDecorator) {
-    elementTag = node.expression.arguments[0].text;
-    elementClass = node.parent.name.getText();
-  }
 
   /* customElements.define('my-el', MyEl); */
   if (isCustomElementsDefineCall) {
@@ -29,7 +22,7 @@ export function handleCustomElementsDefine(node: any, moduleDoc: JavaScriptModul
     elementTag = node.parent.arguments[0].text;
   }
 
-  if(isCustomElementDecorator || isCustomElementsDefineCall) {
+  if(isCustomElementsDefineCall) {
     definitionDoc = {
       kind: 'custom-element-definition',
       name: elementTag,

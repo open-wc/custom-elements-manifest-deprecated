@@ -24,6 +24,8 @@ export class TodoList {
     eventName: 'foo',
   }) fooEvent: EventEmitter<Todo>;
 
+  someMethod(){}
+
   // these should not show up in custom-elements.json
   componentWillLoad(){}
   componentDidLoad(){}

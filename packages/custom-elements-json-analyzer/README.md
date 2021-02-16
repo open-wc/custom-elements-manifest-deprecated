@@ -20,11 +20,13 @@ custom-elements-manifest analyze
 
 ### Options
 
-| Command/option   | Type       | Description             | Example               |
-| ---------------- | ---------- | ----------------------- | --------------------- |
-| analyze          |            | Analyze your components |                       |
-| --globs          | string[]   | Globs to analyze        | `--globs "foo.js"`    |
-| --exclude        | string[]   | Globs to exclude        | `--exclude "!foo.js"` |
+| Command/option   | Type       | Description                                          | Example               |
+| ---------------- | ---------- | ---------------------------------------------------- | --------------------- |
+| analyze          |            | Analyze your components                              |                       |
+| --globs          | string[]   | Globs to analyze                                     | `--globs "foo.js"`    |
+| --exclude        | string[]   | Globs to exclude                                     | `--exclude "!foo.js"` |
+| --litelement     | boolean    | Enable special handling for LitElement syntax        | `--litelement`        |
+| --stencil        | boolean    | Enable special handling for Stencil syntax           | `--stencil`           |
 
 ## Demo
 
@@ -111,11 +113,13 @@ class MyElement extends HTMLElement {
 
 ### Support
 
-`@custom-elements-manifest/analyzer` currently supports:
+`@custom-elements-manifest/analyzer` by default supports standard JavaScript, and _vanilla_ web components. Dedicated web component libraries can be supported through the use of plugins. Currently, support for LitElement and Stencil is provided in this project via plugins. You can enable them by using the CLI flags `--litelement` and `--stencil` respectively, or loading the plugin via your `custom-elements-manifest.config.js`.
 
-- Vanilla web components
-- LitElement
-- [Stencil](/plugins/stencil.js) (via a plugin)
+**TL;DR:** 
+- Vanilla 
+- TS 
+- LitElement (via plugin/CLI flag) 
+- Stencil (via plugin/CLI flag)
 
 Support for other web component libraries can be done via custom [plugins](#plugins), feel free to create your own for your favourite libraries.
 
@@ -394,10 +398,20 @@ A plugin is a function that returns an object. There are several hooks you can o
 
 > **TIP:** When writing custom plugins, [ASTExplorer](https://astexplorer.net/#/gist/f99a9fba2c21e015d0a8590d291523e5/cce02565e487b584c943d317241991f19b105f94) is your friend 🙂
 
-For a reference implementation of a plugin, you can take a look at the [Stencil plugin](/plugins/stencil.js), here's an example of a simpler plugin:
+For a reference implementation of a plugin, you can take a look at the [Stencil plugin](/plugins/stencil.js), here's an example of a simpler plugin, that adds a custom JSDoc tag to a members doc:
+
+Example source code:
+```js
+
+export class MyElement extends HTMLElement {
+  /**
+   * @editvia textarea[rows=2]
+   */ 
+  message = ''
+}
+```
 
 `custom-elements-manifest.config.mjs`:
-
 ```js
 import ts from 'typescript';
 

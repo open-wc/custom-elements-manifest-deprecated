@@ -55,6 +55,8 @@ const argv = mainOptions._unknown || [];
       { name: 'globs', type: String, multiple: true, defaultValue: [ '**/*.{js,ts}', '!**/.*.{js,ts}'] },
       { name: 'exclude', type: String, multiple: true },
       { name: 'dev', type: Boolean, defaultValue: false },
+      { name: 'litelement', type: Boolean, defaultValue: false },
+      { name: 'stencil', type: Boolean, defaultValue: false },
     ];
     
     const commandLineOptions = commandLineArgs(optionDefinitions, { argv });
@@ -79,25 +81,29 @@ const argv = mainOptions._unknown || [];
       ...alwaysIgnore,
     ];
 
-    let instantiatedPlugins;
-    if (userConfig?.plugins) {
-      instantiatedPlugins = userConfig?.plugins?.map((plugin: () => Plugin) => plugin());
-    }
-
     const mergedOptions: any = {
       ...commandLineOptions,
       ...userConfig,
-      instantiatedPlugins,
       modulePaths: undefined
     }
 
     if(mergedOptions?.globs) {
       mergedOptions.modulePaths = await globby(merged);
     }
-    
+
+    if(mergedOptions?.litelement) {
+      const litPlugin = require('../plugins/lit.js');
+      mergedOptions.plugins = [...(mergedOptions?.plugins || []), litPlugin()]
+    }
+
+    if(mergedOptions?.stencil) {
+      const stencilPlugin = require('../plugins/stencil.js');
+      mergedOptions.plugins = [...(mergedOptions?.plugins || []), stencilPlugin()]
+    }
+
     const cem = await create(mergedOptions);
 
-    fs.writeFileSync(`${process.cwd()}/custom-elements.json`, JSON.stringify(cem, null, 2));
+    fs.writeFileSync(`${process.cwd()}/custom-elements.json`, `${JSON.stringify(cem, null, 2)}\n`);
     if(mergedOptions?.dev) {
       console.log(JSON.stringify(cem, null, 2));
     }
@@ -105,8 +111,12 @@ const argv = mainOptions._unknown || [];
     try {
       const packageJsonPath = `${process.cwd()}/package.json`;
       const packageJson = require(packageJsonPath);
-      packageJson.customElementsManifest = 'custom-elements.json';
-      fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
+      if(packageJson?.customElementsManifest) {
+        return;
+      } else {
+        packageJson.customElementsManifest = 'custom-elements.json';
+        fs.writeFileSync(packageJsonPath, `${JSON.stringify(packageJson, null, 2)}\n`);
+      }
     } catch {
       console.log(`Could not add 'customElementsManifest' property to ${process.cwd()}/package.json. \nAdding this property helps tooling locate your Custom Elements Manifest. Please consider adding it yourself, or file an issue if you think this is a bug.\nhttps://www.github.com/open-wc/custom-elements-manifest`);
     }
@@ -115,14 +125,16 @@ const argv = mainOptions._unknown || [];
 @custom-elements-manifest/analyzer
 
 Available commands:
-    | Command/option   | Type       | Description             | Example                 |
-    | ---------------- | ---------- | ----------------------- | ----------------------- |
-    | analyze          |            | Analyze your components |                         |
-    | --globs          | string[]   | Globs to analyze        | \`--globs "foo.js"\`    |
-    | --exclude        | string[]   | Globs to exclude        | \`--exclude "!foo.js"\` |
+    | Command/option   | Type       | Description                                          | Example                 |
+    | ---------------- | ---------- | ---------------------------------------------------- | ----------------------- |
+    | analyze          |            | Analyze your components                              |                         |
+    | --globs          | string[]   | Globs to analyze                                     | \`--globs "foo.js"\`    |
+    | --exclude        | string[]   | Globs to exclude                                     | \`--exclude "!foo.js"\` |
+    | --litelement     | boolean    | Enable special handling for LitElement syntax        | \`--litelement\`        |
+    | --stencil        | boolean    | Enable special handling for Stencil syntax           | \`--stencil\`           |
 
 Example:
-    custom-elements-manifest analyze --globs "**/*.js" --exclude "foo.js" "bar.js"
+    custom-elements-manifest analyze --litelement --globs "**/*.js" --exclude "foo.js" "bar.js"
 `)
   }
 

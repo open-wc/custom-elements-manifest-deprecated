@@ -14,11 +14,8 @@ import {
   hasModifiers,
   hasJsDoc,
   hasStaticKeyword,
-  isAlsoProperty,
   getAttrName,
-  getReturnVal,
   alreadyHasAttributes,
-  hasPropertyDecorator,
   mergeJsDocWithPropAndPush,
   isValidArray,
   pushSafe,
@@ -255,15 +252,7 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
       'connectedCallback',
       'disconnectedCallback',
       'attributeChangedCallback',
-      'adoptedCallback',
-      'requestUpdate',
-      'performUpdate',
-      'shouldUpdate',
-      'update',
-      'updated',
-      'render',
-      'firstUpdated',
-      'updateComplete',
+      'adoptedCallback'
     ];
 
     /**
@@ -271,7 +260,7 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
      */
     node.members.forEach((member: any) => {
       if (ts.isMethodDeclaration(member)) {
-        if (methodDenyList.includes((member.name as ts.Identifier).text) && classDoc.superclass?.name === 'LitElement') {
+        if (methodDenyList.includes((member.name as ts.Identifier).text)) {
           return;
         }
 
@@ -339,46 +328,12 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
           if (memberDenyList.includes((member.name as ts.Identifier).text)) {
             return;
           }
-
-          if ((member.name as ts.Identifier).text === 'properties') {
-            const returnVal = getReturnVal(member);
-            returnVal?.properties?.forEach((property: ts.PropertyAssignment) => {
-              if(!property.name) return;
-              const classMember: ClassMember = {
-                kind: 'field',
-                name: property.name.getText(),
-                privacy: 'public',
-              };
-
-              if (isAlsoProperty(property)) {
-                const propertyOptions = property.initializer;
-                mergeAttributes(propertyOptions, property, classDoc);
-              }
-
-              mergeJsDocWithPropAndPush(classDoc, classMember);
-            });
-            return;
-          }
         }
 
         const classMember: ClassMember = {
           kind: 'field',
           name: member.name.getText(),
         };
-
-        // LitElement `@property` decorator
-        if (hasPropertyDecorator(member)) {
-          const propertyDecorator = member.decorators!.find(
-            (decorator: any) => decorator.expression.expression.text === 'property',
-          );
-          const propertyOptions = (propertyDecorator as any)?.expression?.arguments.find(
-            (arg: ts.ObjectLiteralExpression) => ts.isObjectLiteralExpression(arg),
-          );
-
-          if (isAlsoProperty(propertyOptions)) {
-            mergeAttributes(propertyOptions, member, classDoc);
-          }
-        }
 
         if (gettersAndSetters.includes(member.name.getText())) {
           return;

@@ -1,4 +1,4 @@
-import ts from 'typescript';
+const ts = require('typescript');
 
 const toKebabCase = str => {
   return str.split('').map((letter, idx) => {
@@ -10,7 +10,7 @@ const toKebabCase = str => {
 
 const findDecorator = type => decorator => decorator?.expression?.expression?.getText() === type;
 
-export default function stencil() {
+module.exports = function stencil() {
   let events = [];
 
   const ATTR_PRIMITIVES = ['number', 'string', 'boolean'];
@@ -101,7 +101,7 @@ export default function stencil() {
       classes?.forEach(klass => {
         if(!klass?.members) return;
         klass.members = klass?.members?.filter(member => {
-          return member.kind !== 'method' && !METHOD_DENYLIST.includes(member.name)
+          return !METHOD_DENYLIST.includes(member.name)
         });
       });
 
