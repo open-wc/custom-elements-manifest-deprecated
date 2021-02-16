@@ -4,35 +4,25 @@
   "modules": [
     {
       "kind": "javascript-module",
-      "path": "./fixtures/-TEST/package/my-element.js",
+      "path": "./fixtures/-TEST/package/my-element.ts",
       "declarations": [
         {
           "kind": "class",
-          "name": "MyElement",
+          "name": "FooElement",
           "superclass": {
-            "name": "HTMLElement"
+            "name": "LitElement",
+            "package": "lit-element"
           },
-          "members": [
-            {
-              "kind": "field",
-              "name": "message",
-              "type": {
-                "text": ""
-              },
-              "privacy": "public",
-              "default": "''",
-              "editvia": "textarea[rows=2]"
-            }
-          ]
+          "tagName": "my-element"
         }
       ],
       "exports": [
         {
-          "kind": "js",
-          "name": "MyElement",
+          "kind": "custom-element-definition",
+          "name": "my-element",
           "declaration": {
-            "name": "MyElement",
-            "module": "./fixtures/-TEST/package/my-element.js"
+            "name": "FooElement",
+            "module": "./fixtures/-TEST/package/my-element.ts"
           }
         }
       ]

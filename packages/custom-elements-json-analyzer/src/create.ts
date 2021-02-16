@@ -64,7 +64,6 @@ export async function create(opts: Options = {}): Promise<Package> {
   
   const runSingle = opts.path && opts.sourceCode;
   const modules: any = runSingle ? [opts.path] : [...(opts.modulePaths || [])];
-
   modules!.forEach((modulePath: string) => {
     let relativeModulePath = '';
     let tsOptions = {
@@ -339,7 +338,7 @@ export async function create(opts: Options = {}): Promise<Package> {
   });
 
   delete customElementsJson.currentModule;
-  
+
   opts.instantiatedPlugins?.forEach(({packageLinkPhase}) => {
     if(packageLinkPhase) packageLinkPhase(customElementsJson);
   });

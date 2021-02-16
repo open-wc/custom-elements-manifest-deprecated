@@ -115,6 +115,7 @@ class MyElement extends HTMLElement {
 
 - Vanilla web components
 - LitElement
+- [Stencil](/plugins/stencil.js) (via a plugin)
 
 Support for other web component libraries can be done via custom [plugins](#plugins), feel free to create your own for your favourite libraries.
 
@@ -347,6 +348,8 @@ You can also specify a custom `custom-elements-manifest.config.mjs` configuratio
 
 `custom-elements-manifest.config.mjs`:
 ```js
+import myAwesomePlugin from 'awesome-plugin';
+
 export default {
   globs: ['src/**/*.js'], 
   exclude: ['!src/foo.js'], // prefix with a `!` to exclude
@@ -357,7 +360,7 @@ export default {
   path: '',
   sourceCode: '',
 
-  plugins: [],
+  plugins: [myAwesomePlugin()],
 }
 ```
 
@@ -391,7 +394,7 @@ A plugin is a function that returns an object. There are several hooks you can o
 
 > **TIP:** When writing custom plugins, [ASTExplorer](https://astexplorer.net/#/gist/f99a9fba2c21e015d0a8590d291523e5/cce02565e487b584c943d317241991f19b105f94) is your friend 🙂
 
-Here's an example of a plugin:
+For a reference implementation of a plugin, you can take a look at the [Stencil plugin](/plugins/stencil.js), here's an example of a simpler plugin:
 
 `custom-elements-manifest.config.mjs`:
 

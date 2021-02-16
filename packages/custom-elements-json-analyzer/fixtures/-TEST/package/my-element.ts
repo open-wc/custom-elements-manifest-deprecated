@@ -1,12 +1,56 @@
+// @ts-nocheck
 
-export class MyElement extends HTMLElement {
+import { LitElement, customElement } from 'lit-element';
 
-  /**
-   * @type string
-   * @editvia textarea[rows=2]
-   */
-  message = '';
-}
+@customElement('my-element')
+class FooElement extends LitElement {}
+
+// import { Component } from '@stencil/core';
+
+// // TodoList should have `todo-list` as `tagName` in the output custom-elements.json
+// // This is also an export of kind: "custom-elements-definition"
+// @Component({
+//   tag: 'todo-list'
+// })
+// export class TodoList {
+//   // shows up as attr
+//   @Prop() color: string;
+//   // shows up as `is-valid` attr (camelcase to kebab)
+//   @Prop() isValid: boolean;
+//   // doesnt show up as attr! (complex type)
+//   @Prop() controller: MyController;
+//   // shows up as attr `valid`
+//   @Prop({ attribute: 'valid' }) isValid: boolean;
+//   // shows up as attr `message` (probably doesnt even need special handling, but just incase)
+//   @Prop({ reflect: true }) message = 'Hello';
+
+//   // shows up as event `todoCompleted`
+//   // `todoCompleted` should not be present in the class's members array
+//   @Event() todoCompleted: EventEmitter<Todo>;
+  
+//   // shows up as event `foo`
+//   @Event({
+//     eventName: 'foo',
+//   }) fooEvent: EventEmitter<Todo>;
+
+//   // these should not show up in custom-elements.json
+//   componentWillLoad(){}
+//   componentDidLoad(){}
+//   componentShouldUpdate(){}
+//   componentWillRender(){}
+//   componentDidRender(){}
+//   componentWillUpdate(){}
+//   componentDidUpdate(){}
+// }
+
+// export class MyElement extends HTMLElement {
+
+//   /**
+//    * @type string
+//    * @editvia textarea[rows=2]
+//    */
+//   message = '';
+// }
 
 // export const MyMixin = klass => class extends klass {}
 

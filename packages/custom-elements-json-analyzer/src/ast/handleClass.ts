@@ -121,8 +121,8 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
 
   if(isValidArray(node.decorators)) {
     const customElementDecorator = node.decorators?.find((decorator: ts.Decorator) => {
-      return (decorator.expression as any).expression.getText() === 'customElement';
-    }).expression;
+      return (decorator?.expression as any)?.expression?.getText() === 'customElement';
+    });
     handleCustomElementsDefine(customElementDecorator, moduleDoc);
   }
 

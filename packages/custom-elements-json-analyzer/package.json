@@ -94,7 +94,7 @@
     "*.js",
     "*.mjs",
     "dist",
-    "src"
+    "plugins"
   ],
   "prettier": {
     "singleQuote": true,
