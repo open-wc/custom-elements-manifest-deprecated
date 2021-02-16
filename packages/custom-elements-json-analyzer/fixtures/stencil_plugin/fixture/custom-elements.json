@@ -4,7 +4,7 @@
   "modules": [
     {
       "kind": "javascript-module",
-      "path": "./fixtures/-TEST/package/my-element.ts",
+      "path": "./fixtures/stencil_plugin/package/my-element.ts",
       "declarations": [
         {
           "kind": "class",
@@ -90,7 +90,7 @@
           "name": "TodoList",
           "declaration": {
             "name": "TodoList",
-            "module": "./fixtures/-TEST/package/my-element.ts"
+            "module": "./fixtures/stencil_plugin/package/my-element.ts"
           }
         },
         {
@@ -98,7 +98,7 @@
           "name": "todo-list",
           "declaration": {
             "name": "TodoList",
-            "module": "./fixtures/-TEST/package/my-element.ts"
+            "module": "./fixtures/stencil_plugin/package/my-element.ts"
           }
         }
       ]

@@ -29,9 +29,17 @@ describe('integration tests', () => {
 
       const packagePath = path.join(fixturesDir, `${testCase}/package`);
       const outputPath = path.join(fixturesDir, `${testCase}/output.json`);
-      
-      const modulePaths = await globby(packagePath);
-      const result = await create({ modulePaths: modulePaths });
+
+      let modulePaths = await globby(packagePath);
+      modulePaths = modulePaths.filter(path => !path.includes('custom-elements-manifest.config.js'))
+
+      let instantiatedPlugins = [];
+      try {
+        const config = require(`${packagePath}/custom-elements-manifest.config.js`);
+        instantiatedPlugins = config.default.plugins;
+      } catch {}
+
+      const result = await create({ modulePaths: modulePaths, instantiatedPlugins });
 
       fs.writeFileSync(
         outputPath,
