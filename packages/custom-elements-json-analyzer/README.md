@@ -454,6 +454,32 @@ export default {
 }
 ```
 
+You can also use plugins to output custom documentation:
+
+```js
+import path from 'path';
+import fs from 'fs';
+
+function generateReadme() {
+  const components = ['my-component-a', 'my-component-b'];
+
+  return {
+    packageLinkPhase(cem) {
+      cem.modules.forEach(mod => {
+        mod.declarations.forEach(declaration => {
+          if(components.includes(declaration.tagName)) {
+            fs.writeFileSync(
+              `${path.dirname(mod.path)}/README.md`, 
+              renderClassdocAsMarkdown(declaration)
+            );
+          }
+        });
+      });
+    }
+  }
+}
+```
+
 ## How it works
 
 `@custom-elements-manifest/analyzer` will scan the source files in your project, and run them through the TypeScript compiler to gather information about your package. Construction of the `custom-elements.json` happens in several phases:
