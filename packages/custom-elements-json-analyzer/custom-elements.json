@@ -4,86 +4,6 @@
   "modules": [
     {
       "kind": "javascript-module",
-      "path": "./fixtures/-TEST/package/generic-disclosure/GenericDisclosure.js",
-      "declarations": [
-        {
-          "kind": "class",
-          "name": "GenericDisclosure",
-          "attributes": [
-            {
-              "name": "expanded"
-            }
-          ],
-          "events": [
-            {
-              "name": "opened-changed",
-              "type": {
-                "text": "CustomEvent"
-              }
-            }
-          ],
-          "superclass": {
-            "name": "HTMLElement"
-          },
-          "members": [
-            {
-              "kind": "method",
-              "name": "__open",
-              "privacy": "public",
-              "parameters": [
-                {
-                  "name": "dispatch"
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "__close",
-              "privacy": "public"
-            },
-            {
-              "kind": "field",
-              "name": "expanded",
-              "privacy": "public"
-            }
-          ],
-          "tagName": "generic-disclosure"
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "GenericDisclosure",
-          "declaration": {
-            "name": "GenericDisclosure",
-            "module": "./fixtures/-TEST/package/generic-disclosure/GenericDisclosure.js"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "./fixtures/-TEST/package/generic-disclosure/README.md",
-      "declarations": [],
-      "exports": []
-    },
-    {
-      "kind": "javascript-module",
-      "path": "./fixtures/-TEST/package/generic-disclosure/generic-disclosure.js",
-      "declarations": [],
-      "exports": [
-        {
-          "kind": "custom-element-definition",
-          "name": "generic-disclosure",
-          "declaration": {
-            "name": "GenericDisclosure",
-            "module": "./fixtures/-TEST/package/generic-disclosure/GenericDisclosure.js"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
       "path": "./fixtures/-TEST/package/generic-switch/GenericSwitch.js",
       "declarations": [
         {
@@ -171,8 +91,7 @@
               "name": "checked",
               "privacy": "public"
             }
-          ],
-          "tagName": "generic-switch"
+          ]
         }
       ],
       "exports": [
@@ -194,15 +113,63 @@
     },
     {
       "kind": "javascript-module",
-      "path": "./fixtures/-TEST/package/generic-switch/generic-switch.js",
-      "declarations": [],
+      "path": "./fixtures/-TEST/package/generic-switch/docs/bar.js",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "foo",
+          "description": "NOPE"
+        }
+      ],
       "exports": [
         {
-          "kind": "custom-element-definition",
-          "name": "generic-switch",
+          "kind": "js",
+          "name": "foo",
           "declaration": {
-            "name": "GenericSwitch",
-            "module": "./fixtures/-TEST/package/generic-switch/GenericSwitch.js"
+            "name": "foo",
+            "module": "./fixtures/-TEST/package/generic-switch/docs/bar.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "./fixtures/-TEST/package/generic-switch/docs/baz.js",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "foo",
+          "description": "NOPE"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "foo",
+          "declaration": {
+            "name": "foo",
+            "module": "./fixtures/-TEST/package/generic-switch/docs/baz.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "./fixtures/-TEST/package/generic-switch/docs/foo.js",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "foo",
+          "description": "NOPE"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "foo",
+          "declaration": {
+            "name": "foo",
+            "module": "./fixtures/-TEST/package/generic-switch/docs/foo.js"
           }
         }
       ]

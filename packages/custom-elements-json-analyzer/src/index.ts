@@ -75,9 +75,9 @@ const argv = mainOptions._unknown || [];
 
     const merged = [
       ...(commandLineOptions?.globs || []),
-      ...(commandLineOptions.exclude || []),
+      ...(commandLineOptions?.exclude?.map((i: string) => `!${i}`) || []),
       ...(userConfig?.globs || []),
-      ...(userConfig?.exclude || []),
+      ...(userConfig?.exclude?.map((i: string) => `!${i}`) || []),
       ...alwaysIgnore,
     ];
 
