@@ -13,17 +13,17 @@
             "name": "LitElement",
             "package": "lit-element"
           },
-          "attributes": [
-            {
-              "name": "foo",
-              "fieldName": "foo"
-            }
-          ],
           "members": [
             {
               "kind": "field",
               "name": "foo",
               "privacy": "public"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "foo",
+              "fieldName": "foo"
             }
           ]
         }

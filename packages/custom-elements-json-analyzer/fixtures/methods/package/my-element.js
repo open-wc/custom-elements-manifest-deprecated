@@ -22,14 +22,6 @@ class MyElement extends LitElement {
   disconnectedCallback(){}
   attributeChangedCallback(){}
   adoptedCallback(){}
-  requestUpdate(){}
-  performUpdate(){}
-  shouldUpdate(){}
-  update(){}
-  updated(){}
-  render(){}
-  firstUpdated(){}
-  updateComplete(){}
 }
 
 customElements.define('my-element', MyElement);

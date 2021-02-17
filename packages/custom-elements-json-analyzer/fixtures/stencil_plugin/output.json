@@ -1,0 +1,112 @@
+{
+  "schemaVersion": "0.1.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "./fixtures/stencil_plugin/package/my-element.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "TodoList",
+          "members": [
+            {
+              "kind": "field",
+              "name": "color",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "isValid",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "controller",
+              "privacy": "public",
+              "type": {
+                "text": "MyController"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "message",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "public",
+              "default": "'Hello'"
+            },
+            {
+              "kind": "method",
+              "name": "someMethod",
+              "privacy": "public"
+            }
+          ],
+          "tagName": "todo-list",
+          "attributes": [
+            {
+              "name": "color",
+              "fieldName": "color",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "is-valid",
+              "fieldName": "isValid",
+              "type": {
+                "text": "boolean"
+              }
+            },
+            {
+              "name": "valid",
+              "fieldName": "isValid",
+              "type": {
+                "text": "boolean"
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "todoCompleted",
+              "type": {
+                "text": "EventEmitter<Todo>"
+              }
+            },
+            {
+              "name": "foo",
+              "type": {
+                "text": "EventEmitter<Todo>"
+              }
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "TodoList",
+          "declaration": {
+            "name": "TodoList",
+            "module": "./fixtures/stencil_plugin/package/my-element.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "todo-list",
+          "declaration": {
+            "name": "TodoList",
+            "module": "./fixtures/stencil_plugin/package/my-element.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

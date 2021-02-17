@@ -13,16 +13,6 @@
             "name": "LitElement",
             "package": "lit-element"
           },
-          "attributes": [
-            {
-              "name": "decoratedProperty",
-              "fieldName": "decoratedProperty"
-            },
-            {
-              "name": "my-attr",
-              "fieldName": "decoratedPropertyAlsoAttr"
-            }
-          ],
           "members": [
             {
               "kind": "field",
@@ -50,6 +40,16 @@
               },
               "privacy": "public",
               "default": "[]"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "decoratedProperty",
+              "fieldName": "decoratedProperty"
+            },
+            {
+              "name": "my-attr",
+              "fieldName": "decoratedPropertyAlsoAttr"
             }
           ],
           "tagName": "my-element"
