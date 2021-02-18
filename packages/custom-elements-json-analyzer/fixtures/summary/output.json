@@ -4,7 +4,7 @@
   "modules": [
     {
       "kind": "javascript-module",
-      "path": "./fixtures/-TEST/package/my-element.js",
+      "path": "./fixtures/summary/package/my-element.js",
       "declarations": [
         {
           "kind": "class",
@@ -52,7 +52,7 @@
           "name": "MyElement",
           "declaration": {
             "name": "MyElement",
-            "module": "./fixtures/-TEST/package/my-element.js"
+            "module": "./fixtures/summary/package/my-element.js"
           }
         },
         {
@@ -60,7 +60,7 @@
           "name": "val",
           "declaration": {
             "name": "val",
-            "module": "./fixtures/-TEST/package/my-element.js"
+            "module": "./fixtures/summary/package/my-element.js"
           }
         },
         {
@@ -68,7 +68,7 @@
           "name": "foo",
           "declaration": {
             "name": "foo",
-            "module": "./fixtures/-TEST/package/my-element.js"
+            "module": "./fixtures/summary/package/my-element.js"
           }
         }
       ]

@@ -4,7 +4,6 @@ const fs = require('fs');
 const globby = require('globby');
 
 const { create } = require('../src/create');
-const { customElementsJson } = require('../src/customElementsJson');
 
 const fixturesDir = path.join(process.cwd(), 'fixtures');
 let testCases = fs.readdirSync(fixturesDir);
@@ -22,7 +21,6 @@ describe('integration tests', () => {
         expect(true);
         return;
       }
-      customElementsJson.reset();
 
       const fixturePath = path.join(fixturesDir, `${testCase}/fixture/custom-elements.json`);
       const fixture = JSON.parse(fs.readFileSync(fixturePath, 'utf-8'));
@@ -36,7 +34,7 @@ describe('integration tests', () => {
       let plugins = [];
       try {
         const config = require(`${packagePath}/custom-elements-manifest.config.js`);
-        plugins = config.default.plugins;
+        plugins = [...config.default.plugins];
       } catch {}
 
       const result = await create({ modulePaths: modulePaths, plugins });

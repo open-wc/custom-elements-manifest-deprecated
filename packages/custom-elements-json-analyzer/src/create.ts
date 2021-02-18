@@ -62,6 +62,12 @@ interface Options {
 export async function create(opts: Options = {}): Promise<Package> {
   customElementsJson.reset();
   
+  const featurePlugins = ['summary'];
+  opts.plugins = [
+    ...(opts?.plugins || []), 
+    ...featurePlugins.map(plugin => require(`../plugins/${plugin}.js`)())
+  ];
+
   const runSingle = opts.path && opts.sourceCode;
   const modules: any = runSingle ? [opts.path] : [...(opts.modulePaths || [])];
   modules!.forEach((modulePath: string) => {

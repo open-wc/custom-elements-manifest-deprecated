@@ -445,7 +445,7 @@ export default {
           }
         },
         // Runs for each module, after analyzing, all information about your module should now be available
-        moduleLinkPhase({node, moduleDoc}){},
+        moduleLinkPhase({moduleDoc}){},
         // Runs after modules have been parsed and after post-processing
         packageLinkPhase(customElementsManifest){},
       }

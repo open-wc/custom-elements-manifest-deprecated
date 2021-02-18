@@ -40,6 +40,17 @@
               }
             },
             {
+              "kind": "method",
+              "name": "method",
+              "privacy": "public",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "summary": "method summary"
+            },
+            {
               "kind": "field",
               "name": "jsdoc1",
               "privacy": "public",

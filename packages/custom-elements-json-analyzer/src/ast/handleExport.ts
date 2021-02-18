@@ -39,7 +39,7 @@ export function handleExport(
     };
 
     if(jsDoc) {
-      if('description' in jsDoc){
+      if('description' in jsDoc && jsDoc?.tag !== 'summary'){
         _declaration.description = jsDoc.description;
       }
       if('type' in jsDoc){

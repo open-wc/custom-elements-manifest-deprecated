@@ -19,6 +19,13 @@ export class MyElement extends HTMLElement {
     /** @type {import('foo').ImportedType} */
     this.jsdoc5 = 1;
   }
+
+  /**
+   * @summary method summary
+   * @returns {void}
+   */
+  method(){}
+
   get jsdoc1(){}
   get jsdoc2(){}
   get jsdoc3(){}
