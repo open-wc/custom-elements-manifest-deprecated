@@ -320,6 +320,7 @@ customElements.define('my-element', MyElement);
 | `@cssprop`,<br>`@cssproperty` | Documents CSS Custom Properties for your component |
 | `@fires`,<br>`@event`         | Documents events that your component might fire    |
 | `@tag`,<br>`@tagname`         | Documents the name of your custom element          |
+| `@summary`                    | Documents a short summary                          |
 
 ```js
 /**
@@ -339,6 +340,8 @@ customElements.define('my-element', MyElement);
  * @fires custom-event - some description for custom-event
  * @fires {Event} typed-event - some description for typed-event
  * @event {CustomEvent} typed-custom-event - some description for typed-custom-event
+ * 
+ * @summary This is MyElement
  * 
  * @tag my-element
  * @tagname my-element
