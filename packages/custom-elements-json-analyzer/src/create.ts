@@ -1,6 +1,5 @@
 import path from 'path';
-import fs from 'fs';
-import ts from 'typescript';
+import ts, { Program, TypeChecker } from 'typescript';
 
 import {
   Package,
@@ -21,14 +20,15 @@ import { handleExport } from './ast/handleExport';
 import { handleImport } from './ast/handleImport';
 import { getMixin } from './ast/getMixin';
 import { Plugin } from './index';
-
+import { createTypeScriptProgram } from './utils/compiler';
 
 interface Options {
-  path?: string,
-  sourceCode?: string,
-  modulePaths?: string[],
-  tsTarget?: number,
-  plugins?: Plugin[]
+  path?: string;
+  sourceCode?: string;
+  modulePaths?: string[];
+  tsTarget?: number;
+  tsConfigName?: string;
+  plugins?: Plugin[];
 }
 
 /**
@@ -37,15 +37,15 @@ interface Options {
  * ```
  * create({modulePaths:[globs]});
  * ```
- * 
+ *
  * `opts.path` and `opts.sourceCode` can be provided to 'manually' pass some code to analyze
  * this is useful for example the playground, but also calling the analyzer programmatically
- * 
+ *
  * @example
  * ```
  * create({path:'./my-el', sourceCode: 'export class MyEl extends HTMLElement { foo = 1 }'});
  * ```
- * 
+ *
  * `opts.tsTarget` sets the ts target. Default is ES2015. Possible values are:
  *   ES3 = 0,
  *   ES5 = 1,
@@ -61,39 +61,45 @@ interface Options {
  */
 export async function create(opts: Options = {}): Promise<Package> {
   customElementsJson.reset();
-  
-  const runSingle = opts.path && opts.sourceCode;
-  const modules: any = runSingle ? [opts.path] : [...(opts.modulePaths || [])];
-  modules!.forEach((modulePath: string) => {
+
+  const useSourceCode = !!opts.path && !!opts.sourceCode;
+  const modules: any[] = !useSourceCode ? [...(opts.modulePaths || [])] : [opts.path];
+  const program = !useSourceCode ? createTypeScriptProgram(modules, opts.tsConfigName) : undefined;
+  const typeChecker = !useSourceCode ? program!.getTypeChecker() : undefined;
+
+  const singleSourceFile = useSourceCode
+    ? ts.createSourceFile(
+        opts.path!,
+        opts.sourceCode!,
+        opts.tsTarget || ts.ScriptTarget.ES2015,
+        true,
+      )
+    : undefined;
+
+  // The TypeScript program will follow all imports including `node_modules` and `@types` so we
+  // filter it out from our final source files list.
+  const validFileNames = new Set(!useSourceCode ? modules.map(mod => path.resolve(mod)) : []);
+
+  const sourceFiles = !useSourceCode
+    ? program!.getSourceFiles().filter(sf => validFileNames.has(sf.fileName))
+    : [singleSourceFile!];
+
+  sourceFiles.forEach(sourceFile => {
+    const modulePath = sourceFile.fileName;
+
     let relativeModulePath = '';
-    let tsOptions = {
-      module: '',
-      source: ''
-    }
-    
-    if(opts.path && opts.sourceCode) {
+
+    if (opts.path && opts.sourceCode) {
       /* Analyze code passed down in options as string */
       relativeModulePath = opts.path;
-      tsOptions = {
-        module: opts.path,
-        source: opts.sourceCode,
-      }
-    } 
-    
-    if(opts.modulePaths) {
-      /* Analyze code inside a project, gathered from the filesystem */
-      relativeModulePath = `./${path.relative(process.cwd(), modulePath)}`;
-      tsOptions = {
-        module: modulePath,
-        source: fs.readFileSync(modulePath).toString(),
-      }
     }
 
-    if(
-      !opts.path &&
-      !opts.sourceCode &&
-      !opts.modulePaths
-    ) {
+    if (opts.modulePaths) {
+      /* Analyze code inside a project, gathered from the filesystem */
+      relativeModulePath = `./${path.relative(process.cwd(), modulePath)}`;
+    }
+
+    if (!opts.path && !opts.sourceCode && !opts.modulePaths) {
       throw new Error('Nothing to analyze. Supply a `path`, `sourceCode`, or `modulePaths`.');
     }
 
@@ -103,13 +109,6 @@ export async function create(opts: Options = {}): Promise<Package> {
       declarations: [],
       exports: [],
     });
-
-    const sourceFile = ts.createSourceFile(
-      tsOptions.module,
-      tsOptions.source,
-      opts.tsTarget || ts.ScriptTarget.ES2015,
-      true,
-    );
 
     customElementsJson.setCurrentModule(sourceFile);
 
@@ -122,7 +121,7 @@ export async function create(opts: Options = {}): Promise<Package> {
     const currModule = customElementsJson.modules.find(
       _module => _module.path === relativeModulePath,
     ) as JavaScriptModule;
-    visit(sourceFile, currModule, opts.plugins);
+    visit(sourceFile, currModule, opts.plugins, program, typeChecker);
 
     /**
      * LINK PHASE
@@ -162,7 +161,9 @@ export async function create(opts: Options = {}): Promise<Package> {
 
                 // Mixin is imported from a different local module
                 if (nestedFoundMixin.importPath && !nestedFoundMixin.isBareModuleSpecifier) {
-                  mixin.module = path.resolve(path.dirname(currModule.path), nestedFoundMixin.importPath).replace(process.cwd(), '');
+                  mixin.module = path
+                    .resolve(path.dirname(currModule.path), nestedFoundMixin.importPath)
+                    .replace(process.cwd(), '');
                 }
 
                 // Mixin was found in the current modules declarations, so defined locally
@@ -180,7 +181,9 @@ export async function create(opts: Options = {}): Promise<Package> {
 
             // Mixin is imported from a different local module
             if (foundMixin.importPath && !foundMixin.isBareModuleSpecifier) {
-              mixin.module = path.resolve(path.dirname(currModule.path), foundMixin.importPath).replace(process.cwd(), '');
+              mixin.module = path
+                .resolve(path.dirname(currModule.path), foundMixin.importPath)
+                .replace(process.cwd(), '');
             }
 
             // Mixin was found in the current modules declarations, so defined locally
@@ -197,10 +200,7 @@ export async function create(opts: Options = {}): Promise<Package> {
       if (declaration.kind === 'mixin') {
         // if its a mixin, find out if a class is making use of it
         const isUsed = currModule.declarations.find(nestedDeclaration => {
-          if (
-            nestedDeclaration.kind === 'class' &&
-            isValidArray(nestedDeclaration.mixins)
-          ) {
+          if (nestedDeclaration.kind === 'class' && isValidArray(nestedDeclaration.mixins)) {
             return (
               nestedDeclaration.mixins!.find(mixin => mixin.name === declaration.name) !== undefined
             );
@@ -224,9 +224,10 @@ export async function create(opts: Options = {}): Promise<Package> {
 
     currModule.declarations = [...(currModule.declarations || []), ...(usedMixins || [])];
 
-    opts.plugins?.forEach(({moduleLinkPhase}) => {
-      if(moduleLinkPhase) moduleLinkPhase({moduleDoc: currModule});
+    opts.plugins?.forEach(({ moduleLinkPhase }) => {
+      if (moduleLinkPhase) moduleLinkPhase({ moduleDoc: currModule });
     });
+    // ...
   });
 
   /** POST-PROCESSING, e.g.: linking class to definitions etc */
@@ -237,11 +238,9 @@ export async function create(opts: Options = {}): Promise<Package> {
   for (const definition of definitions) {
     for (const _module of customElementsJson.modules) {
       const modulePath = _module.path;
-      const match = [...(<Declaration[]>_module.declarations)].some(
-        classDoc => {
-          return classDoc.name === definition.declaration.name;
-        },
-      );
+      const match = [...(<Declaration[]>_module.declarations)].some(classDoc => {
+        return classDoc.name === definition.declaration.name;
+      });
 
       if (match) {
         definition.declaration.module = modulePath;
@@ -302,7 +301,8 @@ export async function create(opts: Options = {}): Promise<Package> {
       }
 
       ['attributes', 'members', 'events'].forEach(type => {
-        klass && klass[type] &&
+        klass &&
+          klass[type] &&
           klass[type].forEach((currItem: Attribute | Event | ClassMember) => {
             const moduleForKlass = customElementsJson.getModuleForClass(klass.name);
             const moduleForMixin = customElementsJson.getModuleForMixin(klass.name);
@@ -339,8 +339,8 @@ export async function create(opts: Options = {}): Promise<Package> {
 
   delete customElementsJson.currentModule;
 
-  opts.plugins?.forEach(({packageLinkPhase}) => {
-    if(packageLinkPhase) packageLinkPhase(customElementsJson);
+  opts.plugins?.forEach(({ packageLinkPhase }) => {
+    if (packageLinkPhase) packageLinkPhase(customElementsJson);
   });
 
   delete customElementsJson.imports;
@@ -348,7 +348,13 @@ export async function create(opts: Options = {}): Promise<Package> {
   return customElementsJson;
 }
 
-function visit(source: ts.SourceFile, moduleDoc: JavaScriptModule, plugins: Plugin[] | undefined) {
+function visit(
+  source: ts.SourceFile,
+  moduleDoc: JavaScriptModule,
+  plugins: Plugin[] | undefined,
+  program?: Program,
+  typeChecker?: TypeChecker,
+) {
   visitNode(source);
 
   function visitNode(node: ts.Node) {
@@ -379,8 +385,8 @@ function visit(source: ts.SourceFile, moduleDoc: JavaScriptModule, plugins: Plug
         break;
     }
 
-    plugins?.forEach(({analyzePhase}) => {
-      if(analyzePhase) analyzePhase({node, moduleDoc});
+    plugins?.forEach(({ analyzePhase }) => {
+      if (analyzePhase) analyzePhase({ node, moduleDoc, program, typeChecker });
     });
 
     ts.forEachChild(node, visitNode);

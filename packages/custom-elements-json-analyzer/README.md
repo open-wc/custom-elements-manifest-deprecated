@@ -12,6 +12,12 @@ This implementation is at a very early stage of development, and there will prob
 npm i -D @custom-elements-manifest/analyzer
 ```
 
+This library has `peerDependencies` listings for `typescript^4.0.0`.
+
+```bash
+npm i -D typescript
+```
+
 ## Usage
 
 ```bash
@@ -359,6 +365,7 @@ export default {
   exclude: ['!src/foo.js'], // prefix with a `!` to exclude
   dev: true,
   tsTarget: 2, // sets the tsTarget for typescript
+  tsConfigName: 'tsconfig.json', // sets the name of the typescript configuration file to use.
 
   /* Use if you want to analyze a string of code, for example for the playground API. Both are required in this case */
   path: '',
@@ -376,6 +383,7 @@ interface userConfigOptions {
   exclude: string[],
   dev: boolean,
   tsTarget: number,
+  tsConfigName: string,
 
   /* Use if you want to analyze a string of code, for example for the playground API. Both are required in this case */
   path: string,
@@ -419,8 +427,8 @@ export default {
   plugins: [
     function myPlugin() {
       return {
-        // Runs for each module
-        analyzePhase({node, moduleDoc}){
+        // Runs for each module (`program`/`typeChecker` not available if analyzing string of code)
+        analyzePhase({node, moduleDoc, program, typeChecker}){ 
           // You can use this phase to access a module's AST nodes and mutate the custom-elements-manifest
           switch (node.kind) {
             case ts.SyntaxKind.ClassDeclaration:

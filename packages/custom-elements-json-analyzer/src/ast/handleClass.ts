@@ -25,40 +25,43 @@ import path from 'path';
 import { handleCustomElementsDefine } from './handleCustomElementsDefine';
 
 interface Mixin {
-  name: string,
-  package?: string,
-  module?: string
+  name: string;
+  package?: string;
+  module?: string;
 }
 
 function mergeAttributes(propertyOptions: any, member: any, classDoc: any) {
   const attrName = getAttrName(propertyOptions) || member.name.getText();
-            
-  let alreadyExistingAttribute = classDoc?.attributes?.find((attr: Attribute) => attr.name === attrName);
-  if(alreadyExistingAttribute) {
+
+  let alreadyExistingAttribute = classDoc?.attributes?.find(
+    (attr: Attribute) => attr.name === attrName,
+  );
+  if (alreadyExistingAttribute) {
     alreadyExistingAttribute = {
       ...alreadyExistingAttribute,
       ...{
         name: attrName,
         fieldName: member.name.getText(),
-      }
-    }
+      },
+    };
 
     const text = member?.type?.getText();
     const hasType = !!text;
-    if(hasType) {
+    if (hasType) {
       alreadyExistingAttribute.type = { text };
     } else {
-      const text = propertyOptions?.properties?.find((property: any) => {
-        return property?.name?.text === 'type';
-      })?.initializer?.getText()?.toLowerCase();
+      const text = propertyOptions?.properties
+        ?.find((property: any) => {
+          return property?.name?.text === 'type';
+        })
+        ?.initializer?.getText()
+        ?.toLowerCase();
 
       alreadyExistingAttribute.type = { text };
-
     }
 
     const attrIndex = classDoc?.attributes?.findIndex((attr: Attribute) => attr.name === attrName);
     classDoc.attributes[attrIndex] = alreadyExistingAttribute;
-
   } else {
     const attribute: Attribute = {
       name: attrName,
@@ -75,25 +78,29 @@ function mergeAttributes(propertyOptions: any, member: any, classDoc: any) {
 
 function createMixin(name: string): Mixin {
   const mixin: Mixin = {
-    name
+    name,
   };
   const currentModulePath = customElementsJson.currentModule.fileName;
 
-  const foundMixin = isValidArray(customElementsJson.imports) && customElementsJson.imports.find((_import: any) => {
-    return _import.name === name;
-  });
+  const foundMixin =
+    isValidArray(customElementsJson.imports) &&
+    customElementsJson.imports.find((_import: any) => {
+      return _import.name === name;
+    });
 
-  if(foundMixin) {
+  if (foundMixin) {
     // Mixin is imported from bare module specifier
     if (foundMixin.importPath && foundMixin.isBareModuleSpecifier) {
       mixin.package = foundMixin.importPath;
     }
-  
+
     // Mixin is imported from a different local module
     if (foundMixin.importPath && !foundMixin.isBareModuleSpecifier) {
-      mixin.module = path.resolve(path.dirname(currentModulePath), foundMixin.importPath).replace(process.cwd(), '');
+      mixin.module = path
+        .resolve(path.dirname(currentModulePath), foundMixin.importPath)
+        .replace(process.cwd(), '');
     }
-  
+
     // Mixin was found in the current modules declarations, so defined locally
     if (!foundMixin.importPath) {
       mixin.module = currentModulePath;
@@ -102,21 +109,26 @@ function createMixin(name: string): Mixin {
   return mixin;
 }
 
-export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class' | 'mixin', _classDoc: any = {
-  kind: '',
-  description: '',
-  name: '',
-  cssProperties: [],
-  cssParts: [],
-  slots: [],
-  members: []
-}) {
-
+export function handleClass(
+  node: any,
+  moduleDoc: JavaScriptModule,
+  kind: 'class' | 'mixin',
+  _classDoc: any = {
+    kind: '',
+    description: '',
+    name: '',
+    cssProperties: [],
+    cssParts: [],
+    slots: [],
+    members: [],
+  },
+) {
   const classDoc = _classDoc;
   classDoc.kind = kind;
-  classDoc.name = node.name?.getText() || node?.parent?.parent?.name?.getText() || 'anonymous class';
+  classDoc.name =
+    node.name?.getText() || node?.parent?.parent?.name?.getText() || 'anonymous class';
 
-  if(isValidArray(node.decorators)) {
+  if (isValidArray(node.decorators)) {
     const customElementDecorator = node.decorators?.find((decorator: ts.Decorator) => {
       return (decorator?.expression as any)?.expression?.getText() === 'customElement';
     });
@@ -186,7 +198,7 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
     delete classDoc.members;
   }
 
-  if(!classDoc.description) {
+  if (!classDoc.description) {
     delete classDoc.description;
   }
 
@@ -203,7 +215,7 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
         // gather mixin calls
         if (ts.isCallExpression(node)) {
           const mixinName = node.expression.getText();
-          mixins.push(createMixin(mixinName))
+          mixins.push(createMixin(mixinName));
           while (ts.isCallExpression(node.arguments[0])) {
             node = node.arguments[0];
             const mixinName = node.expression.getText();
@@ -222,24 +234,28 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
           name: superClass,
         };
 
-        const foundSuperClass = isValidArray(customElementsJson.imports) && customElementsJson.imports.find((_import: any) => {
-          return _import.name === superClass;
-        });
-    
+        const foundSuperClass =
+          isValidArray(customElementsJson.imports) &&
+          customElementsJson.imports.find((_import: any) => {
+            return _import.name === superClass;
+          });
+
         // superclass is imported from another file
-        if(foundSuperClass) {
+        if (foundSuperClass) {
           // superclass is from 3rd party package
-          if(foundSuperClass.isBareModuleSpecifier) {
+          if (foundSuperClass.isBareModuleSpecifier) {
             classDoc.superclass.package = foundSuperClass.importPath;
           } else {
             // superclass is imported from a local module
-            classDoc.superclass.module = path.resolve(path.dirname(moduleDoc.path), foundSuperClass.importPath).replace(process.cwd(), '');
+            classDoc.superclass.module = path
+              .resolve(path.dirname(moduleDoc.path), foundSuperClass.importPath)
+              .replace(process.cwd(), '');
           }
         } else {
           classDoc.superclass.module = moduleDoc.path;
         }
 
-        if(superClass === 'HTMLElement') {
+        if (superClass === 'HTMLElement') {
           delete classDoc.superclass.module;
         }
       });
@@ -252,7 +268,7 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
       'connectedCallback',
       'disconnectedCallback',
       'attributeChangedCallback',
-      'adoptedCallback'
+      'adoptedCallback',
     ];
 
     /**
@@ -267,7 +283,7 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
         let method: ClassMethod = {
           kind: 'method',
           name: '',
-          privacy: 'public'
+          privacy: 'public',
         };
 
         if (hasModifiers(member)) {
@@ -401,26 +417,25 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
 
         const jsDoc = extractJsDoc(member);
         jsDoc?.forEach((jsDoc: any) => {
-
-          if(jsDoc.tag === 'type') {
-            classMember.type = { text: jsDoc.type }
-            if(jsDoc.description) {
+          if (jsDoc.tag === 'type') {
+            classMember.type = { text: jsDoc.type };
+            if (jsDoc.description) {
               classMember.description = jsDoc.description.replace('- ', '');
             }
           }
 
-          if(jsDoc.tag === 'public')
-          switch(jsDoc.tag) {
-            case 'public':
-              classMember.privacy = 'public';
-              break;
-            case 'private':
-              classMember.privacy = 'private';
-              break;
-            case 'protected':
-              classMember.privacy = 'protected';
-              break;
-          }
+          if (jsDoc.tag === 'public')
+            switch (jsDoc.tag) {
+              case 'public':
+                classMember.privacy = 'public';
+                break;
+              case 'private':
+                classMember.privacy = 'private';
+                break;
+              case 'protected':
+                classMember.privacy = 'protected';
+                break;
+            }
         });
 
         if (ts.isPrivateIdentifier(member.name)) {
@@ -428,13 +443,13 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
         }
 
         /** Add TS type to field, if present */
-        if(member.type) {
-          classMember.type = { text: member.type.getText() }
+        if (member.type) {
+          classMember.type = { text: member.type.getText() };
         }
 
         if (
-          typeof (member as any).initializer !== 'undefined' && 
-          !ts.isCallExpression((member as any).initializer) && 
+          typeof (member as any).initializer !== 'undefined' &&
+          !ts.isCallExpression((member as any).initializer) &&
           !ts.isArrowFunction((member as any).initializer)
         ) {
           classMember.default = (member as any).initializer.getText();
@@ -454,7 +469,7 @@ export function handleClass(node: any, moduleDoc: JavaScriptModule, kind: 'class
     delete classDoc.members;
   }
 
-  if(kind === 'mixin') {
+  if (kind === 'mixin') {
     delete classDoc.superclass;
   }
 
@@ -467,7 +482,8 @@ function visit(source: ts.SourceFile, member: any) {
   function visitNode(node: any) {
     switch (node.kind) {
       case ts.SyntaxKind.Constructor:
-        node.body?.statements?.filter((statement: any) => statement.kind === ts.SyntaxKind.ExpressionStatement)
+        node.body?.statements
+          ?.filter((statement: any) => statement.kind === ts.SyntaxKind.ExpressionStatement)
           .filter((statement: any) => statement.expression.kind === ts.SyntaxKind.BinaryExpression)
           .forEach((statement: any) => {
             if (
@@ -478,17 +494,17 @@ function visit(source: ts.SourceFile, member: any) {
               const jsDocs = extractJsDoc(statement);
               if (isValidArray(jsDocs)) {
                 jsDocs.forEach((doc: any) => {
-                    if(doc.tag === 'type' && !member.type) {
-                      member.type = { text: doc.type.replace(/import(.*)\./, '') };
-                    }
-                    if('description' in doc && doc.description !== '') {
-                      member.description = doc.description;
-                    }
-                  });
+                  if (doc.tag === 'type' && !member.type) {
+                    member.type = { text: doc.type.replace(/import(.*)\./, '') };
+                  }
+                  if ('description' in doc && doc.description !== '') {
+                    member.description = doc.description;
+                  }
+                });
               }
 
-              if(
-                !ts.isCallExpression(statement.expression.right) && 
+              if (
+                !ts.isCallExpression(statement.expression.right) &&
                 !ts.isArrowFunction(statement.expression.right)
               ) {
                 member.default = statement.expression.right.getText();

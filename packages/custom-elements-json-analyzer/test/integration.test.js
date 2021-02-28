@@ -31,7 +31,9 @@ describe('integration tests', () => {
       const outputPath = path.join(fixturesDir, `${testCase}/output.json`);
 
       let modulePaths = await globby(packagePath);
-      modulePaths = modulePaths.filter(path => !path.includes('custom-elements-manifest.config.js'))
+      modulePaths = modulePaths.filter(
+        path => !path.includes('custom-elements-manifest.config.js'),
+      );
 
       let plugins = [];
       try {

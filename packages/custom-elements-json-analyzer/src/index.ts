@@ -3,32 +3,34 @@
 import { create } from './create';
 import commandLineArgs from 'command-line-args';
 import fs from 'fs';
-import ts from 'typescript';
+import ts, { Program, TypeChecker } from 'typescript';
 import globby from 'globby';
 import { readConfig, ConfigLoaderError } from '@web/config-loader';
 import { Module, Package } from 'custom-elements-manifest/schema';
 
 interface userConfigOptions {
   /* Array of glob strings */
-  globs: string[],
-  exclude: string[],
-  dev: boolean,
-  tsTarget: number,
+  globs: string[];
+  exclude: string[];
+  dev: boolean;
+  tsTarget: number;
 
   /* Use if you want to analyze a string of code, for example for the playground API. Both are required in this case */
-  path: string,
-  sourceCode: string,
+  path: string;
+  sourceCode: string;
 
-  plugins: Array<() => Plugin>
+  plugins: Array<() => Plugin>;
 }
 
 interface AnalyzeArgs {
-  node: ts.Node,
-  moduleDoc: Module
+  node: ts.Node;
+  moduleDoc: Module;
+  program?: Program;
+  typeChecker?: TypeChecker;
 }
 
 interface ModuleLinkArgs {
-  moduleDoc: Module
+  moduleDoc: Module;
 }
 
 export interface Plugin {
@@ -37,30 +39,38 @@ export interface Plugin {
   packageLinkPhase?: (customElementsManifest: Package) => void;
 }
 
-const alwaysIgnore = ['!node_modules/**/*.*', '!bower_components/**/*.*', '!**/*.test.{js,ts}', '!**/*.suite.{js,ts}', '!**/*.config.{js,ts}'];
-  
-const mainDefinitions = [
-  { name: 'command', defaultOption: true }
-]
+const alwaysIgnore = [
+  '!node_modules/**/*.*',
+  '!bower_components/**/*.*',
+  '!**/*.test.{js,ts}',
+  '!**/*.suite.{js,ts}',
+  '!**/*.config.{js,ts}',
+];
+
+const mainDefinitions = [{ name: 'command', defaultOption: true }];
 const mainOptions = commandLineArgs(mainDefinitions, { stopAtFirstUnknown: true });
 const argv = mainOptions._unknown || [];
 
 (async () => {
-
   if (mainOptions.command === 'analyze') {
     /**
      * Handle command line options
      */
     const optionDefinitions = [
-      { name: 'globs', type: String, multiple: true, defaultValue: [ '**/*.{js,ts}', '!**/.*.{js,ts}'] },
+      {
+        name: 'globs',
+        type: String,
+        multiple: true,
+        defaultValue: ['**/*.{js,ts}', '!**/.*.{js,ts}'],
+      },
       { name: 'exclude', type: String, multiple: true },
       { name: 'dev', type: Boolean, defaultValue: false },
       { name: 'litelement', type: Boolean, defaultValue: false },
       { name: 'stencil', type: Boolean, defaultValue: false },
     ];
-    
+
     const commandLineOptions = commandLineArgs(optionDefinitions, { argv });
-    
+
     let userConfig: userConfigOptions;
     try {
       userConfig = await readConfig('custom-elements-manifest.config');
@@ -84,41 +94,43 @@ const argv = mainOptions._unknown || [];
     const mergedOptions: any = {
       ...commandLineOptions,
       ...userConfig,
-      modulePaths: undefined
-    }
+      modulePaths: undefined,
+    };
 
-    if(mergedOptions?.globs) {
+    if (mergedOptions?.globs) {
       mergedOptions.modulePaths = await globby(merged);
     }
 
-    if(mergedOptions?.litelement) {
+    if (mergedOptions?.litelement) {
       const litPlugin = require('../plugins/lit.js');
-      mergedOptions.plugins = [...(mergedOptions?.plugins || []), litPlugin()]
+      mergedOptions.plugins = [...(mergedOptions?.plugins || []), litPlugin()];
     }
 
-    if(mergedOptions?.stencil) {
+    if (mergedOptions?.stencil) {
       const stencilPlugin = require('../plugins/stencil.js');
-      mergedOptions.plugins = [...(mergedOptions?.plugins || []), stencilPlugin()]
+      mergedOptions.plugins = [...(mergedOptions?.plugins || []), stencilPlugin()];
     }
 
     const cem = await create(mergedOptions);
 
     fs.writeFileSync(`${process.cwd()}/custom-elements.json`, `${JSON.stringify(cem, null, 2)}\n`);
-    if(mergedOptions?.dev) {
+    if (mergedOptions?.dev) {
       console.log(JSON.stringify(cem, null, 2));
     }
 
     try {
       const packageJsonPath = `${process.cwd()}/package.json`;
       const packageJson = require(packageJsonPath);
-      if(packageJson?.customElementsManifest) {
+      if (packageJson?.customElementsManifest) {
         return;
       } else {
         packageJson.customElementsManifest = 'custom-elements.json';
         fs.writeFileSync(packageJsonPath, `${JSON.stringify(packageJson, null, 2)}\n`);
       }
     } catch {
-      console.log(`Could not add 'customElementsManifest' property to ${process.cwd()}/package.json. \nAdding this property helps tooling locate your Custom Elements Manifest. Please consider adding it yourself, or file an issue if you think this is a bug.\nhttps://www.github.com/open-wc/custom-elements-manifest`);
+      console.log(
+        `Could not add 'customElementsManifest' property to ${process.cwd()}/package.json. \nAdding this property helps tooling locate your Custom Elements Manifest. Please consider adding it yourself, or file an issue if you think this is a bug.\nhttps://www.github.com/open-wc/custom-elements-manifest`,
+      );
     }
   } else {
     console.log(`
@@ -135,7 +147,6 @@ Available commands:
 
 Example:
     custom-elements-manifest analyze --litelement --globs "**/*.js" --exclude "foo.js" "bar.js"
-`)
+`);
   }
-
 })();
