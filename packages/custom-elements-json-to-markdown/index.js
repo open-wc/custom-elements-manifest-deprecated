@@ -8,18 +8,19 @@ const render = (item, properties) => {
 
     if(prop === 'inheritedFrom') {
       if(item?.inheritedFrom?.name) {
-        md += `${item?.inheritedFrom?.name}, \`${item?.inheritedFrom?.module || item?.inheritedFrom?.package || ''}\` |`
+        md += `${item?.inheritedFrom?.name} |`
       } else {
         md += ` |`
       }
     }
 
     if(prop === 'parameters') {
-      md += `${item?.parameters?.map(param => `${param.name}: ${param?.type?.text || ''}`).join(', ') || ''} |`
+      md += `${item?.parameters?.map(param => `${param.name} ${param?.type?.text || ''}`).join(', ') || ''} |`
       return `${md}\n`;
     }
 
     if(prop === 'type') {
+      console.log(item)
       md += `${item?.type?.text || ''} |`
       return `${md}\n`;
     }
